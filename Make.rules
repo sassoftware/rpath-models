@@ -64,6 +64,10 @@ ifdef python_files
 	cp $(python_files) $(DESTDIR)$(PYDIR)/$(PYDEST)/
 endif
 
+pyfiles-compile:
+	$(PYTHON) -c "import compileall; compileall.compile_dir('$(DESTDIR)$(sitedir)$(DIR)', ddir='$(sitedir)$(DIR)', quiet=1)"
+	$(PYTHON) -OO -c "import compileall; compileall.compile_dir('$(DESTDIR)$(sitedir)$(DIR)', ddir='$(sitedir)$(DIR)', quiet=1)"
+
 kid-install:
 ifdef kid_files
 	mkdir -p $(DESTDIR)$(PYDIR)/$(PYDEST)

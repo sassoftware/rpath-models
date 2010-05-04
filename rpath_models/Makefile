@@ -12,7 +12,7 @@ generated_files = constants.py
 
 all: $(generated_files) default-all
 
-install: pyfiles-install default-install
+install: default-install pyfiles-install pyfiles-compile
 
 clean: default-clean
 
