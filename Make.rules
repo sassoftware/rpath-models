@@ -1,0 +1,110 @@
+#
+# Copyright (c) 2005-2009 rPath, Inc.
+#
+# All Rights Reserved
+#
+
+.SILENT:
+
+## Default rules
+default-install: install-subdirs
+	echo Installing in $(DIR)
+
+default-all: default-subdirs
+	echo Building in $(DIR)
+
+default-clean: clean-subdirs
+	rm -f *~ .#* .kiderror *.pyo *.pyc *.orig *.o *.rej $(generated_files)
+
+default-test:
+	$(TESTSUITE) *.py
+
+
+## Subdirectory rules
+default-subdirs:
+ifdef SUBDIRS
+	for d in $(SUBDIRS); do \
+		make -C $$d DIR=$(DIR)/$$d || exit 1; \
+	done
+endif
+
+clean-subdirs:
+ifdef SUBDIRS
+	for d in $(SUBDIRS); do make -C $$d DIR=$(DIR)/$$d clean || exit 1; done
+endif
+
+install-subdirs:
+ifdef SUBDIRS
+	for d in $(SUBDIRS); do \
+		make -C $$d DIR=$(DIR)/$$d \
+			PYDEST=$(PYDEST)/$$d STATICDEST=$(STATICDEST)/$$d \
+			install || exit 1; \
+	done
+endif
+
+kid-build:
+	printf "%10s    %s\n" KIDC "$(kid_files)"
+	$(PYTHON) /usr/bin/kidc $(kid_files) 2>.kiderror || ( cat .kiderror; exit 1 )
+	rm .kiderror
+
+raaplugins-install:
+	mkdir -p $(DESTDIR)$(STATICDEST)
+ifdef python_files
+	cp $(python_files) $(DESTDIR)$(STATICDEST)/
+	$(PYTHON) -c "import compileall; compileall.compile_dir('$(DESTDIR)$(STATICDEST)/', ddir='$(STATICDEST)/', quiet=1)"
+	$(PYTHON) -OO -c "import compileall; compileall.compile_dir('$(DESTDIR)$(STATICDEST)/', ddir='$(STATICDEST)/', quiet=1)"
+endif
+ifdef kid_files
+	cp $(kid_files) $(kid_files:%.kid=%.pyc) $(DESTDIR)$(STATICDEST)/
+endif
+
+pyfiles-install:
+ifdef python_files
+	mkdir -p $(DESTDIR)$(PYDIR)/$(PYDEST)
+	cp $(python_files) $(DESTDIR)$(PYDIR)/$(PYDEST)/
+endif
+
+kid-install:
+ifdef kid_files
+	mkdir -p $(DESTDIR)$(PYDIR)/$(PYDEST)
+	cp $(kid_files) $(kid_files:%.kid=%.pyc) $(DESTDIR)$(PYDIR)/$(PYDEST)/
+endif
+
+static-install:
+ifdef static_files
+	mkdir -p $(DESTDIR)$(STATICDEST)
+	cp $(static_files) $(DESTDIR)$(STATICDEST)/
+endif
+
+cgi-install:
+ifdef cgi_files
+	mkdir -p $(DESTDIR)$(CGIDEST)
+	cp $(cgi_files) $(DESTDIR)$(CGIDEST)/
+endif
+
+kid-clean:
+
+## DocBook files
+doc-build:
+ifndef MINIMAL
+	printf "%10s    %s\n" DOCBOOK "$(doc_files)"
+	for docfile in $(doc_files); do \
+		htmlfile=`echo $$docfile | sed -e s,xml$$,html,` ; \
+		kidfile=`echo $$docfile | sed -e s,xml$$,kid,` ; \
+		$(TOPDIR)/scripts/devscripts/makedoc.sh -h -x $(TOPDIR)/doc/userguide/templates/section.xml -f $$docfile || exit 1; \
+		mv $$htmlfile $$kidfile ; \
+		$(PYTHON) /usr/bin/kidc $$kidfile ; \
+	done
+endif
+
+doc-install:
+ifndef MINIMAL
+	mkdir -p $(DESTDIR)$(STATICDEST)
+	install -m0644 $(doc_files:%.xml=%.kid) $(doc_files:%.xml=%.pyc) $(DESTDIR)$(STATICDEST)/
+endif
+
+doc-clean:
+	rm -f $(doc_files:%.xml=%.kid)
+
+
+# vim: set sts=8 sw=8 noexpandtab filetype=make :
