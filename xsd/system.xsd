@@ -32,7 +32,9 @@
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="target_system_id" type="inv:string8092"
             minOccurs="0" maxOccurs="1" />
-        <xsd:element name="system_ip_addr" type="inv:string8092"
+        <xsd:element name="ip_address" type="inv:string8092"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="available" type="inv:boolean"
             minOccurs="0" maxOccurs="1" />
       </xsd:sequence>
     </xsd:complexType>
