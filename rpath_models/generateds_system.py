@@ -208,10 +208,12 @@ class managed_system_type(GeneratedsSuper):
         MemberSpec_('target_type', ['string8092', 'xsd:token'], 0),
         MemberSpec_('target_name', ['string8092', 'xsd:token'], 0),
         MemberSpec_('target_system_id', ['string8092', 'xsd:token'], 0),
+        MemberSpec_('ip_address', ['string8092', 'xsd:token'], 0),
+        MemberSpec_('available', 'xsd:string', 0),
         ]
     subclass = None
     superclass = None
-    def __init__(self, generated_uuid=None, local_uuid=None, is_manageable=None, registration_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None):
+    def __init__(self, generated_uuid=None, local_uuid=None, is_manageable=None, registration_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, ip_address=None, available=None):
         self.generated_uuid = generated_uuid
         self.local_uuid = local_uuid
         self.is_manageable = is_manageable
@@ -223,6 +225,8 @@ class managed_system_type(GeneratedsSuper):
         self.target_type = target_type
         self.target_name = target_name
         self.target_system_id = target_system_id
+        self.ip_address = ip_address
+        self.available = available
     def factory(*args_, **kwargs_):
         if managed_system_type.subclass:
             return managed_system_type.subclass(*args_, **kwargs_)
@@ -278,6 +282,13 @@ class managed_system_type(GeneratedsSuper):
     def validate_target_system_id(self, value):
         # validate type target_system_id
         pass
+    def get_ip_address(self): return self.ip_address
+    def set_ip_address(self, ip_address): self.ip_address = ip_address
+    def validate_ip_address(self, value):
+        # validate type ip_address
+        pass
+    def get_available(self): return self.available
+    def set_available(self, available): self.available = available
     def export(self, outfile, level, namespace_='inv:', name_='managed_system_type', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
@@ -325,6 +336,12 @@ class managed_system_type(GeneratedsSuper):
         if self.target_system_id is not None:
             showIndent(outfile, level)
             outfile.write('<%starget_system_id>%s</%starget_system_id>\n' % (namespace_, self.format_string(quote_xml(self.target_system_id).encode(ExternalEncoding), input_name='target_system_id'), namespace_))
+        if self.ip_address is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sip_address>%s</%sip_address>\n' % (namespace_, self.format_string(quote_xml(self.ip_address).encode(ExternalEncoding), input_name='ip_address'), namespace_))
+        if self.available is not None:
+            showIndent(outfile, level)
+            outfile.write('<%savailable>%s</%savailable>\n' % (namespace_, self.format_string(quote_xml(self.available).encode(ExternalEncoding), input_name='available'), namespace_))
     def hasContent_(self):
         if (
             self.generated_uuid is not None or
@@ -337,7 +354,9 @@ class managed_system_type(GeneratedsSuper):
             self.launching_user is not None or
             self.target_type is not None or
             self.target_name is not None or
-            self.target_system_id is not None
+            self.target_system_id is not None or
+            self.ip_address is not None or
+            self.available is not None
             ):
             return True
         else:
@@ -383,6 +402,12 @@ class managed_system_type(GeneratedsSuper):
         if self.target_system_id is not None:
             showIndent(outfile, level)
             outfile.write('target_system_id=%s,\n' % quote_python(self.target_system_id).encode(ExternalEncoding))
+        if self.ip_address is not None:
+            showIndent(outfile, level)
+            outfile.write('ip_address=%s,\n' % quote_python(self.ip_address).encode(ExternalEncoding))
+        if self.available is not None:
+            showIndent(outfile, level)
+            outfile.write('available=%s,\n' % quote_python(self.available).encode(ExternalEncoding))
     def build(self, node_):
         attrs = node_.attributes
         self.buildAttributes(attrs)
@@ -467,6 +492,19 @@ class managed_system_type(GeneratedsSuper):
                 target_system_id_ += text__content_.nodeValue
             self.target_system_id = target_system_id_
             self.validate_target_system_id(self.target_system_id)    # validate type target_system_id
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'ip_address':
+            ip_address_ = ''
+            for text__content_ in child_.childNodes:
+                ip_address_ += text__content_.nodeValue
+            self.ip_address = ip_address_
+            self.validate_ip_address(self.ip_address)    # validate type ip_address
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'available':
+            available_ = ''
+            for text__content_ in child_.childNodes:
+                available_ += text__content_.nodeValue
+            self.available = available_
 # end class managed_system_type
 
 
