@@ -33,7 +33,7 @@ MODELS_DIR=rpath_models
 
 .PHONY: clean install generate
 
-all: $(generated_files) default-all generate
+all: $(generated_files) default-all
 
 install: default-install
 
