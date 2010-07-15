@@ -282,6 +282,7 @@ class system_type(GeneratedsSuper):
         MemberSpec_('local_uuid', ['string64', 'xsd:token'], 0),
         MemberSpec_('is_manageable', 'xsd:string', 0),
         MemberSpec_('activation_date', 'xsd:string', 0),
+        MemberSpec_('launch_date', 'xsd:string', 0),
         MemberSpec_('ssl_client_certificate', ['string8092', 'xsd:token'], 0),
         MemberSpec_('ssl_client_key', ['string8092', 'xsd:token'], 0),
         MemberSpec_('ssl_server_certificate', ['string8092', 'xsd:token'], 0),
@@ -294,11 +295,12 @@ class system_type(GeneratedsSuper):
         ]
     subclass = None
     superclass = None
-    def __init__(self, generated_uuid=None, local_uuid=None, is_manageable=None, activation_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, ip_address=None, available=None):
+    def __init__(self, generated_uuid=None, local_uuid=None, is_manageable=None, activation_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, ip_address=None, available=None):
         self.generated_uuid = generated_uuid
         self.local_uuid = local_uuid
         self.is_manageable = is_manageable
         self.activation_date = activation_date
+        self.launch_date = launch_date
         self.ssl_client_certificate = ssl_client_certificate
         self.ssl_client_key = ssl_client_key
         self.ssl_server_certificate = ssl_server_certificate
@@ -328,6 +330,8 @@ class system_type(GeneratedsSuper):
     def set_is_manageable(self, is_manageable): self.is_manageable = is_manageable
     def get_activation_date(self): return self.activation_date
     def set_activation_date(self, activation_date): self.activation_date = activation_date
+    def get_launch_date(self): return self.launch_date
+    def set_launch_date(self, launch_date): self.launch_date = launch_date
     def get_ssl_client_certificate(self): return self.ssl_client_certificate
     def set_ssl_client_certificate(self, ssl_client_certificate): self.ssl_client_certificate = ssl_client_certificate
     def validate_ssl_client_certificate(self, value):
@@ -396,6 +400,9 @@ class system_type(GeneratedsSuper):
         if self.activation_date is not None:
             showIndent(outfile, level)
             outfile.write('<%sactivation_date>%s</%sactivation_date>\n' % (namespace_, self.format_string(quote_xml(self.activation_date).encode(ExternalEncoding), input_name='activation_date'), namespace_))
+        if self.launch_date is not None:
+            showIndent(outfile, level)
+            outfile.write('<%slaunch_date>%s</%slaunch_date>\n' % (namespace_, self.format_string(quote_xml(self.launch_date).encode(ExternalEncoding), input_name='launch_date'), namespace_))
         if self.ssl_client_certificate is not None:
             showIndent(outfile, level)
             outfile.write('<%sssl_client_certificate>%s</%sssl_client_certificate>\n' % (namespace_, self.format_string(quote_xml(self.ssl_client_certificate).encode(ExternalEncoding), input_name='ssl_client_certificate'), namespace_))
@@ -429,6 +436,7 @@ class system_type(GeneratedsSuper):
             self.local_uuid is not None or
             self.is_manageable is not None or
             self.activation_date is not None or
+            self.launch_date is not None or
             self.ssl_client_certificate is not None or
             self.ssl_client_key is not None or
             self.ssl_server_certificate is not None or
@@ -462,6 +470,9 @@ class system_type(GeneratedsSuper):
         if self.activation_date is not None:
             showIndent(outfile, level)
             outfile.write('activation_date=%s,\n' % quote_python(self.activation_date).encode(ExternalEncoding))
+        if self.launch_date is not None:
+            showIndent(outfile, level)
+            outfile.write('launch_date=%s,\n' % quote_python(self.launch_date).encode(ExternalEncoding))
         if self.ssl_client_certificate is not None:
             showIndent(outfile, level)
             outfile.write('ssl_client_certificate=%s,\n' % quote_python(self.ssl_client_certificate).encode(ExternalEncoding))
@@ -524,6 +535,12 @@ class system_type(GeneratedsSuper):
             for text__content_ in child_.childNodes:
                 activation_date_ += text__content_.nodeValue
             self.activation_date = activation_date_
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'launch_date':
+            launch_date_ = ''
+            for text__content_ in child_.childNodes:
+                launch_date_ += text__content_.nodeValue
+            self.launch_date = launch_date_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'ssl_client_certificate':
             ssl_client_certificate_ = ''
