@@ -6,9 +6,18 @@
         xmlns:inv="http://www.rpath.com/permanent/inventory/system-1.0.xsd"
         xmlns="http://www.rpath.com/permanent/inventory/system-1.0.xsd">
 
-    <xsd:element name="managed_system" type="inv:managed_system_type" />
+    <xsd:element name="systems" type="inv:systems_type" />
 
-    <xsd:complexType name="managed_system_type">
+    <xsd:complexType name="systems_type">
+      <xsd:sequence>
+        <xsd:element name="system" type="inv:system_type"
+            minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="system" type="inv:system_type" />
+
+    <xsd:complexType name="system_type">
       <xsd:sequence>
         <xsd:element name="generated_uuid" type="inv:string64"
             minOccurs="1" maxOccurs="1" />
@@ -16,7 +25,7 @@
             minOccurs="1" maxOccurs="1" />
         <xsd:element name="is_manageable" type="xsd:boolean"
             minOccurs="1" maxOccurs="1" />
-        <xsd:element name="registration_date" type="xsd:dateTime"
+        <xsd:element name="activation_date" type="xsd:dateTime"
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="ssl_client_certificate" type="inv:string8092"
             minOccurs="0" maxOccurs="1" />

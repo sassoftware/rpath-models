@@ -195,12 +195,93 @@ def _cast(typ, value):
 # Data representation classes.
 #
 
-class managed_system_type(GeneratedsSuper):
+class systems_type(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('system', 'system_type', 1),
+        ]
+    subclass = None
+    superclass = None
+    def __init__(self, system=None):
+        if system is None:
+            self.system = []
+        else:
+            self.system = system
+    def factory(*args_, **kwargs_):
+        if systems_type.subclass:
+            return systems_type.subclass(*args_, **kwargs_)
+        else:
+            return systems_type(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_system(self): return self.system
+    def set_system(self, system): self.system = system
+    def add_system(self, value): self.system.append(value)
+    def insert_system(self, index, value): self.system[index] = value
+    def export(self, outfile, level, namespace_='inv:', name_='systems_type', namespacedef_=''):
+        showIndent(outfile, level)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        self.exportAttributes(outfile, level, namespace_, name_='systems_type')
+        if self.hasContent_():
+            outfile.write('>\n')
+            self.exportChildren(outfile, level + 1, namespace_, name_)
+            showIndent(outfile, level)
+            outfile.write('</%s%s>\n' % (namespace_, name_))
+        else:
+            outfile.write('/>\n')
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='systems_type'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='systems_type'):
+        for system_ in self.system:
+            system_.export(outfile, level, namespace_, name_='system')
+    def hasContent_(self):
+        if (
+            self.system
+            ):
+            return True
+        else:
+            return False
+    def exportLiteral(self, outfile, level, name_='systems_type'):
+        level += 1
+        self.exportLiteralAttributes(outfile, level, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('system=[\n')
+        level += 1
+        for system_ in self.system:
+            showIndent(outfile, level)
+            outfile.write('model_.system_type(\n')
+            system_.exportLiteral(outfile, level, name_='system_type')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node_):
+        attrs = node_.attributes
+        self.buildAttributes(attrs)
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildAttributes(self, attrs):
+        pass
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'system':
+            obj_ = system_type.factory()
+            obj_.build(child_)
+            self.system.append(obj_)
+# end class systems_type
+
+
+class system_type(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('generated_uuid', ['string64', 'xsd:token'], 0),
         MemberSpec_('local_uuid', ['string64', 'xsd:token'], 0),
         MemberSpec_('is_manageable', 'xsd:string', 0),
-        MemberSpec_('registration_date', 'xsd:string', 0),
+        MemberSpec_('activation_date', 'xsd:string', 0),
         MemberSpec_('ssl_client_certificate', ['string8092', 'xsd:token'], 0),
         MemberSpec_('ssl_client_key', ['string8092', 'xsd:token'], 0),
         MemberSpec_('ssl_server_certificate', ['string8092', 'xsd:token'], 0),
@@ -213,11 +294,11 @@ class managed_system_type(GeneratedsSuper):
         ]
     subclass = None
     superclass = None
-    def __init__(self, generated_uuid=None, local_uuid=None, is_manageable=None, registration_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, ip_address=None, available=None):
+    def __init__(self, generated_uuid=None, local_uuid=None, is_manageable=None, activation_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, ip_address=None, available=None):
         self.generated_uuid = generated_uuid
         self.local_uuid = local_uuid
         self.is_manageable = is_manageable
-        self.registration_date = registration_date
+        self.activation_date = activation_date
         self.ssl_client_certificate = ssl_client_certificate
         self.ssl_client_key = ssl_client_key
         self.ssl_server_certificate = ssl_server_certificate
@@ -228,10 +309,10 @@ class managed_system_type(GeneratedsSuper):
         self.ip_address = ip_address
         self.available = available
     def factory(*args_, **kwargs_):
-        if managed_system_type.subclass:
-            return managed_system_type.subclass(*args_, **kwargs_)
+        if system_type.subclass:
+            return system_type.subclass(*args_, **kwargs_)
         else:
-            return managed_system_type(*args_, **kwargs_)
+            return system_type(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_generated_uuid(self): return self.generated_uuid
     def set_generated_uuid(self, generated_uuid): self.generated_uuid = generated_uuid
@@ -245,8 +326,8 @@ class managed_system_type(GeneratedsSuper):
         pass
     def get_is_manageable(self): return self.is_manageable
     def set_is_manageable(self, is_manageable): self.is_manageable = is_manageable
-    def get_registration_date(self): return self.registration_date
-    def set_registration_date(self, registration_date): self.registration_date = registration_date
+    def get_activation_date(self): return self.activation_date
+    def set_activation_date(self, activation_date): self.activation_date = activation_date
     def get_ssl_client_certificate(self): return self.ssl_client_certificate
     def set_ssl_client_certificate(self, ssl_client_certificate): self.ssl_client_certificate = ssl_client_certificate
     def validate_ssl_client_certificate(self, value):
@@ -289,10 +370,10 @@ class managed_system_type(GeneratedsSuper):
         pass
     def get_available(self): return self.available
     def set_available(self, available): self.available = available
-    def export(self, outfile, level, namespace_='inv:', name_='managed_system_type', namespacedef_=''):
+    def export(self, outfile, level, namespace_='inv:', name_='system_type', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        self.exportAttributes(outfile, level, namespace_, name_='managed_system_type')
+        self.exportAttributes(outfile, level, namespace_, name_='system_type')
         if self.hasContent_():
             outfile.write('>\n')
             self.exportChildren(outfile, level + 1, namespace_, name_)
@@ -300,9 +381,9 @@ class managed_system_type(GeneratedsSuper):
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, namespace_='inv:', name_='managed_system_type'):
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='system_type'):
         pass
-    def exportChildren(self, outfile, level, namespace_='inv:', name_='managed_system_type'):
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='system_type'):
         if self.generated_uuid is not None:
             showIndent(outfile, level)
             outfile.write('<%sgenerated_uuid>%s</%sgenerated_uuid>\n' % (namespace_, self.format_string(quote_xml(self.generated_uuid).encode(ExternalEncoding), input_name='generated_uuid'), namespace_))
@@ -312,9 +393,9 @@ class managed_system_type(GeneratedsSuper):
         if self.is_manageable is not None:
             showIndent(outfile, level)
             outfile.write('<%sis_manageable>%s</%sis_manageable>\n' % (namespace_, self.format_string(quote_xml(self.is_manageable).encode(ExternalEncoding), input_name='is_manageable'), namespace_))
-        if self.registration_date is not None:
+        if self.activation_date is not None:
             showIndent(outfile, level)
-            outfile.write('<%sregistration_date>%s</%sregistration_date>\n' % (namespace_, self.format_string(quote_xml(self.registration_date).encode(ExternalEncoding), input_name='registration_date'), namespace_))
+            outfile.write('<%sactivation_date>%s</%sactivation_date>\n' % (namespace_, self.format_string(quote_xml(self.activation_date).encode(ExternalEncoding), input_name='activation_date'), namespace_))
         if self.ssl_client_certificate is not None:
             showIndent(outfile, level)
             outfile.write('<%sssl_client_certificate>%s</%sssl_client_certificate>\n' % (namespace_, self.format_string(quote_xml(self.ssl_client_certificate).encode(ExternalEncoding), input_name='ssl_client_certificate'), namespace_))
@@ -347,7 +428,7 @@ class managed_system_type(GeneratedsSuper):
             self.generated_uuid is not None or
             self.local_uuid is not None or
             self.is_manageable is not None or
-            self.registration_date is not None or
+            self.activation_date is not None or
             self.ssl_client_certificate is not None or
             self.ssl_client_key is not None or
             self.ssl_server_certificate is not None or
@@ -361,7 +442,7 @@ class managed_system_type(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='managed_system_type'):
+    def exportLiteral(self, outfile, level, name_='system_type'):
         level += 1
         self.exportLiteralAttributes(outfile, level, name_)
         if self.hasContent_():
@@ -378,9 +459,9 @@ class managed_system_type(GeneratedsSuper):
         if self.is_manageable is not None:
             showIndent(outfile, level)
             outfile.write('is_manageable=%s,\n' % quote_python(self.is_manageable).encode(ExternalEncoding))
-        if self.registration_date is not None:
+        if self.activation_date is not None:
             showIndent(outfile, level)
-            outfile.write('registration_date=%s,\n' % quote_python(self.registration_date).encode(ExternalEncoding))
+            outfile.write('activation_date=%s,\n' % quote_python(self.activation_date).encode(ExternalEncoding))
         if self.ssl_client_certificate is not None:
             showIndent(outfile, level)
             outfile.write('ssl_client_certificate=%s,\n' % quote_python(self.ssl_client_certificate).encode(ExternalEncoding))
@@ -438,11 +519,11 @@ class managed_system_type(GeneratedsSuper):
                 is_manageable_ += text__content_.nodeValue
             self.is_manageable = is_manageable_
         elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'registration_date':
-            registration_date_ = ''
+            nodeName_ == 'activation_date':
+            activation_date_ = ''
             for text__content_ in child_.childNodes:
-                registration_date_ += text__content_.nodeValue
-            self.registration_date = registration_date_
+                activation_date_ += text__content_.nodeValue
+            self.activation_date = activation_date_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'ssl_client_certificate':
             ssl_client_certificate_ = ''
@@ -505,7 +586,7 @@ class managed_system_type(GeneratedsSuper):
             for text__content_ in child_.childNodes:
                 available_ += text__content_.nodeValue
             self.available = available_
-# end class managed_system_type
+# end class system_type
 
 
 class systemInformationType(GeneratedsSuper):
@@ -694,12 +775,12 @@ def usage():
 def parse(inFileName):
     doc = minidom.parse(inFileName)
     rootNode = doc.documentElement
-    rootObj = managed_system_type.factory()
+    rootObj = systems_type.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
 ##     sys.stdout.write('<?xml version="1.0" ?>\n')
-##     rootObj.export(sys.stdout, 0, name_="managed_system", 
+##     rootObj.export(sys.stdout, 0, name_="systems", 
 ##         namespacedef_='')
     return rootObj
 
@@ -707,12 +788,12 @@ def parse(inFileName):
 def parseString(inString):
     doc = minidom.parseString(inString)
     rootNode = doc.documentElement
-    rootObj = managed_system_type.factory()
+    rootObj = systems_type.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
 ##     sys.stdout.write('<?xml version="1.0" ?>\n')
-##     rootObj.export(sys.stdout, 0, name_="managed_system",
+##     rootObj.export(sys.stdout, 0, name_="systems",
 ##         namespacedef_='')
     return rootObj
 
@@ -720,14 +801,14 @@ def parseString(inString):
 def parseLiteral(inFileName):
     doc = minidom.parse(inFileName)
     rootNode = doc.documentElement
-    rootObj = managed_system_type.factory()
+    rootObj = systems_type.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
 ##     sys.stdout.write('#from generateds_system import *\n\n')
 ##     sys.stdout.write('import generateds_system as model_\n\n')
-##     sys.stdout.write('rootObj = model_.managed_system(\n')
-##     rootObj.exportLiteral(sys.stdout, 0, name_="managed_system")
+##     sys.stdout.write('rootObj = model_.systems(\n')
+##     rootObj.exportLiteral(sys.stdout, 0, name_="systems")
 ##     sys.stdout.write(')\n')
     return rootObj
 

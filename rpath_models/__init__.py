@@ -15,4 +15,5 @@
 
 from rpath_models import generateds_system
 
-System = generateds_system.managed_system_type
+System = generateds_system.system_type
+Systems = generateds_system.systems_type
