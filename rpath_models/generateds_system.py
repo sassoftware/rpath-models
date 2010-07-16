@@ -195,6 +195,154 @@ def _cast(typ, value):
 # Data representation classes.
 #
 
+class inventory_type(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('systems', 'systems_href_type', 0),
+        ]
+    subclass = None
+    superclass = None
+    def __init__(self, systems=None):
+        self.systems = systems
+    def factory(*args_, **kwargs_):
+        if inventory_type.subclass:
+            return inventory_type.subclass(*args_, **kwargs_)
+        else:
+            return inventory_type(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_systems(self): return self.systems
+    def set_systems(self, systems): self.systems = systems
+    def export(self, outfile, level, namespace_='inv:', name_='inventory_type', namespacedef_=''):
+        showIndent(outfile, level)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        self.exportAttributes(outfile, level, namespace_, name_='inventory_type')
+        if self.hasContent_():
+            outfile.write('>\n')
+            self.exportChildren(outfile, level + 1, namespace_, name_)
+            showIndent(outfile, level)
+            outfile.write('</%s%s>\n' % (namespace_, name_))
+        else:
+            outfile.write('/>\n')
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='inventory_type'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='inventory_type'):
+        if self.systems:
+            self.systems.export(outfile, level, namespace_, name_='systems', )
+    def hasContent_(self):
+        if (
+            self.systems is not None
+            ):
+            return True
+        else:
+            return False
+    def exportLiteral(self, outfile, level, name_='inventory_type'):
+        level += 1
+        self.exportLiteralAttributes(outfile, level, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.systems is not None:
+            showIndent(outfile, level)
+            outfile.write('systems=model_.systems_href_type(\n')
+            self.systems.exportLiteral(outfile, level, name_='systems')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+    def build(self, node_):
+        attrs = node_.attributes
+        self.buildAttributes(attrs)
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildAttributes(self, attrs):
+        pass
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'systems':
+            obj_ = systems_href_type.factory()
+            obj_.build(child_)
+            self.set_systems(obj_)
+# end class inventory_type
+
+
+class systems_href_type(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('href', 'inv:string8092', 0),
+        MemberSpec_('valueOf_', [], 0),
+        ]
+    subclass = None
+    superclass = None
+    def __init__(self, href=None, valueOf_=''):
+        self.href = _cast(None, href)
+        self.valueOf_ = valueOf_
+    def factory(*args_, **kwargs_):
+        if systems_href_type.subclass:
+            return systems_href_type.subclass(*args_, **kwargs_)
+        else:
+            return systems_href_type(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_href(self): return self.href
+    def set_href(self, href): self.href = href
+    def getValueOf_(self): return self.valueOf_
+    def setValueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def export(self, outfile, level, namespace_='inv:', name_='systems_href_type', namespacedef_=''):
+        showIndent(outfile, level)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        self.exportAttributes(outfile, level, namespace_, name_='systems_href_type')
+        if self.hasContent_():
+            outfile.write('>')
+            self.exportChildren(outfile, level + 1, namespace_, name_)
+            outfile.write('</%s%s>\n' % (namespace_, name_))
+        else:
+            outfile.write('/>\n')
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='systems_href_type'):
+        if self.href is not None:
+            outfile.write(' href=%s' % (quote_attrib(self.href), ))
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='systems_href_type'):
+        if self.valueOf_.find('![CDATA') > -1:
+            value=quote_xml('%s' % self.valueOf_)
+            value=value.replace('![CDATA','<![CDATA')
+            value=value.replace(']]',']]>')
+            outfile.write(value.encode(ExternalEncoding))
+        else:
+            outfile.write(quote_xml('%s' % self.valueOf_.encode(ExternalEncoding)))
+    def hasContent_(self):
+        if (
+            self.valueOf_
+            ):
+            return True
+        else:
+            return False
+    def exportLiteral(self, outfile, level, name_='systems_href_type'):
+        level += 1
+        self.exportLiteralAttributes(outfile, level, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, name_):
+        if self.href is not None:
+            showIndent(outfile, level)
+            outfile.write('href = %s,\n' % (self.href,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
+    def build(self, node_):
+        attrs = node_.attributes
+        self.buildAttributes(attrs)
+        self.valueOf_ = ''
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildAttributes(self, attrs):
+        if attrs.get('href'):
+            self.href = attrs.get('href').value
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.TEXT_NODE:
+            self.valueOf_ += child_.nodeValue
+        elif child_.nodeType == Node.CDATA_SECTION_NODE:
+            self.valueOf_ += '![CDATA['+child_.nodeValue+']]'
+# end class systems_href_type
+
+
 class systems_type(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('system', 'system_type', 1),
@@ -792,12 +940,12 @@ def usage():
 def parse(inFileName):
     doc = minidom.parse(inFileName)
     rootNode = doc.documentElement
-    rootObj = systems_type.factory()
+    rootObj = inventory_type.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
 ##     sys.stdout.write('<?xml version="1.0" ?>\n')
-##     rootObj.export(sys.stdout, 0, name_="systems", 
+##     rootObj.export(sys.stdout, 0, name_="inventory", 
 ##         namespacedef_='')
     return rootObj
 
@@ -805,12 +953,12 @@ def parse(inFileName):
 def parseString(inString):
     doc = minidom.parseString(inString)
     rootNode = doc.documentElement
-    rootObj = systems_type.factory()
+    rootObj = inventory_type.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
 ##     sys.stdout.write('<?xml version="1.0" ?>\n')
-##     rootObj.export(sys.stdout, 0, name_="systems",
+##     rootObj.export(sys.stdout, 0, name_="inventory",
 ##         namespacedef_='')
     return rootObj
 
@@ -818,14 +966,14 @@ def parseString(inString):
 def parseLiteral(inFileName):
     doc = minidom.parse(inFileName)
     rootNode = doc.documentElement
-    rootObj = systems_type.factory()
+    rootObj = inventory_type.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
 ##     sys.stdout.write('#from generateds_system import *\n\n')
 ##     sys.stdout.write('import generateds_system as model_\n\n')
-##     sys.stdout.write('rootObj = model_.systems(\n')
-##     rootObj.exportLiteral(sys.stdout, 0, name_="systems")
+##     sys.stdout.write('rootObj = model_.inventory(\n')
+##     rootObj.exportLiteral(sys.stdout, 0, name_="inventory")
 ##     sys.stdout.write(')\n')
     return rootObj
 

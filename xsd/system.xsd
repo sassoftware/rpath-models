@@ -6,6 +6,19 @@
         xmlns:inv="http://www.rpath.com/permanent/inventory/system-1.0.xsd"
         xmlns="http://www.rpath.com/permanent/inventory/system-1.0.xsd">
 
+    <xsd:element name="inventory" type="inv:inventory_type" />
+
+    <xsd:complexType name="inventory_type">
+      <xsd:sequence>
+        <xsd:element name="systems" type="systems_href_type"
+          minOccurs="1" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="systems_href_type">
+      <xsd:attribute name="href" type="inv:string8092"/>
+    </xsd:complexType>
+
     <xsd:element name="systems" type="inv:systems_type" />
 
     <xsd:complexType name="systems_type">

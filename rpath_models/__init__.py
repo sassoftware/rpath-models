@@ -15,5 +15,7 @@
 
 from rpath_models import generateds_system
 
+Inventory = generateds_system.inventory_type
 System = generateds_system.system_type
 Systems = generateds_system.systems_type
+SystemsHref = generateds_system.systems_href_type
