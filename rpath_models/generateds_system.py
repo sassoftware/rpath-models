@@ -428,9 +428,10 @@ class system_type(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('generated_uuid', ['string64', 'xsd:token'], 0),
         MemberSpec_('local_uuid', ['string64', 'xsd:token'], 0),
-        MemberSpec_('is_manageable', 'xsd:string', 0),
-        MemberSpec_('activation_date', 'xsd:string', 0),
-        MemberSpec_('launch_date', 'xsd:string', 0),
+        MemberSpec_('is_manageable', 'xsd:boolean', 0),
+        MemberSpec_('activation_date', 'xsd:dateTime', 0),
+        MemberSpec_('scheduled_event_start_date', 'xsd:dateTime', 0),
+        MemberSpec_('launch_date', 'xsd:dateTime', 0),
         MemberSpec_('ssl_client_certificate', ['string8092', 'xsd:token'], 0),
         MemberSpec_('ssl_client_key', ['string8092', 'xsd:token'], 0),
         MemberSpec_('ssl_server_certificate', ['string8092', 'xsd:token'], 0),
@@ -443,11 +444,12 @@ class system_type(GeneratedsSuper):
         ]
     subclass = None
     superclass = None
-    def __init__(self, generated_uuid=None, local_uuid=None, is_manageable=None, activation_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, ip_address=None, available=None):
+    def __init__(self, generated_uuid=None, local_uuid=None, is_manageable=None, activation_date=None, scheduled_event_start_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, ip_address=None, available=None):
         self.generated_uuid = generated_uuid
         self.local_uuid = local_uuid
         self.is_manageable = is_manageable
         self.activation_date = activation_date
+        self.scheduled_event_start_date = scheduled_event_start_date
         self.launch_date = launch_date
         self.ssl_client_certificate = ssl_client_certificate
         self.ssl_client_key = ssl_client_key
@@ -478,6 +480,8 @@ class system_type(GeneratedsSuper):
     def set_is_manageable(self, is_manageable): self.is_manageable = is_manageable
     def get_activation_date(self): return self.activation_date
     def set_activation_date(self, activation_date): self.activation_date = activation_date
+    def get_scheduled_event_start_date(self): return self.scheduled_event_start_date
+    def set_scheduled_event_start_date(self, scheduled_event_start_date): self.scheduled_event_start_date = scheduled_event_start_date
     def get_launch_date(self): return self.launch_date
     def set_launch_date(self, launch_date): self.launch_date = launch_date
     def get_ssl_client_certificate(self): return self.ssl_client_certificate
@@ -544,10 +548,13 @@ class system_type(GeneratedsSuper):
             outfile.write('<%slocal_uuid>%s</%slocal_uuid>\n' % (namespace_, self.format_string(quote_xml(self.local_uuid).encode(ExternalEncoding), input_name='local_uuid'), namespace_))
         if self.is_manageable is not None:
             showIndent(outfile, level)
-            outfile.write('<%sis_manageable>%s</%sis_manageable>\n' % (namespace_, self.format_string(quote_xml(self.is_manageable).encode(ExternalEncoding), input_name='is_manageable'), namespace_))
+            outfile.write('<%sis_manageable>%s</%sis_manageable>\n' % (namespace_, self.format_boolean(str_lower(str(self.is_manageable)), input_name='is_manageable'), namespace_))
         if self.activation_date is not None:
             showIndent(outfile, level)
             outfile.write('<%sactivation_date>%s</%sactivation_date>\n' % (namespace_, self.format_string(quote_xml(self.activation_date).encode(ExternalEncoding), input_name='activation_date'), namespace_))
+        if self.scheduled_event_start_date is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sscheduled_event_start_date>%s</%sscheduled_event_start_date>\n' % (namespace_, self.format_string(quote_xml(self.scheduled_event_start_date).encode(ExternalEncoding), input_name='scheduled_event_start_date'), namespace_))
         if self.launch_date is not None:
             showIndent(outfile, level)
             outfile.write('<%slaunch_date>%s</%slaunch_date>\n' % (namespace_, self.format_string(quote_xml(self.launch_date).encode(ExternalEncoding), input_name='launch_date'), namespace_))
@@ -584,6 +591,7 @@ class system_type(GeneratedsSuper):
             self.local_uuid is not None or
             self.is_manageable is not None or
             self.activation_date is not None or
+            self.scheduled_event_start_date is not None or
             self.launch_date is not None or
             self.ssl_client_certificate is not None or
             self.ssl_client_key is not None or
@@ -614,10 +622,13 @@ class system_type(GeneratedsSuper):
             outfile.write('local_uuid=%s,\n' % quote_python(self.local_uuid).encode(ExternalEncoding))
         if self.is_manageable is not None:
             showIndent(outfile, level)
-            outfile.write('is_manageable=%s,\n' % quote_python(self.is_manageable).encode(ExternalEncoding))
+            outfile.write('is_manageable=%s,\n' % self.is_manageable)
         if self.activation_date is not None:
             showIndent(outfile, level)
             outfile.write('activation_date=%s,\n' % quote_python(self.activation_date).encode(ExternalEncoding))
+        if self.scheduled_event_start_date is not None:
+            showIndent(outfile, level)
+            outfile.write('scheduled_event_start_date=%s,\n' % quote_python(self.scheduled_event_start_date).encode(ExternalEncoding))
         if self.launch_date is not None:
             showIndent(outfile, level)
             outfile.write('launch_date=%s,\n' % quote_python(self.launch_date).encode(ExternalEncoding))
@@ -673,16 +684,27 @@ class system_type(GeneratedsSuper):
             self.validate_local_uuid(self.local_uuid)    # validate type local_uuid
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'is_manageable':
-            is_manageable_ = ''
-            for text__content_ in child_.childNodes:
-                is_manageable_ += text__content_.nodeValue
-            self.is_manageable = is_manageable_
+            if child_.firstChild:
+                sval_ = child_.firstChild.nodeValue
+                if sval_ in ('true', '1'):
+                    ival_ = True
+                elif sval_ in ('false', '0'):
+                    ival_ = False
+                else:
+                    raise ValueError('requires boolean -- %s' % child_.toxml())
+                self.is_manageable = ival_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'activation_date':
             activation_date_ = ''
             for text__content_ in child_.childNodes:
                 activation_date_ += text__content_.nodeValue
             self.activation_date = activation_date_
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'scheduled_event_start_date':
+            scheduled_event_start_date_ = ''
+            for text__content_ in child_.childNodes:
+                scheduled_event_start_date_ += text__content_.nodeValue
+            self.scheduled_event_start_date = scheduled_event_start_date_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'launch_date':
             launch_date_ = ''
@@ -757,7 +779,7 @@ class system_type(GeneratedsSuper):
 class systemInformationType(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('systemName', ['string64', 'xsd:token'], 0),
-        MemberSpec_('memory', 'xsd:string', 0),
+        MemberSpec_('memory', 'xsd:positiveInteger', 0),
         MemberSpec_('osType', ['string64', 'xsd:token'], 0),
         MemberSpec_('osMajorVersion', ['string64', 'xsd:token'], 0),
         MemberSpec_('osMinorVersion', ['string32', 'xsd:token'], 0),
@@ -824,7 +846,7 @@ class systemInformationType(GeneratedsSuper):
             outfile.write('<%ssystemName>%s</%ssystemName>\n' % (namespace_, self.format_string(quote_xml(self.systemName).encode(ExternalEncoding), input_name='systemName'), namespace_))
         if self.memory is not None:
             showIndent(outfile, level)
-            outfile.write('<%smemory>%s</%smemory>\n' % (namespace_, self.format_string(quote_xml(self.memory).encode(ExternalEncoding), input_name='memory'), namespace_))
+            outfile.write('<%smemory>%s</%smemory>\n' % (namespace_, self.format_integer(self.memory, input_name='memory'), namespace_))
         if self.osType is not None:
             showIndent(outfile, level)
             outfile.write('<%sosType>%s</%sosType>\n' % (namespace_, self.format_string(quote_xml(self.osType).encode(ExternalEncoding), input_name='osType'), namespace_))
@@ -862,7 +884,7 @@ class systemInformationType(GeneratedsSuper):
             outfile.write('systemName=%s,\n' % quote_python(self.systemName).encode(ExternalEncoding))
         if self.memory is not None:
             showIndent(outfile, level)
-            outfile.write('memory=%s,\n' % quote_python(self.memory).encode(ExternalEncoding))
+            outfile.write('memory=%d,\n' % self.memory)
         if self.osType is not None:
             showIndent(outfile, level)
             outfile.write('osType=%s,\n' % quote_python(self.osType).encode(ExternalEncoding))
@@ -893,10 +915,15 @@ class systemInformationType(GeneratedsSuper):
             self.validate_systemName(self.systemName)    # validate type systemName
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'memory':
-            memory_ = ''
-            for text__content_ in child_.childNodes:
-                memory_ += text__content_.nodeValue
-            self.memory = memory_
+            if child_.firstChild:
+                sval_ = child_.firstChild.nodeValue
+                try:
+                    ival_ = int(sval_)
+                except ValueError, exp:
+                    raise ValueError('requires integer (memory): %s' % exp)
+                if ival_ <= 0:
+                    raise ValueError('requires positiveInteger -- %s' % child_.toxml())
+                self.memory = ival_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'osType':
             osType_ = ''
