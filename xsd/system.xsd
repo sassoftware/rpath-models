@@ -6,31 +6,31 @@
         xmlns:inv="http://www.rpath.com/permanent/inventory/system-1.0.xsd"
         xmlns="http://www.rpath.com/permanent/inventory/system-1.0.xsd">
 
-    <xsd:element name="inventory" type="inv:inventory_type" />
+    <xsd:element name="inventory" type="inv:inventory" />
 
-    <xsd:complexType name="inventory_type">
+    <xsd:complexType name="inventory">
       <xsd:sequence>
-        <xsd:element name="systems" type="systems_href_type"
+        <xsd:element name="systems" type="systems_href"
           minOccurs="1" maxOccurs="1"/>
       </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:complexType name="systems_href_type">
+    <xsd:complexType name="systems_href">
       <xsd:attribute name="href" type="inv:string8092"/>
     </xsd:complexType>
 
-    <xsd:element name="systems" type="inv:systems_type" />
+    <xsd:element name="systems" type="inv:systems" />
 
-    <xsd:complexType name="systems_type">
+    <xsd:complexType name="systems">
       <xsd:sequence>
-        <xsd:element name="system" type="inv:system_type"
+        <xsd:element name="system" type="inv:system"
             minOccurs="0" maxOccurs="unbounded"/>
       </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:element name="system" type="inv:system_type" />
+    <xsd:element name="system" type="inv:system" />
 
-    <xsd:complexType name="system_type">
+    <xsd:complexType name="system">
       <xsd:sequence>
         <xsd:element name="generated_uuid" type="inv:string64"
             minOccurs="1" maxOccurs="1" />

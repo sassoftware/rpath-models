@@ -195,26 +195,26 @@ def _cast(typ, value):
 # Data representation classes.
 #
 
-class inventory_type(GeneratedsSuper):
+class inventory(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('systems', 'systems_href_type', 0),
+        MemberSpec_('systems', 'systems_href', 0),
         ]
     subclass = None
     superclass = None
     def __init__(self, systems=None):
         self.systems = systems
     def factory(*args_, **kwargs_):
-        if inventory_type.subclass:
-            return inventory_type.subclass(*args_, **kwargs_)
+        if inventory.subclass:
+            return inventory.subclass(*args_, **kwargs_)
         else:
-            return inventory_type(*args_, **kwargs_)
+            return inventory(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_systems(self): return self.systems
     def set_systems(self, systems): self.systems = systems
-    def export(self, outfile, level, namespace_='inv:', name_='inventory_type', namespacedef_=''):
+    def export(self, outfile, level, namespace_='inv:', name_='inventory', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        self.exportAttributes(outfile, level, namespace_, name_='inventory_type')
+        self.exportAttributes(outfile, level, namespace_, name_='inventory')
         if self.hasContent_():
             outfile.write('>\n')
             self.exportChildren(outfile, level + 1, namespace_, name_)
@@ -222,9 +222,9 @@ class inventory_type(GeneratedsSuper):
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, namespace_='inv:', name_='inventory_type'):
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='inventory'):
         pass
-    def exportChildren(self, outfile, level, namespace_='inv:', name_='inventory_type'):
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='inventory'):
         if self.systems:
             self.systems.export(outfile, level, namespace_, name_='systems', )
     def hasContent_(self):
@@ -234,7 +234,7 @@ class inventory_type(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='inventory_type'):
+    def exportLiteral(self, outfile, level, name_='inventory'):
         level += 1
         self.exportLiteralAttributes(outfile, level, name_)
         if self.hasContent_():
@@ -244,7 +244,7 @@ class inventory_type(GeneratedsSuper):
     def exportLiteralChildren(self, outfile, level, name_):
         if self.systems is not None:
             showIndent(outfile, level)
-            outfile.write('systems=model_.systems_href_type(\n')
+            outfile.write('systems=model_.systems_href(\n')
             self.systems.exportLiteral(outfile, level, name_='systems')
             showIndent(outfile, level)
             outfile.write('),\n')
@@ -259,13 +259,13 @@ class inventory_type(GeneratedsSuper):
     def buildChildren(self, child_, nodeName_):
         if child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'systems':
-            obj_ = systems_href_type.factory()
+            obj_ = systems_href.factory()
             obj_.build(child_)
             self.set_systems(obj_)
-# end class inventory_type
+# end class inventory
 
 
-class systems_href_type(GeneratedsSuper):
+class systems_href(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('href', 'inv:string8092', 0),
         MemberSpec_('valueOf_', [], 0),
@@ -276,29 +276,29 @@ class systems_href_type(GeneratedsSuper):
         self.href = _cast(None, href)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
-        if systems_href_type.subclass:
-            return systems_href_type.subclass(*args_, **kwargs_)
+        if systems_href.subclass:
+            return systems_href.subclass(*args_, **kwargs_)
         else:
-            return systems_href_type(*args_, **kwargs_)
+            return systems_href(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_href(self): return self.href
     def set_href(self, href): self.href = href
     def getValueOf_(self): return self.valueOf_
     def setValueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def export(self, outfile, level, namespace_='inv:', name_='systems_href_type', namespacedef_=''):
+    def export(self, outfile, level, namespace_='inv:', name_='systems_href', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        self.exportAttributes(outfile, level, namespace_, name_='systems_href_type')
+        self.exportAttributes(outfile, level, namespace_, name_='systems_href')
         if self.hasContent_():
             outfile.write('>')
             self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, namespace_='inv:', name_='systems_href_type'):
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='systems_href'):
         if self.href is not None:
             outfile.write(' href=%s' % (quote_attrib(self.href), ))
-    def exportChildren(self, outfile, level, namespace_='inv:', name_='systems_href_type'):
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='systems_href'):
         if self.valueOf_.find('![CDATA') > -1:
             value=quote_xml('%s' % self.valueOf_)
             value=value.replace('![CDATA','<![CDATA')
@@ -313,7 +313,7 @@ class systems_href_type(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='systems_href_type'):
+    def exportLiteral(self, outfile, level, name_='systems_href'):
         level += 1
         self.exportLiteralAttributes(outfile, level, name_)
         if self.hasContent_():
@@ -340,12 +340,12 @@ class systems_href_type(GeneratedsSuper):
             self.valueOf_ += child_.nodeValue
         elif child_.nodeType == Node.CDATA_SECTION_NODE:
             self.valueOf_ += '![CDATA['+child_.nodeValue+']]'
-# end class systems_href_type
+# end class systems_href
 
 
-class systems_type(GeneratedsSuper):
+class systems(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('system', 'system_type', 1),
+        MemberSpec_('system', 'system', 1),
         ]
     subclass = None
     superclass = None
@@ -355,19 +355,19 @@ class systems_type(GeneratedsSuper):
         else:
             self.system = system
     def factory(*args_, **kwargs_):
-        if systems_type.subclass:
-            return systems_type.subclass(*args_, **kwargs_)
+        if systems.subclass:
+            return systems.subclass(*args_, **kwargs_)
         else:
-            return systems_type(*args_, **kwargs_)
+            return systems(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_system(self): return self.system
     def set_system(self, system): self.system = system
     def add_system(self, value): self.system.append(value)
     def insert_system(self, index, value): self.system[index] = value
-    def export(self, outfile, level, namespace_='inv:', name_='systems_type', namespacedef_=''):
+    def export(self, outfile, level, namespace_='inv:', name_='systems', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        self.exportAttributes(outfile, level, namespace_, name_='systems_type')
+        self.exportAttributes(outfile, level, namespace_, name_='systems')
         if self.hasContent_():
             outfile.write('>\n')
             self.exportChildren(outfile, level + 1, namespace_, name_)
@@ -375,9 +375,9 @@ class systems_type(GeneratedsSuper):
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, namespace_='inv:', name_='systems_type'):
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='systems'):
         pass
-    def exportChildren(self, outfile, level, namespace_='inv:', name_='systems_type'):
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='systems'):
         for system_ in self.system:
             system_.export(outfile, level, namespace_, name_='system')
     def hasContent_(self):
@@ -387,7 +387,7 @@ class systems_type(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='systems_type'):
+    def exportLiteral(self, outfile, level, name_='systems'):
         level += 1
         self.exportLiteralAttributes(outfile, level, name_)
         if self.hasContent_():
@@ -400,8 +400,8 @@ class systems_type(GeneratedsSuper):
         level += 1
         for system_ in self.system:
             showIndent(outfile, level)
-            outfile.write('model_.system_type(\n')
-            system_.exportLiteral(outfile, level, name_='system_type')
+            outfile.write('model_.system(\n')
+            system_.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         level -= 1
@@ -418,13 +418,13 @@ class systems_type(GeneratedsSuper):
     def buildChildren(self, child_, nodeName_):
         if child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'system':
-            obj_ = system_type.factory()
+            obj_ = system.factory()
             obj_.build(child_)
             self.system.append(obj_)
-# end class systems_type
+# end class systems
 
 
-class system_type(GeneratedsSuper):
+class system(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('generated_uuid', ['string64', 'xsd:token'], 0),
         MemberSpec_('local_uuid', ['string64', 'xsd:token'], 0),
@@ -459,10 +459,10 @@ class system_type(GeneratedsSuper):
         self.ip_address = ip_address
         self.available = available
     def factory(*args_, **kwargs_):
-        if system_type.subclass:
-            return system_type.subclass(*args_, **kwargs_)
+        if system.subclass:
+            return system.subclass(*args_, **kwargs_)
         else:
-            return system_type(*args_, **kwargs_)
+            return system(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_generated_uuid(self): return self.generated_uuid
     def set_generated_uuid(self, generated_uuid): self.generated_uuid = generated_uuid
@@ -522,10 +522,10 @@ class system_type(GeneratedsSuper):
         pass
     def get_available(self): return self.available
     def set_available(self, available): self.available = available
-    def export(self, outfile, level, namespace_='inv:', name_='system_type', namespacedef_=''):
+    def export(self, outfile, level, namespace_='inv:', name_='system', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        self.exportAttributes(outfile, level, namespace_, name_='system_type')
+        self.exportAttributes(outfile, level, namespace_, name_='system')
         if self.hasContent_():
             outfile.write('>\n')
             self.exportChildren(outfile, level + 1, namespace_, name_)
@@ -533,9 +533,9 @@ class system_type(GeneratedsSuper):
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, namespace_='inv:', name_='system_type'):
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='system'):
         pass
-    def exportChildren(self, outfile, level, namespace_='inv:', name_='system_type'):
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='system'):
         if self.generated_uuid is not None:
             showIndent(outfile, level)
             outfile.write('<%sgenerated_uuid>%s</%sgenerated_uuid>\n' % (namespace_, self.format_string(quote_xml(self.generated_uuid).encode(ExternalEncoding), input_name='generated_uuid'), namespace_))
@@ -598,7 +598,7 @@ class system_type(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='system_type'):
+    def exportLiteral(self, outfile, level, name_='system'):
         level += 1
         self.exportLiteralAttributes(outfile, level, name_)
         if self.hasContent_():
@@ -751,7 +751,7 @@ class system_type(GeneratedsSuper):
             for text__content_ in child_.childNodes:
                 available_ += text__content_.nodeValue
             self.available = available_
-# end class system_type
+# end class system
 
 
 class systemInformationType(GeneratedsSuper):
@@ -940,7 +940,7 @@ def usage():
 def parse(inFileName):
     doc = minidom.parse(inFileName)
     rootNode = doc.documentElement
-    rootObj = inventory_type.factory()
+    rootObj = inventory.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
@@ -953,7 +953,7 @@ def parse(inFileName):
 def parseString(inString):
     doc = minidom.parseString(inString)
     rootNode = doc.documentElement
-    rootObj = inventory_type.factory()
+    rootObj = inventory.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
@@ -966,7 +966,7 @@ def parseString(inString):
 def parseLiteral(inFileName):
     doc = minidom.parse(inFileName)
     rootNode = doc.documentElement
-    rootObj = inventory_type.factory()
+    rootObj = inventory.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
