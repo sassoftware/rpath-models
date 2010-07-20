@@ -213,8 +213,6 @@ class inventory(GeneratedsSuper):
     factory = staticmethod(factory)
     def get_systems(self): return self.systems
     def set_systems(self, systems): self.systems = systems
-    def get_systems(self): return self.systems
-    def set_systems(self, systems): self.systems = systems
     def export(self, outfile, level, namespace_='inv:', name_='inventory', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
