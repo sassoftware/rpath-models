@@ -65,6 +65,8 @@
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="available" type="inv:boolean"
             minOccurs="0" maxOccurs="1" />
+        <xsd:element name="is_manageable" type="inv:boolean"
+            minOccurs="0" maxOccurs="1" />
         <xsd:element name="log" type="inv:log_href"
             minOccurs="1" maxOccurs="1" />
         <xsd:element name="managed_status" type="inv:managed_status"

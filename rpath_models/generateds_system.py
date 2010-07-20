@@ -534,6 +534,7 @@ class system(GeneratedsSuper):
         MemberSpec_('target_system_id', ['string8092', 'xsd:token'], 0),
         MemberSpec_('ip_address', ['string8092', 'xsd:token'], 0),
         MemberSpec_('available', 'xsd:string', 0),
+        MemberSpec_('is_manageable', 'xsd:string', 0),
         MemberSpec_('log', 'log_href', 0),
         MemberSpec_('managed_status', ['managed_status', 'xsd:token'], 0),
         MemberSpec_('force_update_url', ['string8092', 'xsd:token'], 0),
@@ -548,7 +549,7 @@ class system(GeneratedsSuper):
         ]
     subclass = None
     superclass = None
-    def __init__(self, id=None, generated_uuid=None, local_uuid=None, activation_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, ip_address=None, available=None, log=None, managed_status=None, force_update_url=None, description=None, instance_id=None, name=None, out_of_date=None, public_dns_name=None, reservation_id=None, current_state=None, target=None):
+    def __init__(self, id=None, generated_uuid=None, local_uuid=None, activation_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, ip_address=None, available=None, is_manageable=None, log=None, managed_status=None, force_update_url=None, description=None, instance_id=None, name=None, out_of_date=None, public_dns_name=None, reservation_id=None, current_state=None, target=None):
         self.id = _cast(None, id)
         self.generated_uuid = generated_uuid
         self.local_uuid = local_uuid
@@ -563,6 +564,7 @@ class system(GeneratedsSuper):
         self.target_system_id = target_system_id
         self.ip_address = ip_address
         self.available = available
+        self.is_manageable = is_manageable
         self.log = log
         self.managed_status = managed_status
         self.force_update_url = force_update_url
@@ -636,6 +638,8 @@ class system(GeneratedsSuper):
         pass
     def get_available(self): return self.available
     def set_available(self, available): self.available = available
+    def get_is_manageable(self): return self.is_manageable
+    def set_is_manageable(self, is_manageable): self.is_manageable = is_manageable
     def get_log(self): return self.log
     def set_log(self, log): self.log = log
     def get_managed_status(self): return self.managed_status
@@ -735,6 +739,9 @@ class system(GeneratedsSuper):
         if self.available is not None:
             showIndent(outfile, level)
             outfile.write('<%savailable>%s</%savailable>\n' % (namespace_, self.format_string(quote_xml(self.available).encode(ExternalEncoding), input_name='available'), namespace_))
+        if self.is_manageable is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sis_manageable>%s</%sis_manageable>\n' % (namespace_, self.format_string(quote_xml(self.is_manageable).encode(ExternalEncoding), input_name='is_manageable'), namespace_))
         if self.log:
             self.log.export(outfile, level, namespace_, name_='log', )
         if self.managed_status is not None:
@@ -781,6 +788,7 @@ class system(GeneratedsSuper):
             self.target_system_id is not None or
             self.ip_address is not None or
             self.available is not None or
+            self.is_manageable is not None or
             self.log is not None or
             self.managed_status is not None or
             self.force_update_url is not None or
@@ -845,6 +853,9 @@ class system(GeneratedsSuper):
         if self.available is not None:
             showIndent(outfile, level)
             outfile.write('available=%s,\n' % quote_python(self.available).encode(ExternalEncoding))
+        if self.is_manageable is not None:
+            showIndent(outfile, level)
+            outfile.write('is_manageable=%s,\n' % quote_python(self.is_manageable).encode(ExternalEncoding))
         if self.log is not None:
             showIndent(outfile, level)
             outfile.write('log=model_.log_href(\n')
@@ -982,6 +993,12 @@ class system(GeneratedsSuper):
             for text__content_ in child_.childNodes:
                 available_ += text__content_.nodeValue
             self.available = available_
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'is_manageable':
+            is_manageable_ = ''
+            for text__content_ in child_.childNodes:
+                is_manageable_ += text__content_.nodeValue
+            self.is_manageable = is_manageable_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'log':
             obj_ = log_href.factory()
