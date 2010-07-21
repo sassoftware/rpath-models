@@ -48,9 +48,9 @@
             minOccurs="1" maxOccurs="1" />
         <xsd:element name="local_uuid" type="inv:string64"
             minOccurs="1" maxOccurs="1" />
-        <xsd:element name="activation_date" type="xsd:dateTime"
+        <xsd:element name="activation_date" type="xsd:positiveInteger"
             minOccurs="0" maxOccurs="1" />
-        <xsd:element name="launch_date" type="xsd:dateTime"
+        <xsd:element name="launch_date" type="xsd:positiveInteger"
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="ssl_client_certificate" type="inv:string8092"
             minOccurs="0" maxOccurs="1" />
