@@ -19,5 +19,5 @@ Inventory = generateds_system.inventory
 System = generateds_system.system
 Systems = generateds_system.systems
 SystemsHref = generateds_system.systems_href
-LogsHref = generateds_system.logs_href
-Logs = generateds_system.logs
+LogHref = generateds_system.log_href
+Log = generateds_system.log

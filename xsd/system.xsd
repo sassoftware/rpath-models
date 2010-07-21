@@ -12,7 +12,7 @@
       <xsd:sequence>
         <xsd:element name="systems" type="systems_href"
           minOccurs="1" maxOccurs="1"/>
-        <xsd:element name="logs" type="logs_href"
+        <xsd:element name="log" type="log_href"
           minOccurs="1" maxOccurs="1"/>
       </xsd:sequence>
     </xsd:complexType>
@@ -21,7 +21,7 @@
       <xsd:attribute name="href" type="inv:string8092"/>
     </xsd:complexType>
 
-    <xsd:complexType name="logs_href">
+    <xsd:complexType name="log_href">
       <xsd:attribute name="href" type="inv:string8092"/>
     </xsd:complexType>
 
@@ -34,9 +34,9 @@
       </xsd:sequence>
     </xsd:complexType>
 
-    <xsd:element name="logs" type="inv:logs" />
+    <xsd:element name="log" type="inv:log" />
 
-    <xsd:complexType name="logs">
+    <xsd:complexType name="log">
     </xsd:complexType>
 
     <xsd:element name="system" type="inv:system" />
