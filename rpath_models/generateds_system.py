@@ -198,13 +198,13 @@ def _cast(typ, value):
 class inventory(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('systems', 'systems_href', 0),
-        MemberSpec_('systems', 'log_href', 0),
+        MemberSpec_('logs', 'logs_href', 0),
         ]
     subclass = None
     superclass = None
-    def __init__(self, systems=None):
+    def __init__(self, systems=None, logs=None):
         self.systems = systems
-        self.systems = systems
+        self.logs = logs
     def factory(*args_, **kwargs_):
         if inventory.subclass:
             return inventory.subclass(*args_, **kwargs_)
@@ -213,6 +213,8 @@ class inventory(GeneratedsSuper):
     factory = staticmethod(factory)
     def get_systems(self): return self.systems
     def set_systems(self, systems): self.systems = systems
+    def get_logs(self): return self.logs
+    def set_logs(self, logs): self.logs = logs
     def export(self, outfile, level, namespace_='inv:', name_='inventory', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
@@ -229,12 +231,12 @@ class inventory(GeneratedsSuper):
     def exportChildren(self, outfile, level, namespace_='inv:', name_='inventory'):
         if self.systems:
             self.systems.export(outfile, level, namespace_, name_='systems', )
-        if self.systems:
-            self.systems.export(outfile, level, namespace_, name_='systems', )
+        if self.logs:
+            self.logs.export(outfile, level, namespace_, name_='logs', )
     def hasContent_(self):
         if (
             self.systems is not None or
-            self.systems is not None
+            self.logs is not None
             ):
             return True
         else:
@@ -253,10 +255,10 @@ class inventory(GeneratedsSuper):
             self.systems.exportLiteral(outfile, level, name_='systems')
             showIndent(outfile, level)
             outfile.write('),\n')
-        if self.systems is not None:
+        if self.logs is not None:
             showIndent(outfile, level)
-            outfile.write('systems=model_.log_href(\n')
-            self.systems.exportLiteral(outfile, level, name_='systems')
+            outfile.write('logs=model_.logs_href(\n')
+            self.logs.exportLiteral(outfile, level, name_='logs')
             showIndent(outfile, level)
             outfile.write('),\n')
     def build(self, node_):
@@ -274,10 +276,10 @@ class inventory(GeneratedsSuper):
             obj_.build(child_)
             self.set_systems(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'systems':
-            obj_ = log_href.factory()
+            nodeName_ == 'logs':
+            obj_ = logs_href.factory()
             obj_.build(child_)
-            self.set_systems(obj_)
+            self.set_logs(obj_)
 # end class inventory
 
 
@@ -359,7 +361,7 @@ class systems_href(GeneratedsSuper):
 # end class systems_href
 
 
-class log_href(GeneratedsSuper):
+class logs_href(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('href', 'inv:string8092', 0),
         MemberSpec_('valueOf_', [], 0),
@@ -370,29 +372,29 @@ class log_href(GeneratedsSuper):
         self.href = _cast(None, href)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
-        if log_href.subclass:
-            return log_href.subclass(*args_, **kwargs_)
+        if logs_href.subclass:
+            return logs_href.subclass(*args_, **kwargs_)
         else:
-            return log_href(*args_, **kwargs_)
+            return logs_href(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_href(self): return self.href
     def set_href(self, href): self.href = href
     def getValueOf_(self): return self.valueOf_
     def setValueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def export(self, outfile, level, namespace_='inv:', name_='log_href', namespacedef_=''):
+    def export(self, outfile, level, namespace_='inv:', name_='logs_href', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        self.exportAttributes(outfile, level, namespace_, name_='log_href')
+        self.exportAttributes(outfile, level, namespace_, name_='logs_href')
         if self.hasContent_():
             outfile.write('>')
             self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, namespace_='inv:', name_='log_href'):
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='logs_href'):
         if self.href is not None:
             outfile.write(' href=%s' % (quote_attrib(self.href), ))
-    def exportChildren(self, outfile, level, namespace_='inv:', name_='log_href'):
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='logs_href'):
         if self.valueOf_.find('![CDATA') > -1:
             value=quote_xml('%s' % self.valueOf_)
             value=value.replace('![CDATA','<![CDATA')
@@ -407,7 +409,7 @@ class log_href(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='log_href'):
+    def exportLiteral(self, outfile, level, name_='logs_href'):
         level += 1
         self.exportLiteralAttributes(outfile, level, name_)
         if self.hasContent_():
@@ -434,7 +436,7 @@ class log_href(GeneratedsSuper):
             self.valueOf_ += child_.nodeValue
         elif child_.nodeType == Node.CDATA_SECTION_NODE:
             self.valueOf_ += '![CDATA['+child_.nodeValue+']]'
-# end class log_href
+# end class logs_href
 
 
 class systems(GeneratedsSuper):
@@ -518,6 +520,76 @@ class systems(GeneratedsSuper):
 # end class systems
 
 
+class logs(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('valueOf_', [], 0),
+        ]
+    subclass = None
+    superclass = None
+    def __init__(self, valueOf_=''):
+        self.valueOf_ = valueOf_
+    def factory(*args_, **kwargs_):
+        if logs.subclass:
+            return logs.subclass(*args_, **kwargs_)
+        else:
+            return logs(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def getValueOf_(self): return self.valueOf_
+    def setValueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def export(self, outfile, level, namespace_='inv:', name_='logs', namespacedef_=''):
+        showIndent(outfile, level)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        self.exportAttributes(outfile, level, namespace_, name_='logs')
+        if self.hasContent_():
+            outfile.write('>')
+            self.exportChildren(outfile, level + 1, namespace_, name_)
+            outfile.write('</%s%s>\n' % (namespace_, name_))
+        else:
+            outfile.write('/>\n')
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='logs'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='logs'):
+        if self.valueOf_.find('![CDATA') > -1:
+            value=quote_xml('%s' % self.valueOf_)
+            value=value.replace('![CDATA','<![CDATA')
+            value=value.replace(']]',']]>')
+            outfile.write(value.encode(ExternalEncoding))
+        else:
+            outfile.write(quote_xml('%s' % self.valueOf_.encode(ExternalEncoding)))
+    def hasContent_(self):
+        if (
+            self.valueOf_
+            ):
+            return True
+        else:
+            return False
+    def exportLiteral(self, outfile, level, name_='logs'):
+        level += 1
+        self.exportLiteralAttributes(outfile, level, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
+    def build(self, node_):
+        attrs = node_.attributes
+        self.buildAttributes(attrs)
+        self.valueOf_ = ''
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildAttributes(self, attrs):
+        pass
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.TEXT_NODE:
+            self.valueOf_ += child_.nodeValue
+        elif child_.nodeType == Node.CDATA_SECTION_NODE:
+            self.valueOf_ += '![CDATA['+child_.nodeValue+']]'
+# end class logs
+
+
 class system(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('id', 'inv:string8092', 0),
@@ -535,7 +607,7 @@ class system(GeneratedsSuper):
         MemberSpec_('ip_address', ['string8092', 'xsd:token'], 0),
         MemberSpec_('available', 'xsd:string', 0),
         MemberSpec_('is_manageable', 'xsd:string', 0),
-        MemberSpec_('log', 'log_href', 0),
+        MemberSpec_('log', 'xsd:string', 0),
         MemberSpec_('managed_status', ['managed_status', 'xsd:token'], 0),
         MemberSpec_('force_update_url', ['string8092', 'xsd:token'], 0),
         MemberSpec_('description', ['string8092', 'xsd:token'], 0),
@@ -742,8 +814,9 @@ class system(GeneratedsSuper):
         if self.is_manageable is not None:
             showIndent(outfile, level)
             outfile.write('<%sis_manageable>%s</%sis_manageable>\n' % (namespace_, self.format_string(quote_xml(self.is_manageable).encode(ExternalEncoding), input_name='is_manageable'), namespace_))
-        if self.log:
-            self.log.export(outfile, level, namespace_, name_='log', )
+        if self.log is not None:
+            showIndent(outfile, level)
+            outfile.write('<%slog>%s</%slog>\n' % (namespace_, self.format_string(quote_xml(self.log).encode(ExternalEncoding), input_name='log'), namespace_))
         if self.managed_status is not None:
             showIndent(outfile, level)
             outfile.write('<%smanaged_status>%s</%smanaged_status>\n' % (namespace_, self.format_string(quote_xml(self.managed_status).encode(ExternalEncoding), input_name='managed_status'), namespace_))
@@ -858,10 +931,7 @@ class system(GeneratedsSuper):
             outfile.write('is_manageable=%s,\n' % quote_python(self.is_manageable).encode(ExternalEncoding))
         if self.log is not None:
             showIndent(outfile, level)
-            outfile.write('log=model_.log_href(\n')
-            self.log.exportLiteral(outfile, level, name_='log')
-            showIndent(outfile, level)
-            outfile.write('),\n')
+            outfile.write('log=%s,\n' % quote_python(self.log).encode(ExternalEncoding))
         if self.managed_status is not None:
             showIndent(outfile, level)
             outfile.write('managed_status=%s,\n' % quote_python(self.managed_status).encode(ExternalEncoding))
@@ -1001,9 +1071,10 @@ class system(GeneratedsSuper):
             self.is_manageable = is_manageable_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'log':
-            obj_ = log_href.factory()
-            obj_.build(child_)
-            self.set_log(obj_)
+            log_ = ''
+            for text__content_ in child_.childNodes:
+                log_ += text__content_.nodeValue
+            self.log = log_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'managed_status':
             managed_status_ = ''
