@@ -13,9 +13,11 @@
 # full details.
 #
 
-from rpath_models import generateds_system
+from rpath_models import generateds_schedule, generateds_system
 
 Inventory = generateds_system.inventory_type
 System = generateds_system.system_type
 Systems = generateds_system.systems_type
 SystemsHref = generateds_system.systems_href_type
+
+Schedule = generateds_schedule.schedule_type
