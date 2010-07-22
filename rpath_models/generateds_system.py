@@ -195,26 +195,30 @@ def _cast(typ, value):
 # Data representation classes.
 #
 
-class inventory_type(GeneratedsSuper):
+class inventory(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('systems', 'systems_href_type', 0),
+        MemberSpec_('systems', 'systems_href', 0),
+        MemberSpec_('log', 'log_href', 0),
         ]
     subclass = None
     superclass = None
-    def __init__(self, systems=None):
+    def __init__(self, systems=None, log=None):
         self.systems = systems
+        self.log = log
     def factory(*args_, **kwargs_):
-        if inventory_type.subclass:
-            return inventory_type.subclass(*args_, **kwargs_)
+        if inventory.subclass:
+            return inventory.subclass(*args_, **kwargs_)
         else:
-            return inventory_type(*args_, **kwargs_)
+            return inventory(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_systems(self): return self.systems
     def set_systems(self, systems): self.systems = systems
-    def export(self, outfile, level, namespace_='inv:', name_='inventory_type', namespacedef_=''):
+    def get_log(self): return self.log
+    def set_log(self, log): self.log = log
+    def export(self, outfile, level, namespace_='inv:', name_='inventory', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        self.exportAttributes(outfile, level, namespace_, name_='inventory_type')
+        self.exportAttributes(outfile, level, namespace_, name_='inventory')
         if self.hasContent_():
             outfile.write('>\n')
             self.exportChildren(outfile, level + 1, namespace_, name_)
@@ -222,19 +226,22 @@ class inventory_type(GeneratedsSuper):
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, namespace_='inv:', name_='inventory_type'):
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='inventory'):
         pass
-    def exportChildren(self, outfile, level, namespace_='inv:', name_='inventory_type'):
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='inventory'):
         if self.systems:
             self.systems.export(outfile, level, namespace_, name_='systems', )
+        if self.log:
+            self.log.export(outfile, level, namespace_, name_='log', )
     def hasContent_(self):
         if (
-            self.systems is not None
+            self.systems is not None or
+            self.log is not None
             ):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='inventory_type'):
+    def exportLiteral(self, outfile, level, name_='inventory'):
         level += 1
         self.exportLiteralAttributes(outfile, level, name_)
         if self.hasContent_():
@@ -244,8 +251,14 @@ class inventory_type(GeneratedsSuper):
     def exportLiteralChildren(self, outfile, level, name_):
         if self.systems is not None:
             showIndent(outfile, level)
-            outfile.write('systems=model_.systems_href_type(\n')
+            outfile.write('systems=model_.systems_href(\n')
             self.systems.exportLiteral(outfile, level, name_='systems')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.log is not None:
+            showIndent(outfile, level)
+            outfile.write('log=model_.log_href(\n')
+            self.log.exportLiteral(outfile, level, name_='log')
             showIndent(outfile, level)
             outfile.write('),\n')
     def build(self, node_):
@@ -259,13 +272,18 @@ class inventory_type(GeneratedsSuper):
     def buildChildren(self, child_, nodeName_):
         if child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'systems':
-            obj_ = systems_href_type.factory()
+            obj_ = systems_href.factory()
             obj_.build(child_)
             self.set_systems(obj_)
-# end class inventory_type
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'log':
+            obj_ = log_href.factory()
+            obj_.build(child_)
+            self.set_log(obj_)
+# end class inventory
 
 
-class systems_href_type(GeneratedsSuper):
+class systems_href(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('href', 'inv:string8092', 0),
         MemberSpec_('valueOf_', [], 0),
@@ -276,29 +294,29 @@ class systems_href_type(GeneratedsSuper):
         self.href = _cast(None, href)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
-        if systems_href_type.subclass:
-            return systems_href_type.subclass(*args_, **kwargs_)
+        if systems_href.subclass:
+            return systems_href.subclass(*args_, **kwargs_)
         else:
-            return systems_href_type(*args_, **kwargs_)
+            return systems_href(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_href(self): return self.href
     def set_href(self, href): self.href = href
     def getValueOf_(self): return self.valueOf_
     def setValueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def export(self, outfile, level, namespace_='inv:', name_='systems_href_type', namespacedef_=''):
+    def export(self, outfile, level, namespace_='inv:', name_='systems_href', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        self.exportAttributes(outfile, level, namespace_, name_='systems_href_type')
+        self.exportAttributes(outfile, level, namespace_, name_='systems_href')
         if self.hasContent_():
             outfile.write('>')
             self.exportChildren(outfile, level + 1, namespace_, name_)
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, namespace_='inv:', name_='systems_href_type'):
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='systems_href'):
         if self.href is not None:
             outfile.write(' href=%s' % (quote_attrib(self.href), ))
-    def exportChildren(self, outfile, level, namespace_='inv:', name_='systems_href_type'):
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='systems_href'):
         if self.valueOf_.find('![CDATA') > -1:
             value=quote_xml('%s' % self.valueOf_)
             value=value.replace('![CDATA','<![CDATA')
@@ -313,7 +331,7 @@ class systems_href_type(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='systems_href_type'):
+    def exportLiteral(self, outfile, level, name_='systems_href'):
         level += 1
         self.exportLiteralAttributes(outfile, level, name_)
         if self.hasContent_():
@@ -340,12 +358,90 @@ class systems_href_type(GeneratedsSuper):
             self.valueOf_ += child_.nodeValue
         elif child_.nodeType == Node.CDATA_SECTION_NODE:
             self.valueOf_ += '![CDATA['+child_.nodeValue+']]'
-# end class systems_href_type
+# end class systems_href
 
 
-class systems_type(GeneratedsSuper):
+class log_href(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('system', 'system_type', 1),
+        MemberSpec_('href', 'inv:string8092', 0),
+        MemberSpec_('valueOf_', [], 0),
+        ]
+    subclass = None
+    superclass = None
+    def __init__(self, href=None, valueOf_=''):
+        self.href = _cast(None, href)
+        self.valueOf_ = valueOf_
+    def factory(*args_, **kwargs_):
+        if log_href.subclass:
+            return log_href.subclass(*args_, **kwargs_)
+        else:
+            return log_href(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_href(self): return self.href
+    def set_href(self, href): self.href = href
+    def getValueOf_(self): return self.valueOf_
+    def setValueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def export(self, outfile, level, namespace_='inv:', name_='log_href', namespacedef_=''):
+        showIndent(outfile, level)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        self.exportAttributes(outfile, level, namespace_, name_='log_href')
+        if self.hasContent_():
+            outfile.write('>')
+            self.exportChildren(outfile, level + 1, namespace_, name_)
+            outfile.write('</%s%s>\n' % (namespace_, name_))
+        else:
+            outfile.write('/>\n')
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='log_href'):
+        if self.href is not None:
+            outfile.write(' href=%s' % (quote_attrib(self.href), ))
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='log_href'):
+        if self.valueOf_.find('![CDATA') > -1:
+            value=quote_xml('%s' % self.valueOf_)
+            value=value.replace('![CDATA','<![CDATA')
+            value=value.replace(']]',']]>')
+            outfile.write(value.encode(ExternalEncoding))
+        else:
+            outfile.write(quote_xml('%s' % self.valueOf_.encode(ExternalEncoding)))
+    def hasContent_(self):
+        if (
+            self.valueOf_
+            ):
+            return True
+        else:
+            return False
+    def exportLiteral(self, outfile, level, name_='log_href'):
+        level += 1
+        self.exportLiteralAttributes(outfile, level, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, name_):
+        if self.href is not None:
+            showIndent(outfile, level)
+            outfile.write('href = %s,\n' % (self.href,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
+    def build(self, node_):
+        attrs = node_.attributes
+        self.buildAttributes(attrs)
+        self.valueOf_ = ''
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildAttributes(self, attrs):
+        if attrs.get('href'):
+            self.href = attrs.get('href').value
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.TEXT_NODE:
+            self.valueOf_ += child_.nodeValue
+        elif child_.nodeType == Node.CDATA_SECTION_NODE:
+            self.valueOf_ += '![CDATA['+child_.nodeValue+']]'
+# end class log_href
+
+
+class systems(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('system', 'system', 1),
         ]
     subclass = None
     superclass = None
@@ -355,19 +451,19 @@ class systems_type(GeneratedsSuper):
         else:
             self.system = system
     def factory(*args_, **kwargs_):
-        if systems_type.subclass:
-            return systems_type.subclass(*args_, **kwargs_)
+        if systems.subclass:
+            return systems.subclass(*args_, **kwargs_)
         else:
-            return systems_type(*args_, **kwargs_)
+            return systems(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_system(self): return self.system
     def set_system(self, system): self.system = system
     def add_system(self, value): self.system.append(value)
     def insert_system(self, index, value): self.system[index] = value
-    def export(self, outfile, level, namespace_='inv:', name_='systems_type', namespacedef_=''):
+    def export(self, outfile, level, namespace_='inv:', name_='systems', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        self.exportAttributes(outfile, level, namespace_, name_='systems_type')
+        self.exportAttributes(outfile, level, namespace_, name_='systems')
         if self.hasContent_():
             outfile.write('>\n')
             self.exportChildren(outfile, level + 1, namespace_, name_)
@@ -375,9 +471,9 @@ class systems_type(GeneratedsSuper):
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, namespace_='inv:', name_='systems_type'):
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='systems'):
         pass
-    def exportChildren(self, outfile, level, namespace_='inv:', name_='systems_type'):
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='systems'):
         for system_ in self.system:
             system_.export(outfile, level, namespace_, name_='system')
     def hasContent_(self):
@@ -387,7 +483,7 @@ class systems_type(GeneratedsSuper):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='systems_type'):
+    def exportLiteral(self, outfile, level, name_='systems'):
         level += 1
         self.exportLiteralAttributes(outfile, level, name_)
         if self.hasContent_():
@@ -400,8 +496,8 @@ class systems_type(GeneratedsSuper):
         level += 1
         for system_ in self.system:
             showIndent(outfile, level)
-            outfile.write('model_.system_type(\n')
-            system_.exportLiteral(outfile, level, name_='system_type')
+            outfile.write('model_.system(\n')
+            system_.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         level -= 1
@@ -418,20 +514,90 @@ class systems_type(GeneratedsSuper):
     def buildChildren(self, child_, nodeName_):
         if child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'system':
-            obj_ = system_type.factory()
+            obj_ = system.factory()
             obj_.build(child_)
             self.system.append(obj_)
-# end class systems_type
+# end class systems
 
 
-class system_type(GeneratedsSuper):
+class log(GeneratedsSuper):
     member_data_items_ = [
+        MemberSpec_('valueOf_', [], 0),
+        ]
+    subclass = None
+    superclass = None
+    def __init__(self, valueOf_=''):
+        self.valueOf_ = valueOf_
+    def factory(*args_, **kwargs_):
+        if log.subclass:
+            return log.subclass(*args_, **kwargs_)
+        else:
+            return log(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def getValueOf_(self): return self.valueOf_
+    def setValueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def export(self, outfile, level, namespace_='inv:', name_='log', namespacedef_=''):
+        showIndent(outfile, level)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        self.exportAttributes(outfile, level, namespace_, name_='log')
+        if self.hasContent_():
+            outfile.write('>')
+            self.exportChildren(outfile, level + 1, namespace_, name_)
+            outfile.write('</%s%s>\n' % (namespace_, name_))
+        else:
+            outfile.write('/>\n')
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='log'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='log'):
+        if self.valueOf_.find('![CDATA') > -1:
+            value=quote_xml('%s' % self.valueOf_)
+            value=value.replace('![CDATA','<![CDATA')
+            value=value.replace(']]',']]>')
+            outfile.write(value.encode(ExternalEncoding))
+        else:
+            outfile.write(quote_xml('%s' % self.valueOf_.encode(ExternalEncoding)))
+    def hasContent_(self):
+        if (
+            self.valueOf_
+            ):
+            return True
+        else:
+            return False
+    def exportLiteral(self, outfile, level, name_='log'):
+        level += 1
+        self.exportLiteralAttributes(outfile, level, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
+    def build(self, node_):
+        attrs = node_.attributes
+        self.buildAttributes(attrs)
+        self.valueOf_ = ''
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildAttributes(self, attrs):
+        pass
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.TEXT_NODE:
+            self.valueOf_ += child_.nodeValue
+        elif child_.nodeType == Node.CDATA_SECTION_NODE:
+            self.valueOf_ += '![CDATA['+child_.nodeValue+']]'
+# end class log
+
+
+class system(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('id', 'inv:string8092', 0),
         MemberSpec_('generated_uuid', ['string64', 'xsd:token'], 0),
         MemberSpec_('local_uuid', ['string64', 'xsd:token'], 0),
-        MemberSpec_('is_manageable', 'xsd:boolean', 0),
-        MemberSpec_('activation_date', 'xsd:dateTime', 0),
-        MemberSpec_('scheduled_event_start_date', 'xsd:dateTime', 0),
-        MemberSpec_('launch_date', 'xsd:dateTime', 0),
+        MemberSpec_('activation_date', 'xsd:positiveInteger', 0),
+        MemberSpec_('scheduled_event_start_date', 'xsd:positiveInteger', 0),
+        MemberSpec_('launch_date', 'xsd:positiveInteger', 0),
         MemberSpec_('ssl_client_certificate', ['string8092', 'xsd:token'], 0),
         MemberSpec_('ssl_client_key', ['string8092', 'xsd:token'], 0),
         MemberSpec_('ssl_server_certificate', ['string8092', 'xsd:token'], 0),
@@ -441,13 +607,25 @@ class system_type(GeneratedsSuper):
         MemberSpec_('target_system_id', ['string8092', 'xsd:token'], 0),
         MemberSpec_('ip_address', ['string8092', 'xsd:token'], 0),
         MemberSpec_('available', 'xsd:string', 0),
+        MemberSpec_('is_manageable', 'xsd:string', 0),
+        MemberSpec_('log', 'log_href', 0),
+        MemberSpec_('managed_status', ['managed_status', 'xsd:token'], 0),
+        MemberSpec_('force_update_url', ['string8092', 'xsd:token'], 0),
+        MemberSpec_('description', ['string8092', 'xsd:token'], 0),
+        MemberSpec_('instance_id', ['string8092', 'xsd:token'], 0),
+        MemberSpec_('name', ['string8092', 'xsd:token'], 0),
+        MemberSpec_('out_of_date', 'xsd:string', 0),
+        MemberSpec_('public_dns_name', ['string8092', 'xsd:token'], 0),
+        MemberSpec_('reservation_id', ['string8092', 'xsd:token'], 0),
+        MemberSpec_('current_state', 'xsd:string', 0),
+        MemberSpec_('target', 'target', 0),
         ]
     subclass = None
     superclass = None
-    def __init__(self, generated_uuid=None, local_uuid=None, is_manageable=None, activation_date=None, scheduled_event_start_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, ip_address=None, available=None):
+    def __init__(self, id=None, generated_uuid=None, local_uuid=None, activation_date=None, scheduled_event_start_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, ip_address=None, available=None, is_manageable=None, log=None, managed_status=None, force_update_url=None, description=None, instance_id=None, name=None, out_of_date=None, public_dns_name=None, reservation_id=None, current_state=None, target=None):
+        self.id = _cast(None, id)
         self.generated_uuid = generated_uuid
         self.local_uuid = local_uuid
-        self.is_manageable = is_manageable
         self.activation_date = activation_date
         self.scheduled_event_start_date = scheduled_event_start_date
         self.launch_date = launch_date
@@ -460,11 +638,23 @@ class system_type(GeneratedsSuper):
         self.target_system_id = target_system_id
         self.ip_address = ip_address
         self.available = available
+        self.is_manageable = is_manageable
+        self.log = log
+        self.managed_status = managed_status
+        self.force_update_url = force_update_url
+        self.description = description
+        self.instance_id = instance_id
+        self.name = name
+        self.out_of_date = out_of_date
+        self.public_dns_name = public_dns_name
+        self.reservation_id = reservation_id
+        self.current_state = current_state
+        self.target = target
     def factory(*args_, **kwargs_):
-        if system_type.subclass:
-            return system_type.subclass(*args_, **kwargs_)
+        if system.subclass:
+            return system.subclass(*args_, **kwargs_)
         else:
-            return system_type(*args_, **kwargs_)
+            return system(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_generated_uuid(self): return self.generated_uuid
     def set_generated_uuid(self, generated_uuid): self.generated_uuid = generated_uuid
@@ -476,8 +666,6 @@ class system_type(GeneratedsSuper):
     def validate_local_uuid(self, value):
         # validate type local_uuid
         pass
-    def get_is_manageable(self): return self.is_manageable
-    def set_is_manageable(self, is_manageable): self.is_manageable = is_manageable
     def get_activation_date(self): return self.activation_date
     def set_activation_date(self, activation_date): self.activation_date = activation_date
     def get_scheduled_event_start_date(self): return self.scheduled_event_start_date
@@ -526,10 +714,57 @@ class system_type(GeneratedsSuper):
         pass
     def get_available(self): return self.available
     def set_available(self, available): self.available = available
-    def export(self, outfile, level, namespace_='inv:', name_='system_type', namespacedef_=''):
+    def get_is_manageable(self): return self.is_manageable
+    def set_is_manageable(self, is_manageable): self.is_manageable = is_manageable
+    def get_log(self): return self.log
+    def set_log(self, log): self.log = log
+    def get_managed_status(self): return self.managed_status
+    def set_managed_status(self, managed_status): self.managed_status = managed_status
+    def validate_managed_status(self, value):
+        # Validate type managed_status, a restriction on xsd:token.
+        pass
+    def get_force_update_url(self): return self.force_update_url
+    def set_force_update_url(self, force_update_url): self.force_update_url = force_update_url
+    def validate_force_update_url(self, value):
+        # validate type force_update_url
+        pass
+    def get_description(self): return self.description
+    def set_description(self, description): self.description = description
+    def validate_description(self, value):
+        # validate type description
+        pass
+    def get_instance_id(self): return self.instance_id
+    def set_instance_id(self, instance_id): self.instance_id = instance_id
+    def validate_instance_id(self, value):
+        # validate type instance_id
+        pass
+    def get_name(self): return self.name
+    def set_name(self, name): self.name = name
+    def validate_name(self, value):
+        # validate type name
+        pass
+    def get_out_of_date(self): return self.out_of_date
+    def set_out_of_date(self, out_of_date): self.out_of_date = out_of_date
+    def get_public_dns_name(self): return self.public_dns_name
+    def set_public_dns_name(self, public_dns_name): self.public_dns_name = public_dns_name
+    def validate_public_dns_name(self, value):
+        # validate type public_dns_name
+        pass
+    def get_reservation_id(self): return self.reservation_id
+    def set_reservation_id(self, reservation_id): self.reservation_id = reservation_id
+    def validate_reservation_id(self, value):
+        # validate type reservation_id
+        pass
+    def get_current_state(self): return self.current_state
+    def set_current_state(self, current_state): self.current_state = current_state
+    def get_target(self): return self.target
+    def set_target(self, target): self.target = target
+    def get_id(self): return self.id
+    def set_id(self, id): self.id = id
+    def export(self, outfile, level, namespace_='inv:', name_='system', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        self.exportAttributes(outfile, level, namespace_, name_='system_type')
+        self.exportAttributes(outfile, level, namespace_, name_='system')
         if self.hasContent_():
             outfile.write('>\n')
             self.exportChildren(outfile, level + 1, namespace_, name_)
@@ -537,27 +772,25 @@ class system_type(GeneratedsSuper):
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, namespace_='inv:', name_='system_type'):
-        pass
-    def exportChildren(self, outfile, level, namespace_='inv:', name_='system_type'):
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='system'):
+        if self.id is not None:
+            outfile.write(' id=%s' % (quote_attrib(self.id), ))
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='system'):
         if self.generated_uuid is not None:
             showIndent(outfile, level)
             outfile.write('<%sgenerated_uuid>%s</%sgenerated_uuid>\n' % (namespace_, self.format_string(quote_xml(self.generated_uuid).encode(ExternalEncoding), input_name='generated_uuid'), namespace_))
         if self.local_uuid is not None:
             showIndent(outfile, level)
             outfile.write('<%slocal_uuid>%s</%slocal_uuid>\n' % (namespace_, self.format_string(quote_xml(self.local_uuid).encode(ExternalEncoding), input_name='local_uuid'), namespace_))
-        if self.is_manageable is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sis_manageable>%s</%sis_manageable>\n' % (namespace_, self.format_boolean(str_lower(str(self.is_manageable)), input_name='is_manageable'), namespace_))
         if self.activation_date is not None:
             showIndent(outfile, level)
-            outfile.write('<%sactivation_date>%s</%sactivation_date>\n' % (namespace_, self.format_string(quote_xml(self.activation_date).encode(ExternalEncoding), input_name='activation_date'), namespace_))
+            outfile.write('<%sactivation_date>%s</%sactivation_date>\n' % (namespace_, self.format_integer(self.activation_date, input_name='activation_date'), namespace_))
         if self.scheduled_event_start_date is not None:
             showIndent(outfile, level)
-            outfile.write('<%sscheduled_event_start_date>%s</%sscheduled_event_start_date>\n' % (namespace_, self.format_string(quote_xml(self.scheduled_event_start_date).encode(ExternalEncoding), input_name='scheduled_event_start_date'), namespace_))
+            outfile.write('<%sscheduled_event_start_date>%s</%sscheduled_event_start_date>\n' % (namespace_, self.format_integer(self.scheduled_event_start_date, input_name='scheduled_event_start_date'), namespace_))
         if self.launch_date is not None:
             showIndent(outfile, level)
-            outfile.write('<%slaunch_date>%s</%slaunch_date>\n' % (namespace_, self.format_string(quote_xml(self.launch_date).encode(ExternalEncoding), input_name='launch_date'), namespace_))
+            outfile.write('<%slaunch_date>%s</%slaunch_date>\n' % (namespace_, self.format_integer(self.launch_date, input_name='launch_date'), namespace_))
         if self.ssl_client_certificate is not None:
             showIndent(outfile, level)
             outfile.write('<%sssl_client_certificate>%s</%sssl_client_certificate>\n' % (namespace_, self.format_string(quote_xml(self.ssl_client_certificate).encode(ExternalEncoding), input_name='ssl_client_certificate'), namespace_))
@@ -585,11 +818,44 @@ class system_type(GeneratedsSuper):
         if self.available is not None:
             showIndent(outfile, level)
             outfile.write('<%savailable>%s</%savailable>\n' % (namespace_, self.format_string(quote_xml(self.available).encode(ExternalEncoding), input_name='available'), namespace_))
+        if self.is_manageable is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sis_manageable>%s</%sis_manageable>\n' % (namespace_, self.format_string(quote_xml(self.is_manageable).encode(ExternalEncoding), input_name='is_manageable'), namespace_))
+        if self.log:
+            self.log.export(outfile, level, namespace_, name_='log', )
+        if self.managed_status is not None:
+            showIndent(outfile, level)
+            outfile.write('<%smanaged_status>%s</%smanaged_status>\n' % (namespace_, self.format_string(quote_xml(self.managed_status).encode(ExternalEncoding), input_name='managed_status'), namespace_))
+        if self.force_update_url is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sforce_update_url>%s</%sforce_update_url>\n' % (namespace_, self.format_string(quote_xml(self.force_update_url).encode(ExternalEncoding), input_name='force_update_url'), namespace_))
+        if self.description is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sdescription>%s</%sdescription>\n' % (namespace_, self.format_string(quote_xml(self.description).encode(ExternalEncoding), input_name='description'), namespace_))
+        if self.instance_id is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sinstance_id>%s</%sinstance_id>\n' % (namespace_, self.format_string(quote_xml(self.instance_id).encode(ExternalEncoding), input_name='instance_id'), namespace_))
+        if self.name is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sname>%s</%sname>\n' % (namespace_, self.format_string(quote_xml(self.name).encode(ExternalEncoding), input_name='name'), namespace_))
+        if self.out_of_date is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sout_of_date>%s</%sout_of_date>\n' % (namespace_, self.format_string(quote_xml(self.out_of_date).encode(ExternalEncoding), input_name='out_of_date'), namespace_))
+        if self.public_dns_name is not None:
+            showIndent(outfile, level)
+            outfile.write('<%spublic_dns_name>%s</%spublic_dns_name>\n' % (namespace_, self.format_string(quote_xml(self.public_dns_name).encode(ExternalEncoding), input_name='public_dns_name'), namespace_))
+        if self.reservation_id is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sreservation_id>%s</%sreservation_id>\n' % (namespace_, self.format_string(quote_xml(self.reservation_id).encode(ExternalEncoding), input_name='reservation_id'), namespace_))
+        if self.current_state is not None:
+            showIndent(outfile, level)
+            outfile.write('<%scurrent_state>%s</%scurrent_state>\n' % (namespace_, self.format_string(quote_xml(self.current_state).encode(ExternalEncoding), input_name='current_state'), namespace_))
+        if self.target:
+            self.target.export(outfile, level, namespace_, name_='target')
     def hasContent_(self):
         if (
             self.generated_uuid is not None or
             self.local_uuid is not None or
-            self.is_manageable is not None or
             self.activation_date is not None or
             self.scheduled_event_start_date is not None or
             self.launch_date is not None or
@@ -601,18 +867,32 @@ class system_type(GeneratedsSuper):
             self.target_name is not None or
             self.target_system_id is not None or
             self.ip_address is not None or
-            self.available is not None
+            self.available is not None or
+            self.is_manageable is not None or
+            self.log is not None or
+            self.managed_status is not None or
+            self.force_update_url is not None or
+            self.description is not None or
+            self.instance_id is not None or
+            self.name is not None or
+            self.out_of_date is not None or
+            self.public_dns_name is not None or
+            self.reservation_id is not None or
+            self.current_state is not None or
+            self.target is not None
             ):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='system_type'):
+    def exportLiteral(self, outfile, level, name_='system'):
         level += 1
         self.exportLiteralAttributes(outfile, level, name_)
         if self.hasContent_():
             self.exportLiteralChildren(outfile, level, name_)
     def exportLiteralAttributes(self, outfile, level, name_):
-        pass
+        if self.id is not None:
+            showIndent(outfile, level)
+            outfile.write('id = %s,\n' % (self.id,))
     def exportLiteralChildren(self, outfile, level, name_):
         if self.generated_uuid is not None:
             showIndent(outfile, level)
@@ -620,18 +900,15 @@ class system_type(GeneratedsSuper):
         if self.local_uuid is not None:
             showIndent(outfile, level)
             outfile.write('local_uuid=%s,\n' % quote_python(self.local_uuid).encode(ExternalEncoding))
-        if self.is_manageable is not None:
-            showIndent(outfile, level)
-            outfile.write('is_manageable=%s,\n' % self.is_manageable)
         if self.activation_date is not None:
             showIndent(outfile, level)
-            outfile.write('activation_date=%s,\n' % quote_python(self.activation_date).encode(ExternalEncoding))
+            outfile.write('activation_date=%d,\n' % self.activation_date)
         if self.scheduled_event_start_date is not None:
             showIndent(outfile, level)
-            outfile.write('scheduled_event_start_date=%s,\n' % quote_python(self.scheduled_event_start_date).encode(ExternalEncoding))
+            outfile.write('scheduled_event_start_date=%d,\n' % self.scheduled_event_start_date)
         if self.launch_date is not None:
             showIndent(outfile, level)
-            outfile.write('launch_date=%s,\n' % quote_python(self.launch_date).encode(ExternalEncoding))
+            outfile.write('launch_date=%d,\n' % self.launch_date)
         if self.ssl_client_certificate is not None:
             showIndent(outfile, level)
             outfile.write('ssl_client_certificate=%s,\n' % quote_python(self.ssl_client_certificate).encode(ExternalEncoding))
@@ -659,6 +936,48 @@ class system_type(GeneratedsSuper):
         if self.available is not None:
             showIndent(outfile, level)
             outfile.write('available=%s,\n' % quote_python(self.available).encode(ExternalEncoding))
+        if self.is_manageable is not None:
+            showIndent(outfile, level)
+            outfile.write('is_manageable=%s,\n' % quote_python(self.is_manageable).encode(ExternalEncoding))
+        if self.log is not None:
+            showIndent(outfile, level)
+            outfile.write('log=model_.log_href(\n')
+            self.log.exportLiteral(outfile, level, name_='log')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.managed_status is not None:
+            showIndent(outfile, level)
+            outfile.write('managed_status=%s,\n' % quote_python(self.managed_status).encode(ExternalEncoding))
+        if self.force_update_url is not None:
+            showIndent(outfile, level)
+            outfile.write('force_update_url=%s,\n' % quote_python(self.force_update_url).encode(ExternalEncoding))
+        if self.description is not None:
+            showIndent(outfile, level)
+            outfile.write('description=%s,\n' % quote_python(self.description).encode(ExternalEncoding))
+        if self.instance_id is not None:
+            showIndent(outfile, level)
+            outfile.write('instance_id=%s,\n' % quote_python(self.instance_id).encode(ExternalEncoding))
+        if self.name is not None:
+            showIndent(outfile, level)
+            outfile.write('name=%s,\n' % quote_python(self.name).encode(ExternalEncoding))
+        if self.out_of_date is not None:
+            showIndent(outfile, level)
+            outfile.write('out_of_date=%s,\n' % quote_python(self.out_of_date).encode(ExternalEncoding))
+        if self.public_dns_name is not None:
+            showIndent(outfile, level)
+            outfile.write('public_dns_name=%s,\n' % quote_python(self.public_dns_name).encode(ExternalEncoding))
+        if self.reservation_id is not None:
+            showIndent(outfile, level)
+            outfile.write('reservation_id=%s,\n' % quote_python(self.reservation_id).encode(ExternalEncoding))
+        if self.current_state is not None:
+            showIndent(outfile, level)
+            outfile.write('current_state=%s,\n' % quote_python(self.current_state).encode(ExternalEncoding))
+        if self.target is not None:
+            showIndent(outfile, level)
+            outfile.write('target=model_.target(\n')
+            self.target.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
     def build(self, node_):
         attrs = node_.attributes
         self.buildAttributes(attrs)
@@ -666,7 +985,8 @@ class system_type(GeneratedsSuper):
             nodeName_ = child_.nodeName.split(':')[-1]
             self.buildChildren(child_, nodeName_)
     def buildAttributes(self, attrs):
-        pass
+        if attrs.get('id'):
+            self.id = attrs.get('id').value
     def buildChildren(self, child_, nodeName_):
         if child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'generated_uuid':
@@ -683,34 +1003,38 @@ class system_type(GeneratedsSuper):
             self.local_uuid = local_uuid_
             self.validate_local_uuid(self.local_uuid)    # validate type local_uuid
         elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'is_manageable':
+            nodeName_ == 'activation_date':
             if child_.firstChild:
                 sval_ = child_.firstChild.nodeValue
-                if sval_ in ('true', '1'):
-                    ival_ = True
-                elif sval_ in ('false', '0'):
-                    ival_ = False
-                else:
-                    raise ValueError('requires boolean -- %s' % child_.toxml())
-                self.is_manageable = ival_
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'activation_date':
-            activation_date_ = ''
-            for text__content_ in child_.childNodes:
-                activation_date_ += text__content_.nodeValue
-            self.activation_date = activation_date_
+                try:
+                    ival_ = int(sval_)
+                except ValueError, exp:
+                    raise ValueError('requires integer (activation_date): %s' % exp)
+                if ival_ <= 0:
+                    raise ValueError('requires positiveInteger -- %s' % child_.toxml())
+                self.activation_date = ival_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'scheduled_event_start_date':
-            scheduled_event_start_date_ = ''
-            for text__content_ in child_.childNodes:
-                scheduled_event_start_date_ += text__content_.nodeValue
-            self.scheduled_event_start_date = scheduled_event_start_date_
+            if child_.firstChild:
+                sval_ = child_.firstChild.nodeValue
+                try:
+                    ival_ = int(sval_)
+                except ValueError, exp:
+                    raise ValueError('requires integer (scheduled_event_start_date): %s' % exp)
+                if ival_ <= 0:
+                    raise ValueError('requires positiveInteger -- %s' % child_.toxml())
+                self.scheduled_event_start_date = ival_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'launch_date':
-            launch_date_ = ''
-            for text__content_ in child_.childNodes:
-                launch_date_ += text__content_.nodeValue
-            self.launch_date = launch_date_
+            if child_.firstChild:
+                sval_ = child_.firstChild.nodeValue
+                try:
+                    ival_ = int(sval_)
+                except ValueError, exp:
+                    raise ValueError('requires integer (launch_date): %s' % exp)
+                if ival_ <= 0:
+                    raise ValueError('requires positiveInteger -- %s' % child_.toxml())
+                self.launch_date = ival_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'ssl_client_certificate':
             ssl_client_certificate_ = ''
@@ -773,7 +1097,207 @@ class system_type(GeneratedsSuper):
             for text__content_ in child_.childNodes:
                 available_ += text__content_.nodeValue
             self.available = available_
-# end class system_type
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'is_manageable':
+            is_manageable_ = ''
+            for text__content_ in child_.childNodes:
+                is_manageable_ += text__content_.nodeValue
+            self.is_manageable = is_manageable_
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'log':
+            obj_ = log_href.factory()
+            obj_.build(child_)
+            self.set_log(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'managed_status':
+            managed_status_ = ''
+            for text__content_ in child_.childNodes:
+                managed_status_ += text__content_.nodeValue
+            self.managed_status = managed_status_
+            self.validate_managed_status(self.managed_status)    # validate type managed_status
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'force_update_url':
+            force_update_url_ = ''
+            for text__content_ in child_.childNodes:
+                force_update_url_ += text__content_.nodeValue
+            self.force_update_url = force_update_url_
+            self.validate_force_update_url(self.force_update_url)    # validate type force_update_url
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'description':
+            description_ = ''
+            for text__content_ in child_.childNodes:
+                description_ += text__content_.nodeValue
+            self.description = description_
+            self.validate_description(self.description)    # validate type description
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'instance_id':
+            instance_id_ = ''
+            for text__content_ in child_.childNodes:
+                instance_id_ += text__content_.nodeValue
+            self.instance_id = instance_id_
+            self.validate_instance_id(self.instance_id)    # validate type instance_id
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'name':
+            name_ = ''
+            for text__content_ in child_.childNodes:
+                name_ += text__content_.nodeValue
+            self.name = name_
+            self.validate_name(self.name)    # validate type name
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'out_of_date':
+            out_of_date_ = ''
+            for text__content_ in child_.childNodes:
+                out_of_date_ += text__content_.nodeValue
+            self.out_of_date = out_of_date_
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'public_dns_name':
+            public_dns_name_ = ''
+            for text__content_ in child_.childNodes:
+                public_dns_name_ += text__content_.nodeValue
+            self.public_dns_name = public_dns_name_
+            self.validate_public_dns_name(self.public_dns_name)    # validate type public_dns_name
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'reservation_id':
+            reservation_id_ = ''
+            for text__content_ in child_.childNodes:
+                reservation_id_ += text__content_.nodeValue
+            self.reservation_id = reservation_id_
+            self.validate_reservation_id(self.reservation_id)    # validate type reservation_id
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'current_state':
+            current_state_ = ''
+            for text__content_ in child_.childNodes:
+                current_state_ += text__content_.nodeValue
+            self.current_state = current_state_
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'target':
+            obj_ = target.factory()
+            obj_.build(child_)
+            self.set_target(obj_)
+# end class system
+
+
+class target(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('id', 'inv:string8092', 0),
+        MemberSpec_('cloudAlias', ['string8092', 'xsd:token'], 0),
+        MemberSpec_('cloudName', ['string8092', 'xsd:token'], 0),
+        MemberSpec_('type_', 'type', 0),
+        ]
+    subclass = None
+    superclass = None
+    def __init__(self, id=None, cloudAlias=None, cloudName=None, type_=None):
+        self.id = _cast(None, id)
+        self.cloudAlias = cloudAlias
+        self.cloudName = cloudName
+        self.type_ = type_
+    def factory(*args_, **kwargs_):
+        if target.subclass:
+            return target.subclass(*args_, **kwargs_)
+        else:
+            return target(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_cloudAlias(self): return self.cloudAlias
+    def set_cloudAlias(self, cloudAlias): self.cloudAlias = cloudAlias
+    def validate_cloudAlias(self, value):
+        # validate type cloudAlias
+        pass
+    def get_cloudName(self): return self.cloudName
+    def set_cloudName(self, cloudName): self.cloudName = cloudName
+    def validate_cloudName(self, value):
+        # validate type cloudName
+        pass
+    def get_type(self): return self.type_
+    def set_type(self, type_): self.type_ = type_
+    def validate_type(self, value):
+        # Validate type type, a restriction on None.
+        pass
+    def get_id(self): return self.id
+    def set_id(self, id): self.id = id
+    def export(self, outfile, level, namespace_='inv:', name_='target', namespacedef_=''):
+        showIndent(outfile, level)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        self.exportAttributes(outfile, level, namespace_, name_='target')
+        if self.hasContent_():
+            outfile.write('>\n')
+            self.exportChildren(outfile, level + 1, namespace_, name_)
+            showIndent(outfile, level)
+            outfile.write('</%s%s>\n' % (namespace_, name_))
+        else:
+            outfile.write('/>\n')
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='target'):
+        if self.id is not None:
+            outfile.write(' id=%s' % (quote_attrib(self.id), ))
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='target'):
+        if self.cloudAlias is not None:
+            showIndent(outfile, level)
+            outfile.write('<%scloudAlias>%s</%scloudAlias>\n' % (namespace_, self.format_string(quote_xml(self.cloudAlias).encode(ExternalEncoding), input_name='cloudAlias'), namespace_))
+        if self.cloudName is not None:
+            showIndent(outfile, level)
+            outfile.write('<%scloudName>%s</%scloudName>\n' % (namespace_, self.format_string(quote_xml(self.cloudName).encode(ExternalEncoding), input_name='cloudName'), namespace_))
+        if self.type_ is not None:
+            showIndent(outfile, level)
+            outfile.write('<%stype>%s</%stype>\n' % (namespace_, self.format_string(quote_xml(self.type_).encode(ExternalEncoding), input_name='type'), namespace_))
+    def hasContent_(self):
+        if (
+            self.cloudAlias is not None or
+            self.cloudName is not None or
+            self.type_ is not None
+            ):
+            return True
+        else:
+            return False
+    def exportLiteral(self, outfile, level, name_='target'):
+        level += 1
+        self.exportLiteralAttributes(outfile, level, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, name_):
+        if self.id is not None:
+            showIndent(outfile, level)
+            outfile.write('id = %s,\n' % (self.id,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.cloudAlias is not None:
+            showIndent(outfile, level)
+            outfile.write('cloudAlias=%s,\n' % quote_python(self.cloudAlias).encode(ExternalEncoding))
+        if self.cloudName is not None:
+            showIndent(outfile, level)
+            outfile.write('cloudName=%s,\n' % quote_python(self.cloudName).encode(ExternalEncoding))
+        if self.type_ is not None:
+            showIndent(outfile, level)
+            outfile.write('type_=%s,\n' % quote_python(self.type_).encode(ExternalEncoding))
+    def build(self, node_):
+        attrs = node_.attributes
+        self.buildAttributes(attrs)
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildAttributes(self, attrs):
+        if attrs.get('id'):
+            self.id = attrs.get('id').value
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'cloudAlias':
+            cloudAlias_ = ''
+            for text__content_ in child_.childNodes:
+                cloudAlias_ += text__content_.nodeValue
+            self.cloudAlias = cloudAlias_
+            self.validate_cloudAlias(self.cloudAlias)    # validate type cloudAlias
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'cloudName':
+            cloudName_ = ''
+            for text__content_ in child_.childNodes:
+                cloudName_ += text__content_.nodeValue
+            self.cloudName = cloudName_
+            self.validate_cloudName(self.cloudName)    # validate type cloudName
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'type':
+            type_ = ''
+            for text__content_ in child_.childNodes:
+                type_ += text__content_.nodeValue
+            self.type_ = type_
+            self.validate_type(self.type_)    # validate type type
+# end class target
 
 
 class systemInformationType(GeneratedsSuper):
@@ -967,7 +1491,7 @@ def usage():
 def parse(inFileName):
     doc = minidom.parse(inFileName)
     rootNode = doc.documentElement
-    rootObj = inventory_type.factory()
+    rootObj = inventory.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
@@ -980,7 +1504,7 @@ def parse(inFileName):
 def parseString(inString):
     doc = minidom.parseString(inString)
     rootNode = doc.documentElement
-    rootObj = inventory_type.factory()
+    rootObj = inventory.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
@@ -993,7 +1517,7 @@ def parseString(inString):
 def parseLiteral(inFileName):
     doc = minidom.parse(inFileName)
     rootNode = doc.documentElement
-    rootObj = inventory_type.factory()
+    rootObj = inventory.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None

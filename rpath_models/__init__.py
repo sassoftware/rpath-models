@@ -15,9 +15,10 @@
 
 from rpath_models import generateds_schedule, generateds_system
 
-Inventory = generateds_system.inventory_type
-System = generateds_system.system_type
-Systems = generateds_system.systems_type
-SystemsHref = generateds_system.systems_href_type
-
+Inventory = generateds_system.inventory
+System = generateds_system.system
+Systems = generateds_system.systems
+SystemsHref = generateds_system.systems_href
+LogHref = generateds_system.log_href
+Log = generateds_system.log
 Schedule = generateds_schedule.schedule_type
