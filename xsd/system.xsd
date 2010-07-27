@@ -43,7 +43,6 @@
 
     <xsd:complexType name="system">
       <xsd:sequence>
-        <xsd:attribute name="id" type="inv:string8092"/>
         <xsd:element name="generated_uuid" type="inv:string64"
             minOccurs="1" maxOccurs="1" />
         <xsd:element name="local_uuid" type="inv:string64"
@@ -51,7 +50,7 @@
         <xsd:element name="activation_date" type="xsd:positiveInteger"
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="scheduled_event_start_date" type="xsd:positiveInteger"
-            minOccurs="1" maxOccurs="1" />
+            minOccurs="0" maxOccurs="1" />
         <xsd:element name="launch_date" type="xsd:positiveInteger"
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="ssl_client_certificate" type="inv:string8092"
@@ -70,14 +69,14 @@
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="ip_address" type="inv:string8092"
             minOccurs="0" maxOccurs="1" />
-        <xsd:element name="available" type="inv:boolean"
+        <xsd:element name="available" type="xsd:boolean"
             minOccurs="0" maxOccurs="1" />
-        <xsd:element name="is_manageable" type="inv:boolean"
+        <xsd:element name="is_manageable" type="xsd:boolean"
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="log" type="inv:log_href"
-            minOccurs="1" maxOccurs="1" />
+            minOccurs="0" maxOccurs="1" />
         <xsd:element name="managed_status" type="inv:managed_status"
-            minOccurs="1" maxOccurs="1" />
+            minOccurs="0" maxOccurs="1" />
         <xsd:element name="force_update_url" type="inv:string8092"
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="description" type="inv:string8092"
@@ -86,17 +85,18 @@
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="name" type="inv:string8092"
             minOccurs="0" maxOccurs="1" />
-        <xsd:element name="out_of_date" type="inv:boolean"
+        <xsd:element name="out_of_date" type="xsd:boolean"
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="public_dns_name" type="inv:string8092"
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="reservation_id" type="inv:string8092"
             minOccurs="0" maxOccurs="1" />
-        <xsd:element name="current_state" type="inv:currentState"
+        <xsd:element name="current_state" type="inv:current_state"
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="target" type="inv:target"
             minOccurs="0" maxOccurs="1" />
       </xsd:sequence>
+      <xsd:attribute name="id" type="inv:string8092"/>
     </xsd:complexType>
 
     <xsd:simpleType name="managed_status">
@@ -116,18 +116,20 @@
     </xsd:simpleType>
 
     <xsd:complexType name="target">
+      <xsd:sequence>
+        <xsd:element name="cloudAlias" type="inv:string8092"
+          minOccurs="1" maxOccurs="1" />
+        <xsd:element name="cloudName" type="inv:string8092"
+          minOccurs="1" maxOccurs="1" />
+        <xsd:element name="type" type="inv:type"
+          minOccurs="1" maxOccurs="1" />
+      </xsd:sequence>
       <xsd:attribute name="id" type="inv:string8092"/>
-      <xsd:element name="cloudAlias" type="inv:string8092"
-        minOccurs="1" maxOccurs="1" />
-      <xsd:element name="cloudName" type="inv:string8092"
-        minOccurs="1" maxOccurs="1" />
-      <xsd:element name="type" type="inv:type"
-        minOccurs="1" maxOccurs="1" />
     </xsd:complexType>
 
-    <xsd:simpleType name="type">
+    <xsd:complexType name="type">
       <xsd:attribute name="href" type="inv:string8092"/>
-    </xsd:simpleType>
+    </xsd:complexType>
 
     <xsd:element name="systemInformation" type="inv:systemInformationType"/>
 
