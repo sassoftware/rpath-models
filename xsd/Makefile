@@ -17,8 +17,8 @@ SCHEMA_FILES = $(wildcard *.xsd)
 
 all: default-all
 
-install: all default-install $(DESTDIR)$(datadir)/rpath_models/
-	install $(SCHEMA_FILES) $(DESTDIR)$(datadir)/rpath_models/
+install: all default-install $(DESTDIR)$(DATADIR)/rpath_models/
+	install $(SCHEMA_FILES) $(DESTDIR)$(DATADIR)/rpath_models/
 
 $(DESTDIR)$(datadir)/rpath_models:
 	install -d -m755 $@

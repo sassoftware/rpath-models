@@ -26,6 +26,7 @@ export LIBDIR =     $(PREFIX)/$(lib)
 export PYVER =      "`python -c 'import sys; print sys.version[0:3]'`"
 export PYTHON = /usr/bin/python$(PYVER)
 export PYDIR = $(LIBDIR)/python$(PYVER)/site-packages
+export DATADIR = $(PREFIX)/share
 
 dist_files = Makefile
 GENERATE_DS=generateDS.py
