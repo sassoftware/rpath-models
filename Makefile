@@ -12,7 +12,8 @@
 # full details.
 #
 
-SUBDIRS = rpath_models, xsd
+SUBDIRS = rpath_models\
+          xsd
 
 export VERSION = 1.0
 export SHORTVER = $(VERSION)
