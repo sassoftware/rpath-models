@@ -825,7 +825,7 @@ class system(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('<%sis_manageable>%s</%sis_manageable>\n' % (namespace_, self.format_string(quote_xml(self.is_manageable).encode(ExternalEncoding), input_name='is_manageable'), namespace_))
         if self.log:
-            self.log.export(outfile, level, namespace_, name_='log', )
+            self.log.export(outfile, level, namespace_, name_='log')
         if self.managed_status is not None:
             showIndent(outfile, level)
             outfile.write('<%smanaged_status>%s</%smanaged_status>\n' % (namespace_, self.format_string(quote_xml(self.managed_status).encode(ExternalEncoding), input_name='managed_status'), namespace_))
@@ -1364,6 +1364,177 @@ class type_(GeneratedsSuper):
 # end class type_
 
 
+class log_entry(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('entry', ['string8092', 'xsd:token'], 0),
+        MemberSpec_('time', 'xsd:string', 0),
+        ]
+    subclass = None
+    superclass = None
+    def __init__(self, entry=None, time=None):
+        self.entry = entry
+        self.time = time
+    def factory(*args_, **kwargs_):
+        if log_entry.subclass:
+            return log_entry.subclass(*args_, **kwargs_)
+        else:
+            return log_entry(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_entry(self): return self.entry
+    def set_entry(self, entry): self.entry = entry
+    def validate_entry(self, value):
+        # validate type entry
+        pass
+    def get_time(self): return self.time
+    def set_time(self, time): self.time = time
+    def export(self, outfile, level, namespace_='inv:', name_='log_entry', namespacedef_=''):
+        showIndent(outfile, level)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        self.exportAttributes(outfile, level, namespace_, name_='log_entry')
+        if self.hasContent_():
+            outfile.write('>\n')
+            self.exportChildren(outfile, level + 1, namespace_, name_)
+            showIndent(outfile, level)
+            outfile.write('</%s%s>\n' % (namespace_, name_))
+        else:
+            outfile.write('/>\n')
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='log_entry'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='log_entry'):
+        if self.entry is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sentry>%s</%sentry>\n' % (namespace_, self.format_string(quote_xml(self.entry).encode(ExternalEncoding), input_name='entry'), namespace_))
+        if self.time is not None:
+            showIndent(outfile, level)
+            outfile.write('<%stime>%s</%stime>\n' % (namespace_, self.format_string(quote_xml(self.time).encode(ExternalEncoding), input_name='time'), namespace_))
+    def hasContent_(self):
+        if (
+            self.entry is not None or
+            self.time is not None
+            ):
+            return True
+        else:
+            return False
+    def exportLiteral(self, outfile, level, name_='log_entry'):
+        level += 1
+        self.exportLiteralAttributes(outfile, level, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.entry is not None:
+            showIndent(outfile, level)
+            outfile.write('entry=%s,\n' % quote_python(self.entry).encode(ExternalEncoding))
+        if self.time is not None:
+            showIndent(outfile, level)
+            outfile.write('time=%s,\n' % quote_python(self.time).encode(ExternalEncoding))
+    def build(self, node_):
+        attrs = node_.attributes
+        self.buildAttributes(attrs)
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildAttributes(self, attrs):
+        pass
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'entry':
+            entry_ = ''
+            for text__content_ in child_.childNodes:
+                entry_ += text__content_.nodeValue
+            self.entry = entry_
+            self.validate_entry(self.entry)    # validate type entry
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'time':
+            time_ = ''
+            for text__content_ in child_.childNodes:
+                time_ += text__content_.nodeValue
+            self.time = time_
+# end class log_entry
+
+
+class system_log(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('log_entry', 'log_entry', 1),
+        ]
+    subclass = None
+    superclass = None
+    def __init__(self, log_entry=None):
+        if log_entry is None:
+            self.log_entry = []
+        else:
+            self.log_entry = log_entry
+    def factory(*args_, **kwargs_):
+        if system_log.subclass:
+            return system_log.subclass(*args_, **kwargs_)
+        else:
+            return system_log(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_log_entry(self): return self.log_entry
+    def set_log_entry(self, log_entry): self.log_entry = log_entry
+    def add_log_entry(self, value): self.log_entry.append(value)
+    def insert_log_entry(self, index, value): self.log_entry[index] = value
+    def export(self, outfile, level, namespace_='inv:', name_='system_log', namespacedef_=''):
+        showIndent(outfile, level)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        self.exportAttributes(outfile, level, namespace_, name_='system_log')
+        if self.hasContent_():
+            outfile.write('>\n')
+            self.exportChildren(outfile, level + 1, namespace_, name_)
+            showIndent(outfile, level)
+            outfile.write('</%s%s>\n' % (namespace_, name_))
+        else:
+            outfile.write('/>\n')
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='system_log'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='system_log'):
+        for log_entry_ in self.log_entry:
+            log_entry_.export(outfile, level, namespace_, name_='log_entry')
+    def hasContent_(self):
+        if (
+            self.log_entry
+            ):
+            return True
+        else:
+            return False
+    def exportLiteral(self, outfile, level, name_='system_log'):
+        level += 1
+        self.exportLiteralAttributes(outfile, level, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('log_entry=[\n')
+        level += 1
+        for log_entry_ in self.log_entry:
+            showIndent(outfile, level)
+            outfile.write('model_.log_entry(\n')
+            log_entry_.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node_):
+        attrs = node_.attributes
+        self.buildAttributes(attrs)
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildAttributes(self, attrs):
+        pass
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'log_entry':
+            obj_ = log_entry.factory()
+            obj_.build(child_)
+            self.log_entry.append(obj_)
+# end class system_log
+
+
 class systemInformationType(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('systemName', ['string64', 'xsd:token'], 0),
@@ -1580,8 +1751,8 @@ def parseLiteral(inFileName):
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
-##     sys.stdout.write('#from generateds_system import *\n\n')
-##     sys.stdout.write('import generateds_system as model_\n\n')
+##     sys.stdout.write('#from generateds_system_1_0 import *\n\n')
+##     sys.stdout.write('import generateds_system_1_0 as model_\n\n')
 ##     sys.stdout.write('rootObj = model_.inventory(\n')
 ##     rootObj.exportLiteral(sys.stdout, 0, name_="inventory")
 ##     sys.stdout.write(')\n')

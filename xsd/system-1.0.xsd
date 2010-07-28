@@ -131,6 +131,24 @@
       <xsd:attribute name="href" type="inv:string8092"/>
     </xsd:complexType>
 
+    <xsd:complexType name="log_entry">
+      <xsd:sequence>
+        <xsd:element name="entry" type="xsd:string8092"
+          minOccurs="1" maxOccurs="1"/>
+        <xsd:element name="time" type="xsd:positiveInteger"
+          minOccurs="1" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="system_log" type="system_log"/>
+
+    <xsd:complexType name="system_log">
+      <xsd:sequence>
+        <xsd:element name="log_entry" type="log_entry"
+          minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
     <xsd:element name="systemInformation" type="inv:systemInformationType"/>
 
     <xsd:complexType name="systemInformationType">

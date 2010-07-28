@@ -526,8 +526,8 @@ def parseLiteral(inFileName):
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
-##     sys.stdout.write('#from generateds_schedule import *\n\n')
-##     sys.stdout.write('import generateds_schedule as model_\n\n')
+##     sys.stdout.write('#from generateds_schedule_1_0 import *\n\n')
+##     sys.stdout.write('import generateds_schedule_1_0 as model_\n\n')
 ##     sys.stdout.write('rootObj = model_.schedule(\n')
 ##     rootObj.exportLiteral(sys.stdout, 0, name_="schedule")
 ##     sys.stdout.write(')\n')

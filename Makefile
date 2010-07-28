@@ -50,7 +50,7 @@ rule-%:
                 --member-specs=list \
                 --external-encoding=utf-8 \
                 --search-path=$(XSD_DIR) \
-                -o $(MODELS_DIR)/generateds_$(subst -,_,$(patsubst rule-%,%,$@)).py \
+                -o $(MODELS_DIR)/generateds_$(subst .,_,$(subst -,_,$(patsubst rule-%,%,$@))).py \
                 $(XSD_DIR)/$(patsubst rule-%,%,$@).xsd
 
 install-generate: $(addprefix install-rule-,$(wildcard xml_*))
