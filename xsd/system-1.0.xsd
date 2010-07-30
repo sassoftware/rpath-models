@@ -42,7 +42,7 @@
     <xsd:element name="system" type="inv:system" />
 
     <xsd:complexType name="system">
-      <xsd:sequence>
+      <xsd:all>
         <xsd:element name="generated_uuid" type="inv:string64"
             minOccurs="1" maxOccurs="1" />
         <xsd:element name="local_uuid" type="inv:string64"
@@ -95,8 +95,12 @@
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="target" type="inv:target"
             minOccurs="0" maxOccurs="1" />
-      </xsd:sequence>
+      </xsd:all>
       <xsd:attribute name="id" type="inv:string8092"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="system_log_href">
+      <xsd:attribute name="href" type="inv:string8092"/>
     </xsd:complexType>
 
     <xsd:simpleType name="managed_status">
@@ -131,11 +135,11 @@
       <xsd:attribute name="href" type="inv:string8092"/>
     </xsd:complexType>
 
-    <xsd:complexType name="log_entry">
+    <xsd:complexType name="system_log_entry">
       <xsd:sequence>
         <xsd:element name="entry" type="xsd:string8092"
           minOccurs="1" maxOccurs="1"/>
-        <xsd:element name="time" type="xsd:positiveInteger"
+        <xsd:element name="entry_date" type="xsd:positiveInteger"
           minOccurs="1" maxOccurs="1"/>
       </xsd:sequence>
     </xsd:complexType>
@@ -144,7 +148,7 @@
 
     <xsd:complexType name="system_log">
       <xsd:sequence>
-        <xsd:element name="log_entry" type="log_entry"
+        <xsd:element name="system_log_entry" type="system_log_entry"
           minOccurs="0" maxOccurs="unbounded"/>
       </xsd:sequence>
     </xsd:complexType>

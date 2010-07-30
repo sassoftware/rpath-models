@@ -1166,6 +1166,84 @@ class system(GeneratedsSuper):
 # end class system
 
 
+class system_log_href(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('href', 'inv:string8092', 0),
+        MemberSpec_('valueOf_', [], 0),
+        ]
+    subclass = None
+    superclass = None
+    def __init__(self, href=None, valueOf_=''):
+        self.href = _cast(None, href)
+        self.valueOf_ = valueOf_
+    def factory(*args_, **kwargs_):
+        if system_log_href.subclass:
+            return system_log_href.subclass(*args_, **kwargs_)
+        else:
+            return system_log_href(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_href(self): return self.href
+    def set_href(self, href): self.href = href
+    def getValueOf_(self): return self.valueOf_
+    def setValueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def export(self, outfile, level, namespace_='inv:', name_='system_log_href', namespacedef_=''):
+        showIndent(outfile, level)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        self.exportAttributes(outfile, level, namespace_, name_='system_log_href')
+        if self.hasContent_():
+            outfile.write('>')
+            self.exportChildren(outfile, level + 1, namespace_, name_)
+            outfile.write('</%s%s>\n' % (namespace_, name_))
+        else:
+            outfile.write('/>\n')
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='system_log_href'):
+        if self.href is not None:
+            outfile.write(' href=%s' % (quote_attrib(self.href), ))
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='system_log_href'):
+        if self.valueOf_.find('![CDATA') > -1:
+            value=quote_xml('%s' % self.valueOf_)
+            value=value.replace('![CDATA','<![CDATA')
+            value=value.replace(']]',']]>')
+            outfile.write(value.encode(ExternalEncoding))
+        else:
+            outfile.write(quote_xml('%s' % self.valueOf_.encode(ExternalEncoding)))
+    def hasContent_(self):
+        if (
+            self.valueOf_
+            ):
+            return True
+        else:
+            return False
+    def exportLiteral(self, outfile, level, name_='system_log_href'):
+        level += 1
+        self.exportLiteralAttributes(outfile, level, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, name_):
+        if self.href is not None:
+            showIndent(outfile, level)
+            outfile.write('href = %s,\n' % (self.href,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
+    def build(self, node_):
+        attrs = node_.attributes
+        self.buildAttributes(attrs)
+        self.valueOf_ = ''
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildAttributes(self, attrs):
+        if attrs.get('href'):
+            self.href = attrs.get('href').value
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.TEXT_NODE:
+            self.valueOf_ += child_.nodeValue
+        elif child_.nodeType == Node.CDATA_SECTION_NODE:
+            self.valueOf_ += '![CDATA['+child_.nodeValue+']]'
+# end class system_log_href
+
+
 class target(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('id', 'inv:string8092', 0),
@@ -1364,33 +1442,33 @@ class type_(GeneratedsSuper):
 # end class type_
 
 
-class log_entry(GeneratedsSuper):
+class system_log_entry(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('entry', ['string8092', 'xsd:token'], 0),
-        MemberSpec_('time', 'xsd:string', 0),
+        MemberSpec_('entry_date', 'xsd:string', 0),
         ]
     subclass = None
     superclass = None
-    def __init__(self, entry=None, time=None):
+    def __init__(self, entry=None, entry_date=None):
         self.entry = entry
-        self.time = time
+        self.entry_date = entry_date
     def factory(*args_, **kwargs_):
-        if log_entry.subclass:
-            return log_entry.subclass(*args_, **kwargs_)
+        if system_log_entry.subclass:
+            return system_log_entry.subclass(*args_, **kwargs_)
         else:
-            return log_entry(*args_, **kwargs_)
+            return system_log_entry(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_entry(self): return self.entry
     def set_entry(self, entry): self.entry = entry
     def validate_entry(self, value):
         # validate type entry
         pass
-    def get_time(self): return self.time
-    def set_time(self, time): self.time = time
-    def export(self, outfile, level, namespace_='inv:', name_='log_entry', namespacedef_=''):
+    def get_entry_date(self): return self.entry_date
+    def set_entry_date(self, entry_date): self.entry_date = entry_date
+    def export(self, outfile, level, namespace_='inv:', name_='system_log_entry', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        self.exportAttributes(outfile, level, namespace_, name_='log_entry')
+        self.exportAttributes(outfile, level, namespace_, name_='system_log_entry')
         if self.hasContent_():
             outfile.write('>\n')
             self.exportChildren(outfile, level + 1, namespace_, name_)
@@ -1398,24 +1476,24 @@ class log_entry(GeneratedsSuper):
             outfile.write('</%s%s>\n' % (namespace_, name_))
         else:
             outfile.write('/>\n')
-    def exportAttributes(self, outfile, level, namespace_='inv:', name_='log_entry'):
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='system_log_entry'):
         pass
-    def exportChildren(self, outfile, level, namespace_='inv:', name_='log_entry'):
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='system_log_entry'):
         if self.entry is not None:
             showIndent(outfile, level)
             outfile.write('<%sentry>%s</%sentry>\n' % (namespace_, self.format_string(quote_xml(self.entry).encode(ExternalEncoding), input_name='entry'), namespace_))
-        if self.time is not None:
+        if self.entry_date is not None:
             showIndent(outfile, level)
-            outfile.write('<%stime>%s</%stime>\n' % (namespace_, self.format_string(quote_xml(self.time).encode(ExternalEncoding), input_name='time'), namespace_))
+            outfile.write('<%sentry_date>%s</%sentry_date>\n' % (namespace_, self.format_string(quote_xml(self.entry_date).encode(ExternalEncoding), input_name='entry_date'), namespace_))
     def hasContent_(self):
         if (
             self.entry is not None or
-            self.time is not None
+            self.entry_date is not None
             ):
             return True
         else:
             return False
-    def exportLiteral(self, outfile, level, name_='log_entry'):
+    def exportLiteral(self, outfile, level, name_='system_log_entry'):
         level += 1
         self.exportLiteralAttributes(outfile, level, name_)
         if self.hasContent_():
@@ -1426,9 +1504,9 @@ class log_entry(GeneratedsSuper):
         if self.entry is not None:
             showIndent(outfile, level)
             outfile.write('entry=%s,\n' % quote_python(self.entry).encode(ExternalEncoding))
-        if self.time is not None:
+        if self.entry_date is not None:
             showIndent(outfile, level)
-            outfile.write('time=%s,\n' % quote_python(self.time).encode(ExternalEncoding))
+            outfile.write('entry_date=%s,\n' % quote_python(self.entry_date).encode(ExternalEncoding))
     def build(self, node_):
         attrs = node_.attributes
         self.buildAttributes(attrs)
@@ -1446,35 +1524,35 @@ class log_entry(GeneratedsSuper):
             self.entry = entry_
             self.validate_entry(self.entry)    # validate type entry
         elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'time':
-            time_ = ''
+            nodeName_ == 'entry_date':
+            entry_date_ = ''
             for text__content_ in child_.childNodes:
-                time_ += text__content_.nodeValue
-            self.time = time_
-# end class log_entry
+                entry_date_ += text__content_.nodeValue
+            self.entry_date = entry_date_
+# end class system_log_entry
 
 
 class system_log(GeneratedsSuper):
     member_data_items_ = [
-        MemberSpec_('log_entry', 'log_entry', 1),
+        MemberSpec_('system_log_entry', 'system_log_entry', 1),
         ]
     subclass = None
     superclass = None
-    def __init__(self, log_entry=None):
-        if log_entry is None:
-            self.log_entry = []
+    def __init__(self, system_log_entry=None):
+        if system_log_entry is None:
+            self.system_log_entry = []
         else:
-            self.log_entry = log_entry
+            self.system_log_entry = system_log_entry
     def factory(*args_, **kwargs_):
         if system_log.subclass:
             return system_log.subclass(*args_, **kwargs_)
         else:
             return system_log(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_log_entry(self): return self.log_entry
-    def set_log_entry(self, log_entry): self.log_entry = log_entry
-    def add_log_entry(self, value): self.log_entry.append(value)
-    def insert_log_entry(self, index, value): self.log_entry[index] = value
+    def get_system_log_entry(self): return self.system_log_entry
+    def set_system_log_entry(self, system_log_entry): self.system_log_entry = system_log_entry
+    def add_system_log_entry(self, value): self.system_log_entry.append(value)
+    def insert_system_log_entry(self, index, value): self.system_log_entry[index] = value
     def export(self, outfile, level, namespace_='inv:', name_='system_log', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
@@ -1489,11 +1567,11 @@ class system_log(GeneratedsSuper):
     def exportAttributes(self, outfile, level, namespace_='inv:', name_='system_log'):
         pass
     def exportChildren(self, outfile, level, namespace_='inv:', name_='system_log'):
-        for log_entry_ in self.log_entry:
-            log_entry_.export(outfile, level, namespace_, name_='log_entry')
+        for system_log_entry_ in self.system_log_entry:
+            system_log_entry_.export(outfile, level, namespace_, name_='system_log_entry')
     def hasContent_(self):
         if (
-            self.log_entry
+            self.system_log_entry
             ):
             return True
         else:
@@ -1507,12 +1585,12 @@ class system_log(GeneratedsSuper):
         pass
     def exportLiteralChildren(self, outfile, level, name_):
         showIndent(outfile, level)
-        outfile.write('log_entry=[\n')
+        outfile.write('system_log_entry=[\n')
         level += 1
-        for log_entry_ in self.log_entry:
+        for system_log_entry_ in self.system_log_entry:
             showIndent(outfile, level)
-            outfile.write('model_.log_entry(\n')
-            log_entry_.exportLiteral(outfile, level)
+            outfile.write('model_.system_log_entry(\n')
+            system_log_entry_.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
         level -= 1
@@ -1528,10 +1606,10 @@ class system_log(GeneratedsSuper):
         pass
     def buildChildren(self, child_, nodeName_):
         if child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'log_entry':
-            obj_ = log_entry.factory()
+            nodeName_ == 'system_log_entry':
+            obj_ = system_log_entry.factory()
             obj_.build(child_)
-            self.log_entry.append(obj_)
+            self.system_log_entry.append(obj_)
 # end class system_log
 
 

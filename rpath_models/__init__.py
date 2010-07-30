@@ -13,7 +13,7 @@
 # full details.
 #
 
-from rpath_models import generateds_schedule_1_0 as generate_schedule
+from rpath_models import generateds_schedule_1_0 as generateds_schedule
 from rpath_models import generateds_system_1_0 as generateds_system
 
 Inventory = generateds_system.inventory
@@ -23,5 +23,5 @@ SystemsHref = generateds_system.systems_href
 LogHref = generateds_system.log_href
 Log = generateds_system.log
 Schedule = generateds_schedule.schedule_type
-LogEntry = generateds_system.log_entry
+SystemLogEntry = generateds_system.system_log_entry
 SystemLog = generateds_system.system_log
