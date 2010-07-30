@@ -619,10 +619,11 @@ class system(GeneratedsSuper):
         MemberSpec_('reservation_id', ['string8092', 'xsd:token'], 0),
         MemberSpec_('current_state', ['current_state', 'xsd:token'], 0),
         MemberSpec_('target', 'target', 0),
+        MemberSpec_('system_log', 'system_log_href', 0),
         ]
     subclass = None
     superclass = None
-    def __init__(self, id=None, generated_uuid=None, local_uuid=None, activation_date=None, scheduled_event_start_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, ip_address=None, available=None, is_manageable=None, log=None, managed_status=None, force_update_url=None, description=None, instance_id=None, name=None, out_of_date=None, public_dns_name=None, reservation_id=None, current_state=None, target=None):
+    def __init__(self, id=None, generated_uuid=None, local_uuid=None, activation_date=None, scheduled_event_start_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, ip_address=None, available=None, is_manageable=None, log=None, managed_status=None, force_update_url=None, description=None, instance_id=None, name=None, out_of_date=None, public_dns_name=None, reservation_id=None, current_state=None, target=None, system_log=None):
         self.id = _cast(None, id)
         self.generated_uuid = generated_uuid
         self.local_uuid = local_uuid
@@ -650,6 +651,7 @@ class system(GeneratedsSuper):
         self.reservation_id = reservation_id
         self.current_state = current_state
         self.target = target
+        self.system_log = system_log
     def factory(*args_, **kwargs_):
         if system.subclass:
             return system.subclass(*args_, **kwargs_)
@@ -762,6 +764,8 @@ class system(GeneratedsSuper):
         pass
     def get_target(self): return self.target
     def set_target(self, target): self.target = target
+    def get_system_log(self): return self.system_log
+    def set_system_log(self, system_log): self.system_log = system_log
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
     def export(self, outfile, level, namespace_='inv:', name_='system', namespacedef_=''):
@@ -855,6 +859,8 @@ class system(GeneratedsSuper):
             outfile.write('<%scurrent_state>%s</%scurrent_state>\n' % (namespace_, self.format_string(quote_xml(self.current_state).encode(ExternalEncoding), input_name='current_state'), namespace_))
         if self.target:
             self.target.export(outfile, level, namespace_, name_='target')
+        if self.system_log:
+            self.system_log.export(outfile, level, namespace_, name_='system_log')
     def hasContent_(self):
         if (
             self.generated_uuid is not None or
@@ -882,7 +888,8 @@ class system(GeneratedsSuper):
             self.public_dns_name is not None or
             self.reservation_id is not None or
             self.current_state is not None or
-            self.target is not None
+            self.target is not None or
+            self.system_log is not None
             ):
             return True
         else:
@@ -979,6 +986,12 @@ class system(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('target=model_.target(\n')
             self.target.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.system_log is not None:
+            showIndent(outfile, level)
+            outfile.write('system_log=model_.system_log_href(\n')
+            self.system_log.exportLiteral(outfile, level, name_='system_log')
             showIndent(outfile, level)
             outfile.write('),\n')
     def build(self, node_):
@@ -1163,6 +1176,11 @@ class system(GeneratedsSuper):
             obj_ = target.factory()
             obj_.build(child_)
             self.set_target(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'system_log':
+            obj_ = system_log_href.factory()
+            obj_.build(child_)
+            self.set_system_log(obj_)
 # end class system
 
 

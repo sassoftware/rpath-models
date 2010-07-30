@@ -25,3 +25,4 @@ Log = generateds_system.log
 Schedule = generateds_schedule.schedule_type
 SystemLogEntry = generateds_system.system_log_entry
 SystemLog = generateds_system.system_log
+SystemLogHref = generateds_system.system_log_href

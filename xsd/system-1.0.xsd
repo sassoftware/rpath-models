@@ -95,6 +95,8 @@
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="target" type="inv:target"
             minOccurs="0" maxOccurs="1" />
+        <xsd:element name="system_log" type="inv:system_log_href"
+            minOccurs="0" maxOccurs="1" />
       </xsd:all>
       <xsd:attribute name="id" type="inv:string8092"/>
     </xsd:complexType>
