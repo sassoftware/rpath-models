@@ -67,8 +67,6 @@
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="target_system_id" type="inv:string8092"
             minOccurs="0" maxOccurs="1" />
-        <xsd:element name="ip_address" type="inv:string8092"
-            minOccurs="0" maxOccurs="1" />
         <xsd:element name="available" type="xsd:boolean"
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="is_manageable" type="xsd:boolean"
@@ -97,8 +95,24 @@
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="system_log" type="inv:system_log_href"
             minOccurs="0" maxOccurs="1" />
+        <xsd:element name="networks" type="inv:networks"/>
       </xsd:all>
       <xsd:attribute name="id" type="inv:string8092"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="networks">
+      <xsd:element name="network" type="inv:network"
+        minOccors="1" maxOccurs="unbounded"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="network">
+      <xsd:element name="ip_address" type="inv:string15"/>
+      <xsd:element name="ipv6_address" type="inv:string15"/>
+      <xsd:element name="public_dns_name" type="inv:string255"/>
+      <xsd:element name="device_name" type="inv:string8092"/>
+      <xsd:element name="netmask" type="inv:string8092"/>
+      <xsd:element name="port_type" type="inv:string8092"/>
+      <xsd:element name="primary" type="inv:boolean"/>
     </xsd:complexType>
 
     <xsd:complexType name="system_log_href">

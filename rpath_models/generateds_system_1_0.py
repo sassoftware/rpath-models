@@ -605,7 +605,6 @@ class system(GeneratedsSuper):
         MemberSpec_('target_type', ['string8092', 'xsd:token'], 0),
         MemberSpec_('target_name', ['string8092', 'xsd:token'], 0),
         MemberSpec_('target_system_id', ['string8092', 'xsd:token'], 0),
-        MemberSpec_('ip_address', ['string8092', 'xsd:token'], 0),
         MemberSpec_('available', 'xsd:string', 0),
         MemberSpec_('is_manageable', 'xsd:string', 0),
         MemberSpec_('log', 'log_href', 0),
@@ -620,10 +619,11 @@ class system(GeneratedsSuper):
         MemberSpec_('current_state', ['current_state', 'xsd:token'], 0),
         MemberSpec_('target', 'target', 0),
         MemberSpec_('system_log', 'system_log_href', 0),
+        MemberSpec_('networks', 'networks', 0),
         ]
     subclass = None
     superclass = None
-    def __init__(self, id=None, generated_uuid=None, local_uuid=None, activation_date=None, scheduled_event_start_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, ip_address=None, available=None, is_manageable=None, log=None, managed_status=None, force_update_url=None, description=None, instance_id=None, name=None, out_of_date=None, public_dns_name=None, reservation_id=None, current_state=None, target=None, system_log=None):
+    def __init__(self, id=None, generated_uuid=None, local_uuid=None, activation_date=None, scheduled_event_start_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, available=None, is_manageable=None, log=None, managed_status=None, force_update_url=None, description=None, instance_id=None, name=None, out_of_date=None, public_dns_name=None, reservation_id=None, current_state=None, target=None, system_log=None, networks=None):
         self.id = _cast(None, id)
         self.generated_uuid = generated_uuid
         self.local_uuid = local_uuid
@@ -637,7 +637,6 @@ class system(GeneratedsSuper):
         self.target_type = target_type
         self.target_name = target_name
         self.target_system_id = target_system_id
-        self.ip_address = ip_address
         self.available = available
         self.is_manageable = is_manageable
         self.log = log
@@ -652,6 +651,7 @@ class system(GeneratedsSuper):
         self.current_state = current_state
         self.target = target
         self.system_log = system_log
+        self.networks = networks
     def factory(*args_, **kwargs_):
         if system.subclass:
             return system.subclass(*args_, **kwargs_)
@@ -709,11 +709,6 @@ class system(GeneratedsSuper):
     def validate_target_system_id(self, value):
         # validate type target_system_id
         pass
-    def get_ip_address(self): return self.ip_address
-    def set_ip_address(self, ip_address): self.ip_address = ip_address
-    def validate_ip_address(self, value):
-        # validate type ip_address
-        pass
     def get_available(self): return self.available
     def set_available(self, available): self.available = available
     def get_is_manageable(self): return self.is_manageable
@@ -766,6 +761,8 @@ class system(GeneratedsSuper):
     def set_target(self, target): self.target = target
     def get_system_log(self): return self.system_log
     def set_system_log(self, system_log): self.system_log = system_log
+    def get_networks(self): return self.networks
+    def set_networks(self, networks): self.networks = networks
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
     def export(self, outfile, level, namespace_='inv:', name_='system', namespacedef_=''):
@@ -819,9 +816,6 @@ class system(GeneratedsSuper):
         if self.target_system_id is not None:
             showIndent(outfile, level)
             outfile.write('<%starget_system_id>%s</%starget_system_id>\n' % (namespace_, self.format_string(quote_xml(self.target_system_id).encode(ExternalEncoding), input_name='target_system_id'), namespace_))
-        if self.ip_address is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sip_address>%s</%sip_address>\n' % (namespace_, self.format_string(quote_xml(self.ip_address).encode(ExternalEncoding), input_name='ip_address'), namespace_))
         if self.available is not None:
             showIndent(outfile, level)
             outfile.write('<%savailable>%s</%savailable>\n' % (namespace_, self.format_string(quote_xml(self.available).encode(ExternalEncoding), input_name='available'), namespace_))
@@ -861,6 +855,8 @@ class system(GeneratedsSuper):
             self.target.export(outfile, level, namespace_, name_='target')
         if self.system_log:
             self.system_log.export(outfile, level, namespace_, name_='system_log')
+        if self.networks:
+            self.networks.export(outfile, level, namespace_, name_='networks', )
     def hasContent_(self):
         if (
             self.generated_uuid is not None or
@@ -875,7 +871,6 @@ class system(GeneratedsSuper):
             self.target_type is not None or
             self.target_name is not None or
             self.target_system_id is not None or
-            self.ip_address is not None or
             self.available is not None or
             self.is_manageable is not None or
             self.log is not None or
@@ -889,7 +884,8 @@ class system(GeneratedsSuper):
             self.reservation_id is not None or
             self.current_state is not None or
             self.target is not None or
-            self.system_log is not None
+            self.system_log is not None or
+            self.networks is not None
             ):
             return True
         else:
@@ -940,9 +936,6 @@ class system(GeneratedsSuper):
         if self.target_system_id is not None:
             showIndent(outfile, level)
             outfile.write('target_system_id=%s,\n' % quote_python(self.target_system_id).encode(ExternalEncoding))
-        if self.ip_address is not None:
-            showIndent(outfile, level)
-            outfile.write('ip_address=%s,\n' % quote_python(self.ip_address).encode(ExternalEncoding))
         if self.available is not None:
             showIndent(outfile, level)
             outfile.write('available=%s,\n' % quote_python(self.available).encode(ExternalEncoding))
@@ -992,6 +985,12 @@ class system(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('system_log=model_.system_log_href(\n')
             self.system_log.exportLiteral(outfile, level, name_='system_log')
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.networks is not None:
+            showIndent(outfile, level)
+            outfile.write('networks=model_.networks(\n')
+            self.networks.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
     def build(self, node_):
@@ -1086,13 +1085,6 @@ class system(GeneratedsSuper):
             self.target_system_id = target_system_id_
             self.validate_target_system_id(self.target_system_id)    # validate type target_system_id
         elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'ip_address':
-            ip_address_ = ''
-            for text__content_ in child_.childNodes:
-                ip_address_ += text__content_.nodeValue
-            self.ip_address = ip_address_
-            self.validate_ip_address(self.ip_address)    # validate type ip_address
-        elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'available':
             available_ = ''
             for text__content_ in child_.childNodes:
@@ -1181,7 +1173,276 @@ class system(GeneratedsSuper):
             obj_ = system_log_href.factory()
             obj_.build(child_)
             self.set_system_log(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'networks':
+            obj_ = networks.factory()
+            obj_.build(child_)
+            self.set_networks(obj_)
 # end class system
+
+
+class networks(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('network', 'network', 1),
+        ]
+    subclass = None
+    superclass = None
+    def __init__(self, network=None):
+        if network is None:
+            self.network = []
+        else:
+            self.network = network
+    def factory(*args_, **kwargs_):
+        if networks.subclass:
+            return networks.subclass(*args_, **kwargs_)
+        else:
+            return networks(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_network(self): return self.network
+    def set_network(self, network): self.network = network
+    def add_network(self, value): self.network.append(value)
+    def insert_network(self, index, value): self.network[index] = value
+    def export(self, outfile, level, namespace_='inv:', name_='networks', namespacedef_=''):
+        showIndent(outfile, level)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        self.exportAttributes(outfile, level, namespace_, name_='networks')
+        if self.hasContent_():
+            outfile.write('>\n')
+            self.exportChildren(outfile, level + 1, namespace_, name_)
+            showIndent(outfile, level)
+            outfile.write('</%s%s>\n' % (namespace_, name_))
+        else:
+            outfile.write('/>\n')
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='networks'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='networks'):
+        for network_ in self.network:
+            network_.export(outfile, level, namespace_, name_='network')
+    def hasContent_(self):
+        if (
+            self.network
+            ):
+            return True
+        else:
+            return False
+    def exportLiteral(self, outfile, level, name_='networks'):
+        level += 1
+        self.exportLiteralAttributes(outfile, level, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('network=[\n')
+        level += 1
+        for network_ in self.network:
+            showIndent(outfile, level)
+            outfile.write('model_.network(\n')
+            network_.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        level -= 1
+        showIndent(outfile, level)
+        outfile.write('],\n')
+    def build(self, node_):
+        attrs = node_.attributes
+        self.buildAttributes(attrs)
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildAttributes(self, attrs):
+        pass
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'network':
+            obj_ = network.factory()
+            obj_.build(child_)
+            self.network.append(obj_)
+# end class networks
+
+
+class network(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('ip_address', 'xsd:string', 0),
+        MemberSpec_('ipv6_address', 'xsd:string', 0),
+        MemberSpec_('public_dns_name', 'xsd:string', 0),
+        MemberSpec_('device_name', ['string8092', 'xsd:token'], 0),
+        MemberSpec_('netmask', ['string8092', 'xsd:token'], 0),
+        MemberSpec_('port_type', ['string8092', 'xsd:token'], 0),
+        MemberSpec_('primary', 'xsd:string', 0),
+        ]
+    subclass = None
+    superclass = None
+    def __init__(self, ip_address=None, ipv6_address=None, public_dns_name=None, device_name=None, netmask=None, port_type=None, primary=None):
+        self.ip_address = ip_address
+        self.ipv6_address = ipv6_address
+        self.public_dns_name = public_dns_name
+        self.device_name = device_name
+        self.netmask = netmask
+        self.port_type = port_type
+        self.primary = primary
+    def factory(*args_, **kwargs_):
+        if network.subclass:
+            return network.subclass(*args_, **kwargs_)
+        else:
+            return network(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_ip_address(self): return self.ip_address
+    def set_ip_address(self, ip_address): self.ip_address = ip_address
+    def get_ipv6_address(self): return self.ipv6_address
+    def set_ipv6_address(self, ipv6_address): self.ipv6_address = ipv6_address
+    def get_public_dns_name(self): return self.public_dns_name
+    def set_public_dns_name(self, public_dns_name): self.public_dns_name = public_dns_name
+    def get_device_name(self): return self.device_name
+    def set_device_name(self, device_name): self.device_name = device_name
+    def validate_device_name(self, value):
+        # validate type device_name
+        pass
+    def get_netmask(self): return self.netmask
+    def set_netmask(self, netmask): self.netmask = netmask
+    def validate_netmask(self, value):
+        # validate type netmask
+        pass
+    def get_port_type(self): return self.port_type
+    def set_port_type(self, port_type): self.port_type = port_type
+    def validate_port_type(self, value):
+        # validate type port_type
+        pass
+    def get_primary(self): return self.primary
+    def set_primary(self, primary): self.primary = primary
+    def export(self, outfile, level, namespace_='inv:', name_='network', namespacedef_=''):
+        showIndent(outfile, level)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        self.exportAttributes(outfile, level, namespace_, name_='network')
+        if self.hasContent_():
+            outfile.write('>\n')
+            self.exportChildren(outfile, level + 1, namespace_, name_)
+            showIndent(outfile, level)
+            outfile.write('</%s%s>\n' % (namespace_, name_))
+        else:
+            outfile.write('/>\n')
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='network'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='network'):
+        if self.ip_address is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sip_address>%s</%sip_address>\n' % (namespace_, self.format_string(quote_xml(self.ip_address).encode(ExternalEncoding), input_name='ip_address'), namespace_))
+        if self.ipv6_address is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sipv6_address>%s</%sipv6_address>\n' % (namespace_, self.format_string(quote_xml(self.ipv6_address).encode(ExternalEncoding), input_name='ipv6_address'), namespace_))
+        if self.public_dns_name is not None:
+            showIndent(outfile, level)
+            outfile.write('<%spublic_dns_name>%s</%spublic_dns_name>\n' % (namespace_, self.format_string(quote_xml(self.public_dns_name).encode(ExternalEncoding), input_name='public_dns_name'), namespace_))
+        if self.device_name is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sdevice_name>%s</%sdevice_name>\n' % (namespace_, self.format_string(quote_xml(self.device_name).encode(ExternalEncoding), input_name='device_name'), namespace_))
+        if self.netmask is not None:
+            showIndent(outfile, level)
+            outfile.write('<%snetmask>%s</%snetmask>\n' % (namespace_, self.format_string(quote_xml(self.netmask).encode(ExternalEncoding), input_name='netmask'), namespace_))
+        if self.port_type is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sport_type>%s</%sport_type>\n' % (namespace_, self.format_string(quote_xml(self.port_type).encode(ExternalEncoding), input_name='port_type'), namespace_))
+        if self.primary is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sprimary>%s</%sprimary>\n' % (namespace_, self.format_string(quote_xml(self.primary).encode(ExternalEncoding), input_name='primary'), namespace_))
+    def hasContent_(self):
+        if (
+            self.ip_address is not None or
+            self.ipv6_address is not None or
+            self.public_dns_name is not None or
+            self.device_name is not None or
+            self.netmask is not None or
+            self.port_type is not None or
+            self.primary is not None
+            ):
+            return True
+        else:
+            return False
+    def exportLiteral(self, outfile, level, name_='network'):
+        level += 1
+        self.exportLiteralAttributes(outfile, level, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.ip_address is not None:
+            showIndent(outfile, level)
+            outfile.write('ip_address=%s,\n' % quote_python(self.ip_address).encode(ExternalEncoding))
+        if self.ipv6_address is not None:
+            showIndent(outfile, level)
+            outfile.write('ipv6_address=%s,\n' % quote_python(self.ipv6_address).encode(ExternalEncoding))
+        if self.public_dns_name is not None:
+            showIndent(outfile, level)
+            outfile.write('public_dns_name=%s,\n' % quote_python(self.public_dns_name).encode(ExternalEncoding))
+        if self.device_name is not None:
+            showIndent(outfile, level)
+            outfile.write('device_name=%s,\n' % quote_python(self.device_name).encode(ExternalEncoding))
+        if self.netmask is not None:
+            showIndent(outfile, level)
+            outfile.write('netmask=%s,\n' % quote_python(self.netmask).encode(ExternalEncoding))
+        if self.port_type is not None:
+            showIndent(outfile, level)
+            outfile.write('port_type=%s,\n' % quote_python(self.port_type).encode(ExternalEncoding))
+        if self.primary is not None:
+            showIndent(outfile, level)
+            outfile.write('primary=%s,\n' % quote_python(self.primary).encode(ExternalEncoding))
+    def build(self, node_):
+        attrs = node_.attributes
+        self.buildAttributes(attrs)
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildAttributes(self, attrs):
+        pass
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'ip_address':
+            ip_address_ = ''
+            for text__content_ in child_.childNodes:
+                ip_address_ += text__content_.nodeValue
+            self.ip_address = ip_address_
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'ipv6_address':
+            ipv6_address_ = ''
+            for text__content_ in child_.childNodes:
+                ipv6_address_ += text__content_.nodeValue
+            self.ipv6_address = ipv6_address_
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'public_dns_name':
+            public_dns_name_ = ''
+            for text__content_ in child_.childNodes:
+                public_dns_name_ += text__content_.nodeValue
+            self.public_dns_name = public_dns_name_
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'device_name':
+            device_name_ = ''
+            for text__content_ in child_.childNodes:
+                device_name_ += text__content_.nodeValue
+            self.device_name = device_name_
+            self.validate_device_name(self.device_name)    # validate type device_name
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'netmask':
+            netmask_ = ''
+            for text__content_ in child_.childNodes:
+                netmask_ += text__content_.nodeValue
+            self.netmask = netmask_
+            self.validate_netmask(self.netmask)    # validate type netmask
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'port_type':
+            port_type_ = ''
+            for text__content_ in child_.childNodes:
+                port_type_ += text__content_.nodeValue
+            self.port_type = port_type_
+            self.validate_port_type(self.port_type)    # validate type port_type
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'primary':
+            primary_ = ''
+            for text__content_ in child_.childNodes:
+                primary_ += text__content_.nodeValue
+            self.primary = primary_
+# end class network
 
 
 class system_log_href(GeneratedsSuper):

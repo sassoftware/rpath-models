@@ -18,6 +18,8 @@ from rpath_models import generateds_system_1_0 as generateds_system
 
 Inventory = generateds_system.inventory
 System = generateds_system.system
+Network = generateds_system.network
+Networks = generateds_system.networks
 Systems = generateds_system.systems
 SystemsHref = generateds_system.systems_href
 LogHref = generateds_system.log_href
