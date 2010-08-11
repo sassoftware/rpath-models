@@ -616,14 +616,15 @@ class system(GeneratedsSuper):
         MemberSpec_('out_of_date', 'xsd:string', 0),
         MemberSpec_('public_dns_name', ['string8092', 'xsd:token'], 0),
         MemberSpec_('reservation_id', ['string8092', 'xsd:token'], 0),
-        MemberSpec_('current_state', ['current_state', 'xsd:token'], 0),
+        MemberSpec_('state', 'xsd:string', 0),
+        MemberSpec_('activated', 'xsd:string', 0),
         MemberSpec_('target', 'target', 0),
         MemberSpec_('system_log', 'system_log_href', 0),
         MemberSpec_('networks', 'networks', 0),
         ]
     subclass = None
     superclass = None
-    def __init__(self, id=None, generated_uuid=None, local_uuid=None, activation_date=None, scheduled_event_start_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, available=None, is_manageable=None, log=None, managed_status=None, force_update_url=None, description=None, instance_id=None, name=None, out_of_date=None, public_dns_name=None, reservation_id=None, current_state=None, target=None, system_log=None, networks=None):
+    def __init__(self, id=None, generated_uuid=None, local_uuid=None, activation_date=None, scheduled_event_start_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, available=None, is_manageable=None, log=None, managed_status=None, force_update_url=None, description=None, instance_id=None, name=None, out_of_date=None, public_dns_name=None, reservation_id=None, state=None, activated=None, target=None, system_log=None, networks=None):
         self.id = _cast(None, id)
         self.generated_uuid = generated_uuid
         self.local_uuid = local_uuid
@@ -648,7 +649,8 @@ class system(GeneratedsSuper):
         self.out_of_date = out_of_date
         self.public_dns_name = public_dns_name
         self.reservation_id = reservation_id
-        self.current_state = current_state
+        self.state = state
+        self.activated = activated
         self.target = target
         self.system_log = system_log
         self.networks = networks
@@ -752,11 +754,10 @@ class system(GeneratedsSuper):
     def validate_reservation_id(self, value):
         # validate type reservation_id
         pass
-    def get_current_state(self): return self.current_state
-    def set_current_state(self, current_state): self.current_state = current_state
-    def validate_current_state(self, value):
-        # Validate type current_state, a restriction on xsd:token.
-        pass
+    def get_state(self): return self.state
+    def set_state(self, state): self.state = state
+    def get_activated(self): return self.activated
+    def set_activated(self, activated): self.activated = activated
     def get_target(self): return self.target
     def set_target(self, target): self.target = target
     def get_system_log(self): return self.system_log
@@ -848,9 +849,12 @@ class system(GeneratedsSuper):
         if self.reservation_id is not None:
             showIndent(outfile, level)
             outfile.write('<%sreservation_id>%s</%sreservation_id>\n' % (namespace_, self.format_string(quote_xml(self.reservation_id).encode(ExternalEncoding), input_name='reservation_id'), namespace_))
-        if self.current_state is not None:
+        if self.state is not None:
             showIndent(outfile, level)
-            outfile.write('<%scurrent_state>%s</%scurrent_state>\n' % (namespace_, self.format_string(quote_xml(self.current_state).encode(ExternalEncoding), input_name='current_state'), namespace_))
+            outfile.write('<%sstate>%s</%sstate>\n' % (namespace_, self.format_string(quote_xml(self.state).encode(ExternalEncoding), input_name='state'), namespace_))
+        if self.activated is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sactivated>%s</%sactivated>\n' % (namespace_, self.format_string(quote_xml(self.activated).encode(ExternalEncoding), input_name='activated'), namespace_))
         if self.target:
             self.target.export(outfile, level, namespace_, name_='target')
         if self.system_log:
@@ -882,7 +886,8 @@ class system(GeneratedsSuper):
             self.out_of_date is not None or
             self.public_dns_name is not None or
             self.reservation_id is not None or
-            self.current_state is not None or
+            self.state is not None or
+            self.activated is not None or
             self.target is not None or
             self.system_log is not None or
             self.networks is not None
@@ -972,9 +977,12 @@ class system(GeneratedsSuper):
         if self.reservation_id is not None:
             showIndent(outfile, level)
             outfile.write('reservation_id=%s,\n' % quote_python(self.reservation_id).encode(ExternalEncoding))
-        if self.current_state is not None:
+        if self.state is not None:
             showIndent(outfile, level)
-            outfile.write('current_state=%s,\n' % quote_python(self.current_state).encode(ExternalEncoding))
+            outfile.write('state=%s,\n' % quote_python(self.state).encode(ExternalEncoding))
+        if self.activated is not None:
+            showIndent(outfile, level)
+            outfile.write('activated=%s,\n' % quote_python(self.activated).encode(ExternalEncoding))
         if self.target is not None:
             showIndent(outfile, level)
             outfile.write('target=model_.target(\n')
@@ -1157,12 +1165,17 @@ class system(GeneratedsSuper):
             self.reservation_id = reservation_id_
             self.validate_reservation_id(self.reservation_id)    # validate type reservation_id
         elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'current_state':
-            current_state_ = ''
+            nodeName_ == 'state':
+            state_ = ''
             for text__content_ in child_.childNodes:
-                current_state_ += text__content_.nodeValue
-            self.current_state = current_state_
-            self.validate_current_state(self.current_state)    # validate type current_state
+                state_ += text__content_.nodeValue
+            self.state = state_
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'activated':
+            activated_ = ''
+            for text__content_ in child_.childNodes:
+                activated_ += text__content_.nodeValue
+            self.activated = activated_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'target':
             obj_ = target.factory()
