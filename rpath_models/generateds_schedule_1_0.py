@@ -196,8 +196,8 @@ def _cast(typ, value):
 class schedule_type(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('schedule', 'schedule_subtype', 0),
-        MemberSpec_('enabled', 'xsd:string', 0),
-        MemberSpec_('created', 'xsd:string', 0),
+        MemberSpec_('enabled', 'xsd:boolean', 0),
+        MemberSpec_('created', 'xsd:positiveInteger', 0),
         MemberSpec_('description', 'description_type', 1),
         ]
     subclass = None
@@ -244,10 +244,10 @@ class schedule_type(GeneratedsSuper):
             self.schedule.export(outfile, level, namespace_, name_='schedule', )
         if self.enabled is not None:
             showIndent(outfile, level)
-            outfile.write('<%senabled>%s</%senabled>\n' % (namespace_, self.format_string(quote_xml(self.enabled).encode(ExternalEncoding), input_name='enabled'), namespace_))
+            outfile.write('<%senabled>%s</%senabled>\n' % (namespace_, self.format_boolean(str_lower(str(self.enabled)), input_name='enabled'), namespace_))
         if self.created is not None:
             showIndent(outfile, level)
-            outfile.write('<%screated>%s</%screated>\n' % (namespace_, self.format_string(quote_xml(self.created).encode(ExternalEncoding), input_name='created'), namespace_))
+            outfile.write('<%screated>%s</%screated>\n' % (namespace_, self.format_integer(self.created, input_name='created'), namespace_))
         for description_ in self.description:
             description_.export(outfile, level, namespace_, name_='description')
     def hasContent_(self):
@@ -276,10 +276,10 @@ class schedule_type(GeneratedsSuper):
             outfile.write('),\n')
         if self.enabled is not None:
             showIndent(outfile, level)
-            outfile.write('enabled=%s,\n' % quote_python(self.enabled).encode(ExternalEncoding))
+            outfile.write('enabled=%s,\n' % self.enabled)
         if self.created is not None:
             showIndent(outfile, level)
-            outfile.write('created=%s,\n' % quote_python(self.created).encode(ExternalEncoding))
+            outfile.write('created=%d,\n' % self.created)
         showIndent(outfile, level)
         outfile.write('description=[\n')
         level += 1
@@ -308,16 +308,26 @@ class schedule_type(GeneratedsSuper):
             self.set_schedule(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'enabled':
-            enabled_ = ''
-            for text__content_ in child_.childNodes:
-                enabled_ += text__content_.nodeValue
-            self.enabled = enabled_
+            if child_.firstChild:
+                sval_ = child_.firstChild.nodeValue
+                if sval_ in ('true', '1'):
+                    ival_ = True
+                elif sval_ in ('false', '0'):
+                    ival_ = False
+                else:
+                    raise ValueError('requires boolean -- %s' % child_.toxml())
+                self.enabled = ival_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'created':
-            created_ = ''
-            for text__content_ in child_.childNodes:
-                created_ += text__content_.nodeValue
-            self.created = created_
+            if child_.firstChild:
+                sval_ = child_.firstChild.nodeValue
+                try:
+                    ival_ = int(sval_)
+                except ValueError, exp:
+                    raise ValueError('requires integer (created): %s' % exp)
+                if ival_ <= 0:
+                    raise ValueError('requires positiveInteger -- %s' % child_.toxml())
+                self.created = ival_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'description':
             obj_ = description_type.factory()
