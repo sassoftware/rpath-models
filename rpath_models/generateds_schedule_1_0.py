@@ -5,6 +5,8 @@
 #
 
 import sys
+import getopt
+from string import lower as str_lower
 from xml.dom import minidom
 from xml.dom import Node
 
@@ -19,7 +21,7 @@ try:
     from generatedssuper import GeneratedsSuper
 except ImportError, exp:
 
-    class GeneratedsSuper(object):  # pyflakes=ignore
+    class GeneratedsSuper(object):
         def format_string(self, input_data, input_name=''):
             return input_data
         def format_integer(self, input_data, input_name=''):
