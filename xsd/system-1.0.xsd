@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.rpath.com/permanent/inventory/system-1.0.xsd"
+        elementFormDefault="qualified"
+        attributeFormDefault="unqualified"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:inv="http://www.rpath.com/permanent/inventory/system-1.0.xsd"
+        xmlns="http://www.rpath.com/permanent/inventory/system-1.0.xsd">
+
+    <!-- top-level elements -->
+    <xsd:element name="inventory" type="inv:inventory" />
+    <xsd:element name="systems" type="inv:systems" />
+    <xsd:element name="system" type="inv:system" />
+
+    <xsd:complexType name="inventory">
+      <xsd:sequence>
+        <xsd:element name="systems" type="inv:systems_href"
+          minOccurs="1" maxOccurs="1"/>
+        <xsd:element name="log" type="inv:log_href"
+          minOccurs="1" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="systems_href">
+      <xsd:attribute name="href" type="inv:string8092"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="log_href">
+      <xsd:attribute name="href" type="inv:string8092"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="systems">
+      <xsd:sequence>
+        <xsd:element name="system" type="inv:system"
+            minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="log" type="inv:log" />
+
+    <xsd:complexType name="log">
+      <!-- incomplete -->
+    </xsd:complexType>
+
+    <xsd:complexType name="system">
+      <xsd:all>
+        <xsd:element name="generated_uuid" type="inv:string64"
+            minOccurs="1" maxOccurs="1" />
+        <xsd:element name="local_uuid" type="inv:string64"
+            minOccurs="1" maxOccurs="1" />
+        <xsd:element name="activation_date" type="xsd:dateTime"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="scheduled_event_start_date" type="xsd:dateTime"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="launch_date" type="xsd:positiveInteger"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="ssl_client_certificate" type="inv:string8092"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="ssl_client_key" type="inv:string8092"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="ssl_server_certificate" type="inv:string8092"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="launching_user" type="inv:string8092"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="target_type" type="inv:string8092"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="target_name" type="inv:string8092"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="target_system_id" type="inv:string8092"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="available" type="xsd:boolean"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="is_manageable" type="xsd:boolean"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="log" type="inv:log_href"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="managed_status" type="inv:managed_status"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="force_update_url" type="inv:string8092"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="description" type="inv:string8092"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="instance_id" type="inv:string8092"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="name" type="inv:string8092"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="out_of_date" type="xsd:boolean"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="public_dns_name" type="inv:string8092"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="reservation_id" type="inv:string8092"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="state" type="inv:current_state"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="activated" type="xsd:boolean"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="target" type="inv:target"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="system_log" type="inv:system_log_href"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="agent_port" type="xsd:positiveInteger"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="networks" type="inv:networks"
+            minOccurs="1" maxOccurs="1" />
+      </xsd:all>
+      <xsd:attribute name="id" type="inv:string8092"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="networks">
+      <xsd:sequence>
+        <xsd:element name="network" type="inv:network"
+          minOccurs="1" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="network">
+      <xsd:sequence>
+        <xsd:element name="ip_address" type="inv:string15"
+          minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="ipv6_address" type="inv:string255"
+          minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="public_dns_name" type="inv:string255"
+          minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="device_name" type="inv:string8092"
+          minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="netmask" type="inv:string8092"
+          minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="port_type" type="inv:string8092"
+          minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="primary" type="xsd:boolean"
+          minOccurs="0" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="system_log_href">
+      <xsd:attribute name="href" type="inv:string8092"/>
+    </xsd:complexType>
+
+    <xsd:simpleType name="managed_status">
+      <xsd:restriction base="xsd:token">
+        <xsd:enumeration value="activated"/>
+        <xsd:enumeration value="unmanaged"/>
+        <xsd:enumeration value="unreachable"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="current_state">
+      <xsd:restriction base="xsd:token">
+        <xsd:enumeration value="running"/>
+        <xsd:enumeration value="terminated"/>
+        <xsd:enumeration value="shutdown"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="target">
+      <xsd:sequence>
+        <xsd:element name="cloudAlias" type="inv:string8092"
+          minOccurs="1" maxOccurs="1" />
+        <xsd:element name="cloudName" type="inv:string8092"
+          minOccurs="1" maxOccurs="1" />
+        <xsd:element name="type" type="inv:type"
+          minOccurs="1" maxOccurs="1" />
+      </xsd:sequence>
+      <xsd:attribute name="id" type="inv:string8092"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="type">
+      <xsd:attribute name="href" type="inv:string8092"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="system_log_entry">
+      <xsd:sequence>
+        <xsd:element name="entry" type="inv:string8092"
+          minOccurs="1" maxOccurs="1"/>
+        <xsd:element name="entry_date" type="xsd:positiveInteger"
+          minOccurs="1" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="system_log" type="system_log"/>
+
+    <xsd:complexType name="system_log">
+      <xsd:sequence>
+        <xsd:element name="system_log_entry" type="system_log_entry"
+          minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="systemInformation" type="inv:systemInformationType"/>
+
+    <xsd:complexType name="systemInformationType">
+      <xsd:sequence>
+        <xsd:element name="systemName" type="inv:string64"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="memory" type="xsd:positiveInteger"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="osType" type="inv:string64"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="osMajorVersion" type="inv:string64"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="osMinorVersion" type="inv:string32"
+            minOccurs="0" maxOccurs="1" />
+        <xsd:element name="systemType" type="inv:string32"
+            minOccurs="0" maxOccurs="1" />
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:simpleType name="string15">
+        <xsd:restriction base="xsd:token">
+            <xsd:maxLength value="15" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string32">
+        <xsd:restriction base="xsd:token">
+            <xsd:maxLength value="32" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string64">
+        <xsd:restriction base="xsd:token">
+            <xsd:maxLength value="64" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string255">
+        <xsd:restriction base="xsd:token">
+            <xsd:maxLength value="255" />
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="string8092">
+        <xsd:restriction base="xsd:token">
+            <xsd:maxLength value="8092" />
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>
