@@ -1330,7 +1330,7 @@ class network(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('ip_address', ['string15', 'xsd:token'], 0),
         MemberSpec_('ipv6_address', ['string255', 'xsd:token'], 0),
-        MemberSpec_('public_dns_name', ['string255', 'xsd:token'], 0),
+        MemberSpec_('dns_name', ['string255', 'xsd:token'], 0),
         MemberSpec_('device_name', ['string8092', 'xsd:token'], 0),
         MemberSpec_('netmask', ['string8092', 'xsd:token'], 0),
         MemberSpec_('port_type', ['string8092', 'xsd:token'], 0),
@@ -1339,10 +1339,10 @@ class network(GeneratedsSuper):
         ]
     subclass = None
     superclass = None
-    def __init__(self, ip_address=None, ipv6_address=None, public_dns_name=None, device_name=None, netmask=None, port_type=None, active=None, requred=None):
+    def __init__(self, ip_address=None, ipv6_address=None, dns_name=None, device_name=None, netmask=None, port_type=None, active=None, requred=None):
         self.ip_address = ip_address
         self.ipv6_address = ipv6_address
-        self.public_dns_name = public_dns_name
+        self.dns_name = dns_name
         self.device_name = device_name
         self.netmask = netmask
         self.port_type = port_type
@@ -1364,10 +1364,10 @@ class network(GeneratedsSuper):
     def validate_ipv6_address(self, value):
         # validate type ipv6_address
         pass
-    def get_public_dns_name(self): return self.public_dns_name
-    def set_public_dns_name(self, public_dns_name): self.public_dns_name = public_dns_name
-    def validate_public_dns_name(self, value):
-        # validate type public_dns_name
+    def get_dns_name(self): return self.dns_name
+    def set_dns_name(self, dns_name): self.dns_name = dns_name
+    def validate_dns_name(self, value):
+        # validate type dns_name
         pass
     def get_device_name(self): return self.device_name
     def set_device_name(self, device_name): self.device_name = device_name
@@ -1408,9 +1408,9 @@ class network(GeneratedsSuper):
         if self.ipv6_address is not None:
             showIndent(outfile, level)
             outfile.write('<%sipv6_address>%s</%sipv6_address>\n' % (namespace_, self.format_string(quote_xml(self.ipv6_address).encode(ExternalEncoding), input_name='ipv6_address'), namespace_))
-        if self.public_dns_name is not None:
+        if self.dns_name is not None:
             showIndent(outfile, level)
-            outfile.write('<%spublic_dns_name>%s</%spublic_dns_name>\n' % (namespace_, self.format_string(quote_xml(self.public_dns_name).encode(ExternalEncoding), input_name='public_dns_name'), namespace_))
+            outfile.write('<%sdns_name>%s</%sdns_name>\n' % (namespace_, self.format_string(quote_xml(self.dns_name).encode(ExternalEncoding), input_name='dns_name'), namespace_))
         if self.device_name is not None:
             showIndent(outfile, level)
             outfile.write('<%sdevice_name>%s</%sdevice_name>\n' % (namespace_, self.format_string(quote_xml(self.device_name).encode(ExternalEncoding), input_name='device_name'), namespace_))
@@ -1430,7 +1430,7 @@ class network(GeneratedsSuper):
         if (
             self.ip_address is not None or
             self.ipv6_address is not None or
-            self.public_dns_name is not None or
+            self.dns_name is not None or
             self.device_name is not None or
             self.netmask is not None or
             self.port_type is not None or
@@ -1454,9 +1454,9 @@ class network(GeneratedsSuper):
         if self.ipv6_address is not None:
             showIndent(outfile, level)
             outfile.write('ipv6_address=%s,\n' % quote_python(self.ipv6_address).encode(ExternalEncoding))
-        if self.public_dns_name is not None:
+        if self.dns_name is not None:
             showIndent(outfile, level)
-            outfile.write('public_dns_name=%s,\n' % quote_python(self.public_dns_name).encode(ExternalEncoding))
+            outfile.write('dns_name=%s,\n' % quote_python(self.dns_name).encode(ExternalEncoding))
         if self.device_name is not None:
             showIndent(outfile, level)
             outfile.write('device_name=%s,\n' % quote_python(self.device_name).encode(ExternalEncoding))
@@ -1496,12 +1496,12 @@ class network(GeneratedsSuper):
             self.ipv6_address = ipv6_address_
             self.validate_ipv6_address(self.ipv6_address)    # validate type ipv6_address
         elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'public_dns_name':
-            public_dns_name_ = ''
+            nodeName_ == 'dns_name':
+            dns_name_ = ''
             for text__content_ in child_.childNodes:
-                public_dns_name_ += text__content_.nodeValue
-            self.public_dns_name = public_dns_name_
-            self.validate_public_dns_name(self.public_dns_name)    # validate type public_dns_name
+                dns_name_ += text__content_.nodeValue
+            self.dns_name = dns_name_
+            self.validate_dns_name(self.dns_name)    # validate type dns_name
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'device_name':
             device_name_ = ''

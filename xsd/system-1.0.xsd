@@ -118,7 +118,7 @@
           minOccurs="0" maxOccurs="1"/>
         <xsd:element name="ipv6_address" type="inv:string255"
           minOccurs="0" maxOccurs="1"/>
-        <xsd:element name="public_dns_name" type="inv:string255"
+        <xsd:element name="dns_name" type="inv:string255"
           minOccurs="0" maxOccurs="1"/>
         <xsd:element name="device_name" type="inv:string8092"
           minOccurs="0" maxOccurs="1"/>
