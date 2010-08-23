@@ -126,7 +126,9 @@
           minOccurs="0" maxOccurs="1"/>
         <xsd:element name="port_type" type="inv:string8092"
           minOccurs="0" maxOccurs="1"/>
-        <xsd:element name="primary" type="xsd:boolean"
+        <xsd:element name="active" type="xsd:boolean"
+          minOccurs="0" maxOccurs="1"/>
+        <xsd:element name="requred" type="xsd:boolean"
           minOccurs="0" maxOccurs="1"/>
       </xsd:sequence>
     </xsd:complexType>

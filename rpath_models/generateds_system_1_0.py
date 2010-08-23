@@ -1334,18 +1334,20 @@ class network(GeneratedsSuper):
         MemberSpec_('device_name', ['string8092', 'xsd:token'], 0),
         MemberSpec_('netmask', ['string8092', 'xsd:token'], 0),
         MemberSpec_('port_type', ['string8092', 'xsd:token'], 0),
-        MemberSpec_('primary', 'xsd:boolean', 0),
+        MemberSpec_('active', 'xsd:boolean', 0),
+        MemberSpec_('requred', 'xsd:boolean', 0),
         ]
     subclass = None
     superclass = None
-    def __init__(self, ip_address=None, ipv6_address=None, public_dns_name=None, device_name=None, netmask=None, port_type=None, primary=None):
+    def __init__(self, ip_address=None, ipv6_address=None, public_dns_name=None, device_name=None, netmask=None, port_type=None, active=None, requred=None):
         self.ip_address = ip_address
         self.ipv6_address = ipv6_address
         self.public_dns_name = public_dns_name
         self.device_name = device_name
         self.netmask = netmask
         self.port_type = port_type
-        self.primary = primary
+        self.active = active
+        self.requred = requred
     def factory(*args_, **kwargs_):
         if network.subclass:
             return network.subclass(*args_, **kwargs_)
@@ -1382,8 +1384,10 @@ class network(GeneratedsSuper):
     def validate_port_type(self, value):
         # validate type port_type
         pass
-    def get_primary(self): return self.primary
-    def set_primary(self, primary): self.primary = primary
+    def get_active(self): return self.active
+    def set_active(self, active): self.active = active
+    def get_requred(self): return self.requred
+    def set_requred(self, requred): self.requred = requred
     def export(self, outfile, level, namespace_='inv:', name_='network', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
@@ -1416,9 +1420,12 @@ class network(GeneratedsSuper):
         if self.port_type is not None:
             showIndent(outfile, level)
             outfile.write('<%sport_type>%s</%sport_type>\n' % (namespace_, self.format_string(quote_xml(self.port_type).encode(ExternalEncoding), input_name='port_type'), namespace_))
-        if self.primary is not None:
+        if self.active is not None:
             showIndent(outfile, level)
-            outfile.write('<%sprimary>%s</%sprimary>\n' % (namespace_, self.format_boolean(str_lower(str(self.primary)), input_name='primary'), namespace_))
+            outfile.write('<%sactive>%s</%sactive>\n' % (namespace_, self.format_boolean(str_lower(str(self.active)), input_name='active'), namespace_))
+        if self.requred is not None:
+            showIndent(outfile, level)
+            outfile.write('<%srequred>%s</%srequred>\n' % (namespace_, self.format_boolean(str_lower(str(self.requred)), input_name='requred'), namespace_))
     def hasContent_(self):
         if (
             self.ip_address is not None or
@@ -1427,7 +1434,8 @@ class network(GeneratedsSuper):
             self.device_name is not None or
             self.netmask is not None or
             self.port_type is not None or
-            self.primary is not None
+            self.active is not None or
+            self.requred is not None
             ):
             return True
         else:
@@ -1458,9 +1466,12 @@ class network(GeneratedsSuper):
         if self.port_type is not None:
             showIndent(outfile, level)
             outfile.write('port_type=%s,\n' % quote_python(self.port_type).encode(ExternalEncoding))
-        if self.primary is not None:
+        if self.active is not None:
             showIndent(outfile, level)
-            outfile.write('primary=%s,\n' % self.primary)
+            outfile.write('active=%s,\n' % self.active)
+        if self.requred is not None:
+            showIndent(outfile, level)
+            outfile.write('requred=%s,\n' % self.requred)
     def build(self, node_):
         attrs = node_.attributes
         self.buildAttributes(attrs)
@@ -1513,7 +1524,7 @@ class network(GeneratedsSuper):
             self.port_type = port_type_
             self.validate_port_type(self.port_type)    # validate type port_type
         elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'primary':
+            nodeName_ == 'active':
             if child_.firstChild:
                 sval_ = child_.firstChild.nodeValue
                 if sval_ in ('true', '1'):
@@ -1522,7 +1533,18 @@ class network(GeneratedsSuper):
                     ival_ = False
                 else:
                     raise ValueError('requires boolean -- %s' % child_.toxml())
-                self.primary = ival_
+                self.active = ival_
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'requred':
+            if child_.firstChild:
+                sval_ = child_.firstChild.nodeValue
+                if sval_ in ('true', '1'):
+                    ival_ = True
+                elif sval_ in ('false', '0'):
+                    ival_ = False
+                else:
+                    raise ValueError('requires boolean -- %s' % child_.toxml())
+                self.requred = ival_
 # end class network
 
 
