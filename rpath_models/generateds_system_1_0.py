@@ -1335,11 +1335,11 @@ class network(GeneratedsSuper):
         MemberSpec_('netmask', ['string8092', 'xsd:token'], 0),
         MemberSpec_('port_type', ['string8092', 'xsd:token'], 0),
         MemberSpec_('active', 'xsd:boolean', 0),
-        MemberSpec_('requred', 'xsd:boolean', 0),
+        MemberSpec_('required', 'xsd:boolean', 0),
         ]
     subclass = None
     superclass = None
-    def __init__(self, ip_address=None, ipv6_address=None, dns_name=None, device_name=None, netmask=None, port_type=None, active=None, requred=None):
+    def __init__(self, ip_address=None, ipv6_address=None, dns_name=None, device_name=None, netmask=None, port_type=None, active=None, required=None):
         self.ip_address = ip_address
         self.ipv6_address = ipv6_address
         self.dns_name = dns_name
@@ -1347,7 +1347,7 @@ class network(GeneratedsSuper):
         self.netmask = netmask
         self.port_type = port_type
         self.active = active
-        self.requred = requred
+        self.required = required
     def factory(*args_, **kwargs_):
         if network.subclass:
             return network.subclass(*args_, **kwargs_)
@@ -1386,8 +1386,8 @@ class network(GeneratedsSuper):
         pass
     def get_active(self): return self.active
     def set_active(self, active): self.active = active
-    def get_requred(self): return self.requred
-    def set_requred(self, requred): self.requred = requred
+    def get_required(self): return self.required
+    def set_required(self, required): self.required = required
     def export(self, outfile, level, namespace_='inv:', name_='network', namespacedef_=''):
         showIndent(outfile, level)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
@@ -1423,9 +1423,9 @@ class network(GeneratedsSuper):
         if self.active is not None:
             showIndent(outfile, level)
             outfile.write('<%sactive>%s</%sactive>\n' % (namespace_, self.format_boolean(str_lower(str(self.active)), input_name='active'), namespace_))
-        if self.requred is not None:
+        if self.required is not None:
             showIndent(outfile, level)
-            outfile.write('<%srequred>%s</%srequred>\n' % (namespace_, self.format_boolean(str_lower(str(self.requred)), input_name='requred'), namespace_))
+            outfile.write('<%srequired>%s</%srequired>\n' % (namespace_, self.format_boolean(str_lower(str(self.required)), input_name='required'), namespace_))
     def hasContent_(self):
         if (
             self.ip_address is not None or
@@ -1435,7 +1435,7 @@ class network(GeneratedsSuper):
             self.netmask is not None or
             self.port_type is not None or
             self.active is not None or
-            self.requred is not None
+            self.required is not None
             ):
             return True
         else:
@@ -1469,9 +1469,9 @@ class network(GeneratedsSuper):
         if self.active is not None:
             showIndent(outfile, level)
             outfile.write('active=%s,\n' % self.active)
-        if self.requred is not None:
+        if self.required is not None:
             showIndent(outfile, level)
-            outfile.write('requred=%s,\n' % self.requred)
+            outfile.write('required=%s,\n' % self.required)
     def build(self, node_):
         attrs = node_.attributes
         self.buildAttributes(attrs)
@@ -1535,7 +1535,7 @@ class network(GeneratedsSuper):
                     raise ValueError('requires boolean -- %s' % child_.toxml())
                 self.active = ival_
         elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'requred':
+            nodeName_ == 'required':
             if child_.firstChild:
                 sval_ = child_.firstChild.nodeValue
                 if sval_ in ('true', '1'):
@@ -1544,7 +1544,7 @@ class network(GeneratedsSuper):
                     ival_ = False
                 else:
                     raise ValueError('requires boolean -- %s' % child_.toxml())
-                self.requred = ival_
+                self.required = ival_
 # end class network
 
 

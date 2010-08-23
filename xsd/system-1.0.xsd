@@ -128,7 +128,7 @@
           minOccurs="0" maxOccurs="1"/>
         <xsd:element name="active" type="xsd:boolean"
           minOccurs="0" maxOccurs="1"/>
-        <xsd:element name="requred" type="xsd:boolean"
+        <xsd:element name="required" type="xsd:boolean"
           minOccurs="0" maxOccurs="1"/>
       </xsd:sequence>
     </xsd:complexType>
