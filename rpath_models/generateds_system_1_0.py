@@ -595,9 +595,9 @@ class system(GeneratedsSuper):
         MemberSpec_('id', 'inv:string8092', 0),
         MemberSpec_('generated_uuid', ['string64', 'xsd:token'], 0),
         MemberSpec_('local_uuid', ['string64', 'xsd:token'], 0),
-        MemberSpec_('activation_date', 'xsd:dateTime', 0),
-        MemberSpec_('scheduled_event_start_date', 'xsd:dateTime', 0),
-        MemberSpec_('launch_date', 'xsd:positiveInteger', 0),
+        MemberSpec_('registration_date', 'xsd:string', 0),
+        MemberSpec_('scheduled_event_start_date', 'xsd:string', 0),
+        MemberSpec_('launch_date', 'xsd:string', 0),
         MemberSpec_('ssl_client_certificate', ['string8092', 'xsd:token'], 0),
         MemberSpec_('ssl_client_key', ['string8092', 'xsd:token'], 0),
         MemberSpec_('ssl_server_certificate', ['string8092', 'xsd:token'], 0),
@@ -605,31 +605,31 @@ class system(GeneratedsSuper):
         MemberSpec_('target_type', ['string8092', 'xsd:token'], 0),
         MemberSpec_('target_name', ['string8092', 'xsd:token'], 0),
         MemberSpec_('target_system_id', ['string8092', 'xsd:token'], 0),
-        MemberSpec_('available', 'xsd:boolean', 0),
-        MemberSpec_('is_manageable', 'xsd:boolean', 0),
+        MemberSpec_('available', 'xsd:string', 0),
+        MemberSpec_('is_manageable', 'xsd:string', 0),
         MemberSpec_('log', 'log_href', 0),
         MemberSpec_('managed_status', ['managed_status', 'xsd:token'], 0),
         MemberSpec_('force_update_url', ['string8092', 'xsd:token'], 0),
         MemberSpec_('description', ['string8092', 'xsd:token'], 0),
         MemberSpec_('instance_id', ['string8092', 'xsd:token'], 0),
         MemberSpec_('name', ['string8092', 'xsd:token'], 0),
-        MemberSpec_('out_of_date', 'xsd:boolean', 0),
+        MemberSpec_('out_of_date', 'xsd:string', 0),
         MemberSpec_('public_dns_name', ['string8092', 'xsd:token'], 0),
         MemberSpec_('reservation_id', ['string8092', 'xsd:token'], 0),
         MemberSpec_('state', ['current_state', 'xsd:token'], 0),
-        MemberSpec_('activated', 'xsd:boolean', 0),
+        MemberSpec_('registered', 'xsd:string', 0),
         MemberSpec_('target', 'target', 0),
         MemberSpec_('system_log', 'system_log_href', 0),
-        MemberSpec_('agent_port', 'xsd:positiveInteger', 0),
+        MemberSpec_('agent_port', 'xsd:string', 0),
         MemberSpec_('networks', 'networks', 0),
         ]
     subclass = None
     superclass = None
-    def __init__(self, id=None, generated_uuid=None, local_uuid=None, activation_date=None, scheduled_event_start_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, available=None, is_manageable=None, log=None, managed_status=None, force_update_url=None, description=None, instance_id=None, name=None, out_of_date=None, public_dns_name=None, reservation_id=None, state=None, activated=None, target=None, system_log=None, agent_port=None, networks=None):
+    def __init__(self, id=None, generated_uuid=None, local_uuid=None, registration_date=None, scheduled_event_start_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, available=None, is_manageable=None, log=None, managed_status=None, force_update_url=None, description=None, instance_id=None, name=None, out_of_date=None, public_dns_name=None, reservation_id=None, state=None, registered=None, target=None, system_log=None, agent_port=None, networks=None):
         self.id = _cast(None, id)
         self.generated_uuid = generated_uuid
         self.local_uuid = local_uuid
-        self.activation_date = activation_date
+        self.registration_date = registration_date
         self.scheduled_event_start_date = scheduled_event_start_date
         self.launch_date = launch_date
         self.ssl_client_certificate = ssl_client_certificate
@@ -651,7 +651,7 @@ class system(GeneratedsSuper):
         self.public_dns_name = public_dns_name
         self.reservation_id = reservation_id
         self.state = state
-        self.activated = activated
+        self.registered = registered
         self.target = target
         self.system_log = system_log
         self.agent_port = agent_port
@@ -672,8 +672,8 @@ class system(GeneratedsSuper):
     def validate_local_uuid(self, value):
         # validate type local_uuid
         pass
-    def get_activation_date(self): return self.activation_date
-    def set_activation_date(self, activation_date): self.activation_date = activation_date
+    def get_registration_date(self): return self.registration_date
+    def set_registration_date(self, registration_date): self.registration_date = registration_date
     def get_scheduled_event_start_date(self): return self.scheduled_event_start_date
     def set_scheduled_event_start_date(self, scheduled_event_start_date): self.scheduled_event_start_date = scheduled_event_start_date
     def get_launch_date(self): return self.launch_date
@@ -761,8 +761,8 @@ class system(GeneratedsSuper):
     def validate_state(self, value):
         # validate type state
         pass
-    def get_activated(self): return self.activated
-    def set_activated(self, activated): self.activated = activated
+    def get_registered(self): return self.registered
+    def set_registered(self, registered): self.registered = registered
     def get_target(self): return self.target
     def set_target(self, target): self.target = target
     def get_system_log(self): return self.system_log
@@ -794,15 +794,15 @@ class system(GeneratedsSuper):
         if self.local_uuid is not None:
             showIndent(outfile, level)
             outfile.write('<%slocal_uuid>%s</%slocal_uuid>\n' % (namespace_, self.format_string(quote_xml(self.local_uuid).encode(ExternalEncoding), input_name='local_uuid'), namespace_))
-        if self.activation_date is not None:
+        if self.registration_date is not None:
             showIndent(outfile, level)
-            outfile.write('<%sactivation_date>%s</%sactivation_date>\n' % (namespace_, self.format_string(quote_xml(self.activation_date).encode(ExternalEncoding), input_name='activation_date'), namespace_))
+            outfile.write('<%sregistration_date>%s</%sregistration_date>\n' % (namespace_, self.format_string(quote_xml(self.registration_date).encode(ExternalEncoding), input_name='registration_date'), namespace_))
         if self.scheduled_event_start_date is not None:
             showIndent(outfile, level)
             outfile.write('<%sscheduled_event_start_date>%s</%sscheduled_event_start_date>\n' % (namespace_, self.format_string(quote_xml(self.scheduled_event_start_date).encode(ExternalEncoding), input_name='scheduled_event_start_date'), namespace_))
         if self.launch_date is not None:
             showIndent(outfile, level)
-            outfile.write('<%slaunch_date>%s</%slaunch_date>\n' % (namespace_, self.format_integer(self.launch_date, input_name='launch_date'), namespace_))
+            outfile.write('<%slaunch_date>%s</%slaunch_date>\n' % (namespace_, self.format_string(quote_xml(self.launch_date).encode(ExternalEncoding), input_name='launch_date'), namespace_))
         if self.ssl_client_certificate is not None:
             showIndent(outfile, level)
             outfile.write('<%sssl_client_certificate>%s</%sssl_client_certificate>\n' % (namespace_, self.format_string(quote_xml(self.ssl_client_certificate).encode(ExternalEncoding), input_name='ssl_client_certificate'), namespace_))
@@ -826,10 +826,10 @@ class system(GeneratedsSuper):
             outfile.write('<%starget_system_id>%s</%starget_system_id>\n' % (namespace_, self.format_string(quote_xml(self.target_system_id).encode(ExternalEncoding), input_name='target_system_id'), namespace_))
         if self.available is not None:
             showIndent(outfile, level)
-            outfile.write('<%savailable>%s</%savailable>\n' % (namespace_, self.format_boolean(str_lower(str(self.available)), input_name='available'), namespace_))
+            outfile.write('<%savailable>%s</%savailable>\n' % (namespace_, self.format_string(quote_xml(self.available).encode(ExternalEncoding), input_name='available'), namespace_))
         if self.is_manageable is not None:
             showIndent(outfile, level)
-            outfile.write('<%sis_manageable>%s</%sis_manageable>\n' % (namespace_, self.format_boolean(str_lower(str(self.is_manageable)), input_name='is_manageable'), namespace_))
+            outfile.write('<%sis_manageable>%s</%sis_manageable>\n' % (namespace_, self.format_string(quote_xml(self.is_manageable).encode(ExternalEncoding), input_name='is_manageable'), namespace_))
         if self.log:
             self.log.export(outfile, level, namespace_, name_='log')
         if self.managed_status is not None:
@@ -849,7 +849,7 @@ class system(GeneratedsSuper):
             outfile.write('<%sname>%s</%sname>\n' % (namespace_, self.format_string(quote_xml(self.name).encode(ExternalEncoding), input_name='name'), namespace_))
         if self.out_of_date is not None:
             showIndent(outfile, level)
-            outfile.write('<%sout_of_date>%s</%sout_of_date>\n' % (namespace_, self.format_boolean(str_lower(str(self.out_of_date)), input_name='out_of_date'), namespace_))
+            outfile.write('<%sout_of_date>%s</%sout_of_date>\n' % (namespace_, self.format_string(quote_xml(self.out_of_date).encode(ExternalEncoding), input_name='out_of_date'), namespace_))
         if self.public_dns_name is not None:
             showIndent(outfile, level)
             outfile.write('<%spublic_dns_name>%s</%spublic_dns_name>\n' % (namespace_, self.format_string(quote_xml(self.public_dns_name).encode(ExternalEncoding), input_name='public_dns_name'), namespace_))
@@ -859,23 +859,23 @@ class system(GeneratedsSuper):
         if self.state is not None:
             showIndent(outfile, level)
             outfile.write('<%sstate>%s</%sstate>\n' % (namespace_, self.format_string(quote_xml(self.state).encode(ExternalEncoding), input_name='state'), namespace_))
-        if self.activated is not None:
+        if self.registered is not None:
             showIndent(outfile, level)
-            outfile.write('<%sactivated>%s</%sactivated>\n' % (namespace_, self.format_boolean(str_lower(str(self.activated)), input_name='activated'), namespace_))
+            outfile.write('<%sregistered>%s</%sregistered>\n' % (namespace_, self.format_string(quote_xml(self.registered).encode(ExternalEncoding), input_name='registered'), namespace_))
         if self.target:
             self.target.export(outfile, level, namespace_, name_='target')
         if self.system_log:
             self.system_log.export(outfile, level, namespace_, name_='system_log')
         if self.agent_port is not None:
             showIndent(outfile, level)
-            outfile.write('<%sagent_port>%s</%sagent_port>\n' % (namespace_, self.format_integer(self.agent_port, input_name='agent_port'), namespace_))
+            outfile.write('<%sagent_port>%s</%sagent_port>\n' % (namespace_, self.format_string(quote_xml(self.agent_port).encode(ExternalEncoding), input_name='agent_port'), namespace_))
         if self.networks:
             self.networks.export(outfile, level, namespace_, name_='networks', )
     def hasContent_(self):
         if (
             self.generated_uuid is not None or
             self.local_uuid is not None or
-            self.activation_date is not None or
+            self.registration_date is not None or
             self.scheduled_event_start_date is not None or
             self.launch_date is not None or
             self.ssl_client_certificate is not None or
@@ -897,7 +897,7 @@ class system(GeneratedsSuper):
             self.public_dns_name is not None or
             self.reservation_id is not None or
             self.state is not None or
-            self.activated is not None or
+            self.registered is not None or
             self.target is not None or
             self.system_log is not None or
             self.agent_port is not None or
@@ -922,15 +922,15 @@ class system(GeneratedsSuper):
         if self.local_uuid is not None:
             showIndent(outfile, level)
             outfile.write('local_uuid=%s,\n' % quote_python(self.local_uuid).encode(ExternalEncoding))
-        if self.activation_date is not None:
+        if self.registration_date is not None:
             showIndent(outfile, level)
-            outfile.write('activation_date=%s,\n' % quote_python(self.activation_date).encode(ExternalEncoding))
+            outfile.write('registration_date=%s,\n' % quote_python(self.registration_date).encode(ExternalEncoding))
         if self.scheduled_event_start_date is not None:
             showIndent(outfile, level)
             outfile.write('scheduled_event_start_date=%s,\n' % quote_python(self.scheduled_event_start_date).encode(ExternalEncoding))
         if self.launch_date is not None:
             showIndent(outfile, level)
-            outfile.write('launch_date=%d,\n' % self.launch_date)
+            outfile.write('launch_date=%s,\n' % quote_python(self.launch_date).encode(ExternalEncoding))
         if self.ssl_client_certificate is not None:
             showIndent(outfile, level)
             outfile.write('ssl_client_certificate=%s,\n' % quote_python(self.ssl_client_certificate).encode(ExternalEncoding))
@@ -954,10 +954,10 @@ class system(GeneratedsSuper):
             outfile.write('target_system_id=%s,\n' % quote_python(self.target_system_id).encode(ExternalEncoding))
         if self.available is not None:
             showIndent(outfile, level)
-            outfile.write('available=%s,\n' % self.available)
+            outfile.write('available=%s,\n' % quote_python(self.available).encode(ExternalEncoding))
         if self.is_manageable is not None:
             showIndent(outfile, level)
-            outfile.write('is_manageable=%s,\n' % self.is_manageable)
+            outfile.write('is_manageable=%s,\n' % quote_python(self.is_manageable).encode(ExternalEncoding))
         if self.log is not None:
             showIndent(outfile, level)
             outfile.write('log=model_.log_href(\n')
@@ -981,7 +981,7 @@ class system(GeneratedsSuper):
             outfile.write('name=%s,\n' % quote_python(self.name).encode(ExternalEncoding))
         if self.out_of_date is not None:
             showIndent(outfile, level)
-            outfile.write('out_of_date=%s,\n' % self.out_of_date)
+            outfile.write('out_of_date=%s,\n' % quote_python(self.out_of_date).encode(ExternalEncoding))
         if self.public_dns_name is not None:
             showIndent(outfile, level)
             outfile.write('public_dns_name=%s,\n' % quote_python(self.public_dns_name).encode(ExternalEncoding))
@@ -991,9 +991,9 @@ class system(GeneratedsSuper):
         if self.state is not None:
             showIndent(outfile, level)
             outfile.write('state=%s,\n' % quote_python(self.state).encode(ExternalEncoding))
-        if self.activated is not None:
+        if self.registered is not None:
             showIndent(outfile, level)
-            outfile.write('activated=%s,\n' % self.activated)
+            outfile.write('registered=%s,\n' % quote_python(self.registered).encode(ExternalEncoding))
         if self.target is not None:
             showIndent(outfile, level)
             outfile.write('target=model_.target(\n')
@@ -1008,7 +1008,7 @@ class system(GeneratedsSuper):
             outfile.write('),\n')
         if self.agent_port is not None:
             showIndent(outfile, level)
-            outfile.write('agent_port=%d,\n' % self.agent_port)
+            outfile.write('agent_port=%s,\n' % quote_python(self.agent_port).encode(ExternalEncoding))
         if self.networks is not None:
             showIndent(outfile, level)
             outfile.write('networks=model_.networks(\n')
@@ -1040,11 +1040,11 @@ class system(GeneratedsSuper):
             self.local_uuid = local_uuid_
             self.validate_local_uuid(self.local_uuid)    # validate type local_uuid
         elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'activation_date':
-            activation_date_ = ''
+            nodeName_ == 'registration_date':
+            registration_date_ = ''
             for text__content_ in child_.childNodes:
-                activation_date_ += text__content_.nodeValue
-            self.activation_date = activation_date_
+                registration_date_ += text__content_.nodeValue
+            self.registration_date = registration_date_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'scheduled_event_start_date':
             scheduled_event_start_date_ = ''
@@ -1053,15 +1053,10 @@ class system(GeneratedsSuper):
             self.scheduled_event_start_date = scheduled_event_start_date_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'launch_date':
-            if child_.firstChild:
-                sval_ = child_.firstChild.nodeValue
-                try:
-                    ival_ = int(sval_)
-                except ValueError, exp:
-                    raise ValueError('requires integer (launch_date): %s' % exp)
-                if ival_ <= 0:
-                    raise ValueError('requires positiveInteger -- %s' % child_.toxml())
-                self.launch_date = ival_
+            launch_date_ = ''
+            for text__content_ in child_.childNodes:
+                launch_date_ += text__content_.nodeValue
+            self.launch_date = launch_date_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'ssl_client_certificate':
             ssl_client_certificate_ = ''
@@ -1113,26 +1108,16 @@ class system(GeneratedsSuper):
             self.validate_target_system_id(self.target_system_id)    # validate type target_system_id
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'available':
-            if child_.firstChild:
-                sval_ = child_.firstChild.nodeValue
-                if sval_ in ('true', '1'):
-                    ival_ = True
-                elif sval_ in ('false', '0'):
-                    ival_ = False
-                else:
-                    raise ValueError('requires boolean -- %s' % child_.toxml())
-                self.available = ival_
+            available_ = ''
+            for text__content_ in child_.childNodes:
+                available_ += text__content_.nodeValue
+            self.available = available_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'is_manageable':
-            if child_.firstChild:
-                sval_ = child_.firstChild.nodeValue
-                if sval_ in ('true', '1'):
-                    ival_ = True
-                elif sval_ in ('false', '0'):
-                    ival_ = False
-                else:
-                    raise ValueError('requires boolean -- %s' % child_.toxml())
-                self.is_manageable = ival_
+            is_manageable_ = ''
+            for text__content_ in child_.childNodes:
+                is_manageable_ += text__content_.nodeValue
+            self.is_manageable = is_manageable_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'log':
             obj_ = log_href.factory()
@@ -1175,15 +1160,10 @@ class system(GeneratedsSuper):
             self.validate_name(self.name)    # validate type name
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'out_of_date':
-            if child_.firstChild:
-                sval_ = child_.firstChild.nodeValue
-                if sval_ in ('true', '1'):
-                    ival_ = True
-                elif sval_ in ('false', '0'):
-                    ival_ = False
-                else:
-                    raise ValueError('requires boolean -- %s' % child_.toxml())
-                self.out_of_date = ival_
+            out_of_date_ = ''
+            for text__content_ in child_.childNodes:
+                out_of_date_ += text__content_.nodeValue
+            self.out_of_date = out_of_date_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'public_dns_name':
             public_dns_name_ = ''
@@ -1206,16 +1186,11 @@ class system(GeneratedsSuper):
             self.state = state_
             self.validate_state(self.state)    # validate type state
         elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'activated':
-            if child_.firstChild:
-                sval_ = child_.firstChild.nodeValue
-                if sval_ in ('true', '1'):
-                    ival_ = True
-                elif sval_ in ('false', '0'):
-                    ival_ = False
-                else:
-                    raise ValueError('requires boolean -- %s' % child_.toxml())
-                self.activated = ival_
+            nodeName_ == 'registered':
+            registered_ = ''
+            for text__content_ in child_.childNodes:
+                registered_ += text__content_.nodeValue
+            self.registered = registered_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'target':
             obj_ = target.factory()
@@ -1228,15 +1203,10 @@ class system(GeneratedsSuper):
             self.set_system_log(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'agent_port':
-            if child_.firstChild:
-                sval_ = child_.firstChild.nodeValue
-                try:
-                    ival_ = int(sval_)
-                except ValueError, exp:
-                    raise ValueError('requires integer (agent_port): %s' % exp)
-                if ival_ <= 0:
-                    raise ValueError('requires positiveInteger -- %s' % child_.toxml())
-                self.agent_port = ival_
+            agent_port_ = ''
+            for text__content_ in child_.childNodes:
+                agent_port_ += text__content_.nodeValue
+            self.agent_port = agent_port_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'networks':
             obj_ = networks.factory()
@@ -1334,8 +1304,8 @@ class network(GeneratedsSuper):
         MemberSpec_('device_name', ['string8092', 'xsd:token'], 0),
         MemberSpec_('netmask', ['string8092', 'xsd:token'], 0),
         MemberSpec_('port_type', ['string8092', 'xsd:token'], 0),
-        MemberSpec_('active', 'xsd:boolean', 0),
-        MemberSpec_('required', 'xsd:boolean', 0),
+        MemberSpec_('active', 'xsd:string', 0),
+        MemberSpec_('required', 'xsd:string', 0),
         ]
     subclass = None
     superclass = None
@@ -1422,10 +1392,10 @@ class network(GeneratedsSuper):
             outfile.write('<%sport_type>%s</%sport_type>\n' % (namespace_, self.format_string(quote_xml(self.port_type).encode(ExternalEncoding), input_name='port_type'), namespace_))
         if self.active is not None:
             showIndent(outfile, level)
-            outfile.write('<%sactive>%s</%sactive>\n' % (namespace_, self.format_boolean(str_lower(str(self.active)), input_name='active'), namespace_))
+            outfile.write('<%sactive>%s</%sactive>\n' % (namespace_, self.format_string(quote_xml(self.active).encode(ExternalEncoding), input_name='active'), namespace_))
         if self.required is not None:
             showIndent(outfile, level)
-            outfile.write('<%srequired>%s</%srequired>\n' % (namespace_, self.format_boolean(str_lower(str(self.required)), input_name='required'), namespace_))
+            outfile.write('<%srequired>%s</%srequired>\n' % (namespace_, self.format_string(quote_xml(self.required).encode(ExternalEncoding), input_name='required'), namespace_))
     def hasContent_(self):
         if (
             self.ip_address is not None or
@@ -1468,10 +1438,10 @@ class network(GeneratedsSuper):
             outfile.write('port_type=%s,\n' % quote_python(self.port_type).encode(ExternalEncoding))
         if self.active is not None:
             showIndent(outfile, level)
-            outfile.write('active=%s,\n' % self.active)
+            outfile.write('active=%s,\n' % quote_python(self.active).encode(ExternalEncoding))
         if self.required is not None:
             showIndent(outfile, level)
-            outfile.write('required=%s,\n' % self.required)
+            outfile.write('required=%s,\n' % quote_python(self.required).encode(ExternalEncoding))
     def build(self, node_):
         attrs = node_.attributes
         self.buildAttributes(attrs)
@@ -1525,26 +1495,16 @@ class network(GeneratedsSuper):
             self.validate_port_type(self.port_type)    # validate type port_type
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'active':
-            if child_.firstChild:
-                sval_ = child_.firstChild.nodeValue
-                if sval_ in ('true', '1'):
-                    ival_ = True
-                elif sval_ in ('false', '0'):
-                    ival_ = False
-                else:
-                    raise ValueError('requires boolean -- %s' % child_.toxml())
-                self.active = ival_
+            active_ = ''
+            for text__content_ in child_.childNodes:
+                active_ += text__content_.nodeValue
+            self.active = active_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'required':
-            if child_.firstChild:
-                sval_ = child_.firstChild.nodeValue
-                if sval_ in ('true', '1'):
-                    ival_ = True
-                elif sval_ in ('false', '0'):
-                    ival_ = False
-                else:
-                    raise ValueError('requires boolean -- %s' % child_.toxml())
-                self.required = ival_
+            required_ = ''
+            for text__content_ in child_.childNodes:
+                required_ += text__content_.nodeValue
+            self.required = required_
 # end class network
 
 
@@ -1827,7 +1787,7 @@ class type_(GeneratedsSuper):
 class system_log_entry(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('entry', ['string8092', 'xsd:token'], 0),
-        MemberSpec_('entry_date', 'xsd:positiveInteger', 0),
+        MemberSpec_('entry_date', 'xsd:string', 0),
         ]
     subclass = None
     superclass = None
@@ -1866,7 +1826,7 @@ class system_log_entry(GeneratedsSuper):
             outfile.write('<%sentry>%s</%sentry>\n' % (namespace_, self.format_string(quote_xml(self.entry).encode(ExternalEncoding), input_name='entry'), namespace_))
         if self.entry_date is not None:
             showIndent(outfile, level)
-            outfile.write('<%sentry_date>%s</%sentry_date>\n' % (namespace_, self.format_integer(self.entry_date, input_name='entry_date'), namespace_))
+            outfile.write('<%sentry_date>%s</%sentry_date>\n' % (namespace_, self.format_string(quote_xml(self.entry_date).encode(ExternalEncoding), input_name='entry_date'), namespace_))
     def hasContent_(self):
         if (
             self.entry is not None or
@@ -1888,7 +1848,7 @@ class system_log_entry(GeneratedsSuper):
             outfile.write('entry=%s,\n' % quote_python(self.entry).encode(ExternalEncoding))
         if self.entry_date is not None:
             showIndent(outfile, level)
-            outfile.write('entry_date=%d,\n' % self.entry_date)
+            outfile.write('entry_date=%s,\n' % quote_python(self.entry_date).encode(ExternalEncoding))
     def build(self, node_):
         attrs = node_.attributes
         self.buildAttributes(attrs)
@@ -1907,15 +1867,10 @@ class system_log_entry(GeneratedsSuper):
             self.validate_entry(self.entry)    # validate type entry
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'entry_date':
-            if child_.firstChild:
-                sval_ = child_.firstChild.nodeValue
-                try:
-                    ival_ = int(sval_)
-                except ValueError, exp:
-                    raise ValueError('requires integer (entry_date): %s' % exp)
-                if ival_ <= 0:
-                    raise ValueError('requires positiveInteger -- %s' % child_.toxml())
-                self.entry_date = ival_
+            entry_date_ = ''
+            for text__content_ in child_.childNodes:
+                entry_date_ += text__content_.nodeValue
+            self.entry_date = entry_date_
 # end class system_log_entry
 
 
@@ -2003,7 +1958,7 @@ class system_log(GeneratedsSuper):
 class systemInformationType(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('systemName', ['string64', 'xsd:token'], 0),
-        MemberSpec_('memory', 'xsd:positiveInteger', 0),
+        MemberSpec_('memory', 'xsd:string', 0),
         MemberSpec_('osType', ['string64', 'xsd:token'], 0),
         MemberSpec_('osMajorVersion', ['string64', 'xsd:token'], 0),
         MemberSpec_('osMinorVersion', ['string32', 'xsd:token'], 0),
@@ -2070,7 +2025,7 @@ class systemInformationType(GeneratedsSuper):
             outfile.write('<%ssystemName>%s</%ssystemName>\n' % (namespace_, self.format_string(quote_xml(self.systemName).encode(ExternalEncoding), input_name='systemName'), namespace_))
         if self.memory is not None:
             showIndent(outfile, level)
-            outfile.write('<%smemory>%s</%smemory>\n' % (namespace_, self.format_integer(self.memory, input_name='memory'), namespace_))
+            outfile.write('<%smemory>%s</%smemory>\n' % (namespace_, self.format_string(quote_xml(self.memory).encode(ExternalEncoding), input_name='memory'), namespace_))
         if self.osType is not None:
             showIndent(outfile, level)
             outfile.write('<%sosType>%s</%sosType>\n' % (namespace_, self.format_string(quote_xml(self.osType).encode(ExternalEncoding), input_name='osType'), namespace_))
@@ -2108,7 +2063,7 @@ class systemInformationType(GeneratedsSuper):
             outfile.write('systemName=%s,\n' % quote_python(self.systemName).encode(ExternalEncoding))
         if self.memory is not None:
             showIndent(outfile, level)
-            outfile.write('memory=%d,\n' % self.memory)
+            outfile.write('memory=%s,\n' % quote_python(self.memory).encode(ExternalEncoding))
         if self.osType is not None:
             showIndent(outfile, level)
             outfile.write('osType=%s,\n' % quote_python(self.osType).encode(ExternalEncoding))
@@ -2139,15 +2094,10 @@ class systemInformationType(GeneratedsSuper):
             self.validate_systemName(self.systemName)    # validate type systemName
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'memory':
-            if child_.firstChild:
-                sval_ = child_.firstChild.nodeValue
-                try:
-                    ival_ = int(sval_)
-                except ValueError, exp:
-                    raise ValueError('requires integer (memory): %s' % exp)
-                if ival_ <= 0:
-                    raise ValueError('requires positiveInteger -- %s' % child_.toxml())
-                self.memory = ival_
+            memory_ = ''
+            for text__content_ in child_.childNodes:
+                memory_ += text__content_.nodeValue
+            self.memory = memory_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'osType':
             osType_ = ''
