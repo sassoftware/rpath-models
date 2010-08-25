@@ -613,8 +613,8 @@ class system(GeneratedsSuper):
         MemberSpec_('description', ['string8092', 'xsd:token'], 0),
         MemberSpec_('instance_id', ['string8092', 'xsd:token'], 0),
         MemberSpec_('name', ['string8092', 'xsd:token'], 0),
+        MemberSpec_('hostname', ['string8092', 'xsd:token'], 0),
         MemberSpec_('out_of_date', 'xsd:string', 0),
-        MemberSpec_('public_dns_name', ['string8092', 'xsd:token'], 0),
         MemberSpec_('reservation_id', ['string8092', 'xsd:token'], 0),
         MemberSpec_('state', ['current_state', 'xsd:token'], 0),
         MemberSpec_('registered', 'xsd:string', 0),
@@ -625,7 +625,7 @@ class system(GeneratedsSuper):
         ]
     subclass = None
     superclass = None
-    def __init__(self, id=None, generated_uuid=None, local_uuid=None, registration_date=None, scheduled_event_start_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, available=None, is_manageable=None, log=None, managed_status=None, force_update_url=None, description=None, instance_id=None, name=None, out_of_date=None, public_dns_name=None, reservation_id=None, state=None, registered=None, target=None, system_log=None, agent_port=None, networks=None):
+    def __init__(self, id=None, generated_uuid=None, local_uuid=None, registration_date=None, scheduled_event_start_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, available=None, is_manageable=None, log=None, managed_status=None, force_update_url=None, description=None, instance_id=None, name=None, hostname=None, out_of_date=None, reservation_id=None, state=None, registered=None, target=None, system_log=None, agent_port=None, networks=None):
         self.id = _cast(None, id)
         self.generated_uuid = generated_uuid
         self.local_uuid = local_uuid
@@ -647,8 +647,8 @@ class system(GeneratedsSuper):
         self.description = description
         self.instance_id = instance_id
         self.name = name
+        self.hostname = hostname
         self.out_of_date = out_of_date
-        self.public_dns_name = public_dns_name
         self.reservation_id = reservation_id
         self.state = state
         self.registered = registered
@@ -744,13 +744,13 @@ class system(GeneratedsSuper):
     def validate_name(self, value):
         # validate type name
         pass
+    def get_hostname(self): return self.hostname
+    def set_hostname(self, hostname): self.hostname = hostname
+    def validate_hostname(self, value):
+        # validate type hostname
+        pass
     def get_out_of_date(self): return self.out_of_date
     def set_out_of_date(self, out_of_date): self.out_of_date = out_of_date
-    def get_public_dns_name(self): return self.public_dns_name
-    def set_public_dns_name(self, public_dns_name): self.public_dns_name = public_dns_name
-    def validate_public_dns_name(self, value):
-        # validate type public_dns_name
-        pass
     def get_reservation_id(self): return self.reservation_id
     def set_reservation_id(self, reservation_id): self.reservation_id = reservation_id
     def validate_reservation_id(self, value):
@@ -847,12 +847,12 @@ class system(GeneratedsSuper):
         if self.name is not None:
             showIndent(outfile, level)
             outfile.write('<%sname>%s</%sname>\n' % (namespace_, self.format_string(quote_xml(self.name).encode(ExternalEncoding), input_name='name'), namespace_))
+        if self.hostname is not None:
+            showIndent(outfile, level)
+            outfile.write('<%shostname>%s</%shostname>\n' % (namespace_, self.format_string(quote_xml(self.hostname).encode(ExternalEncoding), input_name='hostname'), namespace_))
         if self.out_of_date is not None:
             showIndent(outfile, level)
             outfile.write('<%sout_of_date>%s</%sout_of_date>\n' % (namespace_, self.format_string(quote_xml(self.out_of_date).encode(ExternalEncoding), input_name='out_of_date'), namespace_))
-        if self.public_dns_name is not None:
-            showIndent(outfile, level)
-            outfile.write('<%spublic_dns_name>%s</%spublic_dns_name>\n' % (namespace_, self.format_string(quote_xml(self.public_dns_name).encode(ExternalEncoding), input_name='public_dns_name'), namespace_))
         if self.reservation_id is not None:
             showIndent(outfile, level)
             outfile.write('<%sreservation_id>%s</%sreservation_id>\n' % (namespace_, self.format_string(quote_xml(self.reservation_id).encode(ExternalEncoding), input_name='reservation_id'), namespace_))
@@ -893,8 +893,8 @@ class system(GeneratedsSuper):
             self.description is not None or
             self.instance_id is not None or
             self.name is not None or
+            self.hostname is not None or
             self.out_of_date is not None or
-            self.public_dns_name is not None or
             self.reservation_id is not None or
             self.state is not None or
             self.registered is not None or
@@ -979,12 +979,12 @@ class system(GeneratedsSuper):
         if self.name is not None:
             showIndent(outfile, level)
             outfile.write('name=%s,\n' % quote_python(self.name).encode(ExternalEncoding))
+        if self.hostname is not None:
+            showIndent(outfile, level)
+            outfile.write('hostname=%s,\n' % quote_python(self.hostname).encode(ExternalEncoding))
         if self.out_of_date is not None:
             showIndent(outfile, level)
             outfile.write('out_of_date=%s,\n' % quote_python(self.out_of_date).encode(ExternalEncoding))
-        if self.public_dns_name is not None:
-            showIndent(outfile, level)
-            outfile.write('public_dns_name=%s,\n' % quote_python(self.public_dns_name).encode(ExternalEncoding))
         if self.reservation_id is not None:
             showIndent(outfile, level)
             outfile.write('reservation_id=%s,\n' % quote_python(self.reservation_id).encode(ExternalEncoding))
@@ -1159,18 +1159,18 @@ class system(GeneratedsSuper):
             self.name = name_
             self.validate_name(self.name)    # validate type name
         elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'hostname':
+            hostname_ = ''
+            for text__content_ in child_.childNodes:
+                hostname_ += text__content_.nodeValue
+            self.hostname = hostname_
+            self.validate_hostname(self.hostname)    # validate type hostname
+        elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'out_of_date':
             out_of_date_ = ''
             for text__content_ in child_.childNodes:
                 out_of_date_ += text__content_.nodeValue
             self.out_of_date = out_of_date_
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'public_dns_name':
-            public_dns_name_ = ''
-            for text__content_ in child_.childNodes:
-                public_dns_name_ += text__content_.nodeValue
-            self.public_dns_name = public_dns_name_
-            self.validate_public_dns_name(self.public_dns_name)    # validate type public_dns_name
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'reservation_id':
             reservation_id_ = ''
