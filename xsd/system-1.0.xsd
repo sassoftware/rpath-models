@@ -83,9 +83,9 @@
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="name" type="inv:string8092"
             minOccurs="0" maxOccurs="1" />
-        <xsd:element name="out_of_date" type="xsd:boolean"
+        <xsd:element name="hostname" type="inv:string8092"
             minOccurs="0" maxOccurs="1" />
-        <xsd:element name="public_dns_name" type="inv:string8092"
+        <xsd:element name="out_of_date" type="xsd:boolean"
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="reservation_id" type="inv:string8092"
             minOccurs="0" maxOccurs="1" />
