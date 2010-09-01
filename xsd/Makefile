@@ -17,10 +17,10 @@ SCHEMA_FILES = $(wildcard *.xsd)
 
 all: default-all
 
-install: all default-install $(DESTDIR)$(datadir)/system-inventory
-	install $(SCHEMA_FILES) $(DESTDIR)$(datadir)/system-inventory/
+install: all default-install $(DESTDIR)$(DATADIR)/rpath_models/
+	install $(SCHEMA_FILES) $(DESTDIR)$(DATADIR)/rpath_models/
 
-$(DESTDIR)$(datadir)/system-inventory:
+$(DESTDIR)$(DATADIR)/rpath_models:
 	install -d -m755 $@
 
 validate-schema:
@@ -30,4 +30,4 @@ dist: default-dist
 
 clean: default-clean
 
-include ../../../../../Make.rules
+include ../Make.rules

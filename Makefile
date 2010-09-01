@@ -12,7 +12,8 @@
 # full details.
 #
 
-SUBDIRS = rpath_models
+SUBDIRS = rpath_models\
+          xsd
 
 export VERSION = 1.0
 export SHORTVER = $(VERSION)
@@ -25,6 +26,7 @@ export LIBDIR =     $(PREFIX)/$(lib)
 export PYVER =      "`python -c 'import sys; print sys.version[0:3]'`"
 export PYTHON = /usr/bin/python$(PYVER)
 export PYDIR = $(LIBDIR)/python$(PYVER)/site-packages
+export DATADIR = $(PREFIX)/share
 
 dist_files = Makefile
 GENERATE_DS=generateDS.py
@@ -33,7 +35,7 @@ MODELS_DIR=rpath_models
 
 .PHONY: clean install generate
 
-all: $(generated_files) default-all generate
+all: $(generated_files) default-all
 
 install: default-install
 
@@ -48,7 +50,7 @@ rule-%:
                 --member-specs=list \
                 --external-encoding=utf-8 \
                 --search-path=$(XSD_DIR) \
-                -o $(MODELS_DIR)/generateds_$(subst -,_,$(patsubst rule-%,%,$@)).py \
+                -o $(MODELS_DIR)/generateds_$(subst .,_,$(subst -,_,$(patsubst rule-%,%,$@))).py \
                 $(XSD_DIR)/$(patsubst rule-%,%,$@).xsd
 
 install-generate: $(addprefix install-rule-,$(wildcard xml_*))
