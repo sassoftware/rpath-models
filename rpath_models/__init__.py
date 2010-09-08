@@ -13,6 +13,7 @@
 # full details.
 #
 
+import sys
 from xml.dom import minidom
 
 from rpath_models import generateds_schedule_1_0 as generateds_schedule
@@ -45,7 +46,7 @@ class SerializableObject(object):
 
     def _writeToStream(self, stream):
         if self.attrs:
-            namespacedef = ' '.join('%s="%s"' % a for a in attrs)
+            namespacedef = ' '.join('%s="%s"' % a for a in self.attrs)
         else:
             namespacedef = None
 
