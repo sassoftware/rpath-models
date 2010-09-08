@@ -13,11 +13,49 @@
 # full details.
 #
 
+from xml.dom import minidom
+
 from rpath_models import generateds_schedule_1_0 as generateds_schedule
 from rpath_models import generateds_system_1_0 as generateds_system
 
+
+class SerializableObject(object):
+    attrs = []
+    RootNode = None
+
+    class InvalidXML(Exception):
+        "Raised when the XML data is invalid"
+
+
+    def serialize(self, stream):
+        self._writeToStream(stream)
+
+    def parseStream(self, fromStream):
+        if isinstance(fromStream, (str, unicode)):
+            func = minidom.parseString
+        else:
+            func = minidom.parse
+        try:
+            doc = func(fromStream)
+        except Exception, e:
+            raise self.InvalidXML(e), None, sys.exc_info()[2]
+        rootNode = doc.documentElement
+        self.__init__()
+        self.build(rootNode)
+
+    def _writeToStream(self, stream):
+        if self.attrs:
+            namespacedef = ' '.join('%s="%s"' % a for a in attrs)
+        else:
+            namespacedef = None
+
+        self.export(stream, 0, namespace_ = '', name_ = self.RootNode,
+            namespacedef_ = namespacedef)
+
+class System(generateds_system.system, SerializableObject):
+    RootNode = "system"
+
 Inventory = generateds_system.inventory
-System = generateds_system.system
 Network = generateds_system.network
 Networks = generateds_system.networks
 Systems = generateds_system.systems
