@@ -605,8 +605,6 @@ class system(GeneratedsSuper):
         MemberSpec_('target_type', ['string8092', 'xsd:token'], 0),
         MemberSpec_('target_name', ['string8092', 'xsd:token'], 0),
         MemberSpec_('target_system_id', ['string8092', 'xsd:token'], 0),
-        MemberSpec_('available', 'xsd:boolean', 0),
-        MemberSpec_('is_manageable', 'xsd:boolean', 0),
         MemberSpec_('log', 'log_href', 0),
         MemberSpec_('managed_status', ['managed_status', 'xsd:token'], 0),
         MemberSpec_('force_update_url', ['string8092', 'xsd:token'], 0),
@@ -617,7 +615,6 @@ class system(GeneratedsSuper):
         MemberSpec_('out_of_date', 'xsd:boolean', 0),
         MemberSpec_('reservation_id', ['string8092', 'xsd:token'], 0),
         MemberSpec_('state', ['current_state', 'xsd:token'], 0),
-        MemberSpec_('registered', 'xsd:boolean', 0),
         MemberSpec_('target', 'target', 0),
         MemberSpec_('system_log', 'system_log_href', 0),
         MemberSpec_('agent_port', 'xsd:positiveInteger', 0),
@@ -626,7 +623,7 @@ class system(GeneratedsSuper):
         ]
     subclass = None
     superclass = None
-    def __init__(self, id=None, generated_uuid=None, local_uuid=None, registration_date=None, scheduled_event_start_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, available=None, is_manageable=None, log=None, managed_status=None, force_update_url=None, description=None, instance_id=None, name=None, hostname=None, out_of_date=None, reservation_id=None, state=None, registered=None, target=None, system_log=None, agent_port=None, event_uuid=None, networks=None):
+    def __init__(self, id=None, generated_uuid=None, local_uuid=None, registration_date=None, scheduled_event_start_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, target_name=None, target_system_id=None, log=None, managed_status=None, force_update_url=None, description=None, instance_id=None, name=None, hostname=None, out_of_date=None, reservation_id=None, state=None, target=None, system_log=None, agent_port=None, event_uuid=None, networks=None):
         self.id = _cast(None, id)
         self.generated_uuid = generated_uuid
         self.local_uuid = local_uuid
@@ -640,8 +637,6 @@ class system(GeneratedsSuper):
         self.target_type = target_type
         self.target_name = target_name
         self.target_system_id = target_system_id
-        self.available = available
-        self.is_manageable = is_manageable
         self.log = log
         self.managed_status = managed_status
         self.force_update_url = force_update_url
@@ -652,7 +647,6 @@ class system(GeneratedsSuper):
         self.out_of_date = out_of_date
         self.reservation_id = reservation_id
         self.state = state
-        self.registered = registered
         self.target = target
         self.system_log = system_log
         self.agent_port = agent_port
@@ -715,10 +709,6 @@ class system(GeneratedsSuper):
     def validate_target_system_id(self, value):
         # validate type target_system_id
         pass
-    def get_available(self): return self.available
-    def set_available(self, available): self.available = available
-    def get_is_manageable(self): return self.is_manageable
-    def set_is_manageable(self, is_manageable): self.is_manageable = is_manageable
     def get_log(self): return self.log
     def set_log(self, log): self.log = log
     def get_managed_status(self): return self.managed_status
@@ -763,8 +753,6 @@ class system(GeneratedsSuper):
     def validate_state(self, value):
         # validate type state
         pass
-    def get_registered(self): return self.registered
-    def set_registered(self, registered): self.registered = registered
     def get_target(self): return self.target
     def set_target(self, target): self.target = target
     def get_system_log(self): return self.system_log
@@ -831,12 +819,6 @@ class system(GeneratedsSuper):
         if self.target_system_id is not None:
             showIndent(outfile, level)
             outfile.write('<%starget_system_id>%s</%starget_system_id>\n' % (namespace_, self.format_string(quote_xml(self.target_system_id).encode(ExternalEncoding), input_name='target_system_id'), namespace_))
-        if self.available is not None:
-            showIndent(outfile, level)
-            outfile.write('<%savailable>%s</%savailable>\n' % (namespace_, self.format_boolean(str_lower(str(self.available)), input_name='available'), namespace_))
-        if self.is_manageable is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sis_manageable>%s</%sis_manageable>\n' % (namespace_, self.format_boolean(str_lower(str(self.is_manageable)), input_name='is_manageable'), namespace_))
         if self.log:
             self.log.export(outfile, level, namespace_, name_='log')
         if self.managed_status is not None:
@@ -866,9 +848,6 @@ class system(GeneratedsSuper):
         if self.state is not None:
             showIndent(outfile, level)
             outfile.write('<%sstate>%s</%sstate>\n' % (namespace_, self.format_string(quote_xml(self.state).encode(ExternalEncoding), input_name='state'), namespace_))
-        if self.registered is not None:
-            showIndent(outfile, level)
-            outfile.write('<%sregistered>%s</%sregistered>\n' % (namespace_, self.format_boolean(str_lower(str(self.registered)), input_name='registered'), namespace_))
         if self.target:
             self.target.export(outfile, level, namespace_, name_='target')
         if self.system_log:
@@ -895,8 +874,6 @@ class system(GeneratedsSuper):
             self.target_type is not None or
             self.target_name is not None or
             self.target_system_id is not None or
-            self.available is not None or
-            self.is_manageable is not None or
             self.log is not None or
             self.managed_status is not None or
             self.force_update_url is not None or
@@ -907,7 +884,6 @@ class system(GeneratedsSuper):
             self.out_of_date is not None or
             self.reservation_id is not None or
             self.state is not None or
-            self.registered is not None or
             self.target is not None or
             self.system_log is not None or
             self.agent_port is not None or
@@ -963,12 +939,6 @@ class system(GeneratedsSuper):
         if self.target_system_id is not None:
             showIndent(outfile, level)
             outfile.write('target_system_id=%s,\n' % quote_python(self.target_system_id).encode(ExternalEncoding))
-        if self.available is not None:
-            showIndent(outfile, level)
-            outfile.write('available=%s,\n' % self.available)
-        if self.is_manageable is not None:
-            showIndent(outfile, level)
-            outfile.write('is_manageable=%s,\n' % self.is_manageable)
         if self.log is not None:
             showIndent(outfile, level)
             outfile.write('log=model_.log_href(\n')
@@ -1002,9 +972,6 @@ class system(GeneratedsSuper):
         if self.state is not None:
             showIndent(outfile, level)
             outfile.write('state=%s,\n' % quote_python(self.state).encode(ExternalEncoding))
-        if self.registered is not None:
-            showIndent(outfile, level)
-            outfile.write('registered=%s,\n' % self.registered)
         if self.target is not None:
             showIndent(outfile, level)
             outfile.write('target=model_.target(\n')
@@ -1126,28 +1093,6 @@ class system(GeneratedsSuper):
             self.target_system_id = target_system_id_
             self.validate_target_system_id(self.target_system_id)    # validate type target_system_id
         elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'available':
-            if child_.firstChild:
-                sval_ = child_.firstChild.nodeValue
-                if sval_ in ('true', '1'):
-                    ival_ = True
-                elif sval_ in ('false', '0'):
-                    ival_ = False
-                else:
-                    raise ValueError('requires boolean -- %s' % child_.toxml())
-                self.available = ival_
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'is_manageable':
-            if child_.firstChild:
-                sval_ = child_.firstChild.nodeValue
-                if sval_ in ('true', '1'):
-                    ival_ = True
-                elif sval_ in ('false', '0'):
-                    ival_ = False
-                else:
-                    raise ValueError('requires boolean -- %s' % child_.toxml())
-                self.is_manageable = ival_
-        elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'log':
             obj_ = log_href.factory()
             obj_.build(child_)
@@ -1219,17 +1164,6 @@ class system(GeneratedsSuper):
                 state_ += text__content_.nodeValue
             self.state = state_
             self.validate_state(self.state)    # validate type state
-        elif child_.nodeType == Node.ELEMENT_NODE and \
-            nodeName_ == 'registered':
-            if child_.firstChild:
-                sval_ = child_.firstChild.nodeValue
-                if sval_ in ('true', '1'):
-                    ival_ = True
-                elif sval_ in ('false', '0'):
-                    ival_ = False
-                else:
-                    raise ValueError('requires boolean -- %s' % child_.toxml())
-                self.registered = ival_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'target':
             obj_ = target.factory()

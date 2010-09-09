@@ -67,10 +67,6 @@
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="target_system_id" type="inv:string8092"
             minOccurs="0" maxOccurs="1" />
-        <xsd:element name="available" type="xsd:boolean"
-            minOccurs="0" maxOccurs="1" />
-        <xsd:element name="is_manageable" type="xsd:boolean"
-            minOccurs="0" maxOccurs="1" />
         <xsd:element name="log" type="inv:log_href"
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="managed_status" type="inv:managed_status"
@@ -90,8 +86,6 @@
         <xsd:element name="reservation_id" type="inv:string8092"
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="state" type="inv:current_state"
-            minOccurs="0" maxOccurs="1" />
-        <xsd:element name="registered" type="xsd:boolean"
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="target" type="inv:target"
             minOccurs="0" maxOccurs="1" />
