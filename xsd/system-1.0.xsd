@@ -85,7 +85,7 @@
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="reservation_id" type="inv:string8092"
             minOccurs="0" maxOccurs="1" />
-        <xsd:element name="state" type="inv:current_state"
+        <xsd:element name="current_state" type="inv:current_state"
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="target" type="inv:target"
             minOccurs="0" maxOccurs="1" />
@@ -141,13 +141,22 @@
       </xsd:restriction>
     </xsd:simpleType>
 
-    <xsd:simpleType name="current_state">
-      <xsd:restriction base="xsd:token">
-        <xsd:enumeration value="running"/>
-        <xsd:enumeration value="terminated"/>
-        <xsd:enumeration value="shutdown"/>
-      </xsd:restriction>
-    </xsd:simpleType>
+    <xsd:complexType name="current_state">
+      <xsd:all>
+        <xsd:element name="name" type="inv:string8092" minOccurs="1" maxOccurs="1">
+          <xsd:restriction base="xsd:token">
+            <xsd:enumeration value="unmanaged"/>
+            <xsd:enumeration value="registered"/>
+            <xsd:enumeration value="responsive"/>
+            <xsd:enumeration value="non-responsive-unknown"/>
+            <xsd:enumeration value="non-responsive-net"/>
+            <xsd:enumeration value="non-responsive-host"/>
+            <xsd:enumeration value="non-responsive-shutdown"/>
+            <xsd:enumeration value="non-responsive-suspended"/>
+          </xsd:restriction>
+        </xsd:element>
+      </xsd:all>
+    </xsd:complexType>
 
     <xsd:complexType name="target">
       <xsd:sequence>
