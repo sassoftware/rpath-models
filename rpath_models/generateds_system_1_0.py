@@ -518,7 +518,7 @@ class system(GeneratedsSuper):
         MemberSpec_('generated_uuid', ['string64', 'xsd:token'], 0),
         MemberSpec_('local_uuid', ['string64', 'xsd:token'], 0),
         MemberSpec_('registration_date', 'xsd:dateTime', 0),
-        MemberSpec_('launch_date', 'xsd:positiveInteger', 0),
+        MemberSpec_('launch_date', 'xsd:dateTime', 0),
         MemberSpec_('ssl_client_certificate', ['string8092', 'xsd:token'], 0),
         MemberSpec_('ssl_client_key', ['string8092', 'xsd:token'], 0),
         MemberSpec_('ssl_server_certificate', ['string8092', 'xsd:token'], 0),
@@ -687,7 +687,7 @@ class system(GeneratedsSuper):
             outfile.write('<%sregistration_date>%s</%sregistration_date>\n' % (namespace_, self.format_string(quote_xml(self.registration_date).encode(ExternalEncoding), input_name='registration_date'), namespace_))
         if self.launch_date is not None:
             showIndent(outfile, level)
-            outfile.write('<%slaunch_date>%s</%slaunch_date>\n' % (namespace_, self.format_integer(self.launch_date, input_name='launch_date'), namespace_))
+            outfile.write('<%slaunch_date>%s</%slaunch_date>\n' % (namespace_, self.format_string(quote_xml(self.launch_date).encode(ExternalEncoding), input_name='launch_date'), namespace_))
         if self.ssl_client_certificate is not None:
             showIndent(outfile, level)
             outfile.write('<%sssl_client_certificate>%s</%sssl_client_certificate>\n' % (namespace_, self.format_string(quote_xml(self.ssl_client_certificate).encode(ExternalEncoding), input_name='ssl_client_certificate'), namespace_))
@@ -787,7 +787,7 @@ class system(GeneratedsSuper):
             outfile.write('registration_date=%s,\n' % quote_python(self.registration_date).encode(ExternalEncoding))
         if self.launch_date is not None:
             showIndent(outfile, level)
-            outfile.write('launch_date=%d,\n' % self.launch_date)
+            outfile.write('launch_date=%s,\n' % quote_python(self.launch_date).encode(ExternalEncoding))
         if self.ssl_client_certificate is not None:
             showIndent(outfile, level)
             outfile.write('ssl_client_certificate=%s,\n' % quote_python(self.ssl_client_certificate).encode(ExternalEncoding))
@@ -886,15 +886,10 @@ class system(GeneratedsSuper):
             self.registration_date = registration_date_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'launch_date':
-            if child_.firstChild:
-                sval_ = child_.firstChild.nodeValue
-                try:
-                    ival_ = int(sval_)
-                except ValueError, exp:
-                    raise ValueError('requires integer (launch_date): %s' % exp)
-                if ival_ <= 0:
-                    raise ValueError('requires positiveInteger -- %s' % child_.toxml())
-                self.launch_date = ival_
+            launch_date_ = ''
+            for text__content_ in child_.childNodes:
+                launch_date_ += text__content_.nodeValue
+            self.launch_date = launch_date_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'ssl_client_certificate':
             ssl_client_certificate_ = ''
