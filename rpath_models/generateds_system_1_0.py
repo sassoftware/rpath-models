@@ -536,11 +536,12 @@ class system(GeneratedsSuper):
         MemberSpec_('system_log', 'href_node', 0),
         MemberSpec_('agent_port', 'xsd:positiveInteger', 0),
         MemberSpec_('event_uuid', ['string64', 'xsd:token'], 0),
+        MemberSpec_('boot_uuid', ['string64', 'xsd:token'], 0),
         MemberSpec_('networks', 'networks', 0),
         ]
     subclass = None
     superclass = None
-    def __init__(self, id=None, generated_uuid=None, local_uuid=None, registration_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, description=None, name=None, hostname=None, current_state=None, target=None, target_system_id=None, target_system_name=None, target_system_description=None, target_system_state=None, system_log=None, agent_port=None, event_uuid=None, networks=None):
+    def __init__(self, id=None, generated_uuid=None, local_uuid=None, registration_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, description=None, name=None, hostname=None, current_state=None, target=None, target_system_id=None, target_system_name=None, target_system_description=None, target_system_state=None, system_log=None, agent_port=None, event_uuid=None, boot_uuid=None, networks=None):
         self.id = _cast(None, id)
         self.generated_uuid = generated_uuid
         self.local_uuid = local_uuid
@@ -563,6 +564,7 @@ class system(GeneratedsSuper):
         self.system_log = system_log
         self.agent_port = agent_port
         self.event_uuid = event_uuid
+        self.boot_uuid = boot_uuid
         self.networks = networks
     def factory(*args_, **kwargs_):
         if system.subclass:
@@ -657,6 +659,11 @@ class system(GeneratedsSuper):
     def validate_event_uuid(self, value):
         # validate type event_uuid
         pass
+    def get_boot_uuid(self): return self.boot_uuid
+    def set_boot_uuid(self, boot_uuid): self.boot_uuid = boot_uuid
+    def validate_boot_uuid(self, value):
+        # validate type boot_uuid
+        pass
     def get_networks(self): return self.networks
     def set_networks(self, networks): self.networks = networks
     def get_id(self): return self.id
@@ -736,6 +743,9 @@ class system(GeneratedsSuper):
         if self.event_uuid is not None:
             showIndent(outfile, level)
             outfile.write('<%sevent_uuid>%s</%sevent_uuid>\n' % (namespace_, self.format_string(quote_xml(self.event_uuid).encode(ExternalEncoding), input_name='event_uuid'), namespace_))
+        if self.boot_uuid is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sboot_uuid>%s</%sboot_uuid>\n' % (namespace_, self.format_string(quote_xml(self.boot_uuid).encode(ExternalEncoding), input_name='boot_uuid'), namespace_))
         if self.networks:
             self.networks.export(outfile, level, namespace_, name_='networks', )
     def hasContent_(self):
@@ -761,6 +771,7 @@ class system(GeneratedsSuper):
             self.system_log is not None or
             self.agent_port is not None or
             self.event_uuid is not None or
+            self.boot_uuid is not None or
             self.networks is not None
             ):
             return True
@@ -848,6 +859,9 @@ class system(GeneratedsSuper):
         if self.event_uuid is not None:
             showIndent(outfile, level)
             outfile.write('event_uuid=%s,\n' % quote_python(self.event_uuid).encode(ExternalEncoding))
+        if self.boot_uuid is not None:
+            showIndent(outfile, level)
+            outfile.write('boot_uuid=%s,\n' % quote_python(self.boot_uuid).encode(ExternalEncoding))
         if self.networks is not None:
             showIndent(outfile, level)
             outfile.write('networks=model_.networks(\n')
@@ -1007,6 +1021,13 @@ class system(GeneratedsSuper):
                 event_uuid_ += text__content_.nodeValue
             self.event_uuid = event_uuid_
             self.validate_event_uuid(self.event_uuid)    # validate type event_uuid
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'boot_uuid':
+            boot_uuid_ = ''
+            for text__content_ in child_.childNodes:
+                boot_uuid_ += text__content_.nodeValue
+            self.boot_uuid = boot_uuid_
+            self.validate_boot_uuid(self.boot_uuid)    # validate type boot_uuid
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'networks':
             obj_ = networks.factory()

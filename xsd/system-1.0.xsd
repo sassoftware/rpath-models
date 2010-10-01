@@ -81,6 +81,8 @@
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="event_uuid" type="inv:string64"
             minOccurs="0" maxOccurs="1" />
+        <xsd:element name="boot_uuid" type="inv:string64"
+            minOccurs="0" maxOccurs="1" />
         <xsd:element name="networks" type="inv:networks"
             minOccurs="1" maxOccurs="1" />
       </xsd:all>
