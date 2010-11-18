@@ -15,6 +15,7 @@
 SUBDIRS = rpath_models\
           xsd
 
+export PRODUCT = rpath-models
 export VERSION = 1.0
 export SHORTVER = $(VERSION)
 export TOPDIR =     $(shell pwd)
