@@ -59,4 +59,14 @@ install-rule-%: %
 	install -d $(DESTDIR)$(pydir)$<
 	install $</*.py $(DESTDIR)$(pydir)$</
 
+tag:
+	hg tag -f $(DISTNAME)
+
+archive:
+	if (hg stat | grep "^[ARM]" > /dev/null); then \
+		echo "Repository has uncommitted changes"; exit 1; fi
+	rm -rf $(DISTDIR)
+	mkdir $(DISTDIR)
+	hg archive -t tbz2 -r $(DISTNAME) $(DISTNAME).tar.bz2
+
 include Make.rules
