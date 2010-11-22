@@ -68,3 +68,4 @@ SystemLogEntry = generateds_system.system_log_entry
 SystemLog = generateds_system.system_log
 SystemLogHref = generateds_system.href_node
 CurrentState = generateds_system.current_state
+ManagementInterface = generateds_system.management_interface

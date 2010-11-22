@@ -517,8 +517,8 @@ class system(GeneratedsSuper):
         MemberSpec_('id', 'inv:string8092', 0),
         MemberSpec_('generated_uuid', ['string64', 'xsd:token'], 0),
         MemberSpec_('local_uuid', ['string64', 'xsd:token'], 0),
-        MemberSpec_('registration_date', 'xsd:dateTime', 0),
-        MemberSpec_('launch_date', 'xsd:dateTime', 0),
+        MemberSpec_('registration_date', 'xsd:string', 0),
+        MemberSpec_('launch_date', 'xsd:string', 0),
         MemberSpec_('ssl_client_certificate', ['string8092', 'xsd:token'], 0),
         MemberSpec_('ssl_client_key', ['string8092', 'xsd:token'], 0),
         MemberSpec_('ssl_server_certificate', ['string8092', 'xsd:token'], 0),
@@ -534,14 +534,15 @@ class system(GeneratedsSuper):
         MemberSpec_('target_system_description', ['string8092', 'xsd:token'], 0),
         MemberSpec_('target_system_state', ['string8092', 'xsd:token'], 0),
         MemberSpec_('system_log', 'href_node', 0),
-        MemberSpec_('agent_port', 'xsd:positiveInteger', 0),
+        MemberSpec_('agent_port', 'xsd:string', 0),
         MemberSpec_('event_uuid', ['string64', 'xsd:token'], 0),
         MemberSpec_('boot_uuid', ['string64', 'xsd:token'], 0),
         MemberSpec_('networks', 'networks', 0),
+        MemberSpec_('management_interface', 'management_interface', 0),
         ]
     subclass = None
     superclass = None
-    def __init__(self, id=None, generated_uuid=None, local_uuid=None, registration_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, description=None, name=None, hostname=None, current_state=None, target=None, target_system_id=None, target_system_name=None, target_system_description=None, target_system_state=None, system_log=None, agent_port=None, event_uuid=None, boot_uuid=None, networks=None):
+    def __init__(self, id=None, generated_uuid=None, local_uuid=None, registration_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, description=None, name=None, hostname=None, current_state=None, target=None, target_system_id=None, target_system_name=None, target_system_description=None, target_system_state=None, system_log=None, agent_port=None, event_uuid=None, boot_uuid=None, networks=None, management_interface=None):
         self.id = _cast(None, id)
         self.generated_uuid = generated_uuid
         self.local_uuid = local_uuid
@@ -566,6 +567,7 @@ class system(GeneratedsSuper):
         self.event_uuid = event_uuid
         self.boot_uuid = boot_uuid
         self.networks = networks
+        self.management_interface = management_interface
     def factory(*args_, **kwargs_):
         if system.subclass:
             return system.subclass(*args_, **kwargs_)
@@ -666,6 +668,8 @@ class system(GeneratedsSuper):
         pass
     def get_networks(self): return self.networks
     def set_networks(self, networks): self.networks = networks
+    def get_management_interface(self): return self.management_interface
+    def set_management_interface(self, management_interface): self.management_interface = management_interface
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
     def export(self, outfile, level, namespace_='inv:', name_='system', namespacedef_=''):
@@ -739,7 +743,7 @@ class system(GeneratedsSuper):
             self.system_log.export(outfile, level, namespace_, name_='system_log')
         if self.agent_port is not None:
             showIndent(outfile, level)
-            outfile.write('<%sagent_port>%s</%sagent_port>\n' % (namespace_, self.format_integer(self.agent_port, input_name='agent_port'), namespace_))
+            outfile.write('<%sagent_port>%s</%sagent_port>\n' % (namespace_, self.format_string(quote_xml(self.agent_port).encode(ExternalEncoding), input_name='agent_port'), namespace_))
         if self.event_uuid is not None:
             showIndent(outfile, level)
             outfile.write('<%sevent_uuid>%s</%sevent_uuid>\n' % (namespace_, self.format_string(quote_xml(self.event_uuid).encode(ExternalEncoding), input_name='event_uuid'), namespace_))
@@ -748,6 +752,8 @@ class system(GeneratedsSuper):
             outfile.write('<%sboot_uuid>%s</%sboot_uuid>\n' % (namespace_, self.format_string(quote_xml(self.boot_uuid).encode(ExternalEncoding), input_name='boot_uuid'), namespace_))
         if self.networks:
             self.networks.export(outfile, level, namespace_, name_='networks', )
+        if self.management_interface:
+            self.management_interface.export(outfile, level, namespace_, name_='management_interface')
     def hasContent_(self):
         if (
             self.generated_uuid is not None or
@@ -772,7 +778,8 @@ class system(GeneratedsSuper):
             self.agent_port is not None or
             self.event_uuid is not None or
             self.boot_uuid is not None or
-            self.networks is not None
+            self.networks is not None or
+            self.management_interface is not None
             ):
             return True
         else:
@@ -855,7 +862,7 @@ class system(GeneratedsSuper):
             outfile.write('),\n')
         if self.agent_port is not None:
             showIndent(outfile, level)
-            outfile.write('agent_port=%d,\n' % self.agent_port)
+            outfile.write('agent_port=%s,\n' % quote_python(self.agent_port).encode(ExternalEncoding))
         if self.event_uuid is not None:
             showIndent(outfile, level)
             outfile.write('event_uuid=%s,\n' % quote_python(self.event_uuid).encode(ExternalEncoding))
@@ -866,6 +873,12 @@ class system(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('networks=model_.networks(\n')
             self.networks.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.management_interface is not None:
+            showIndent(outfile, level)
+            outfile.write('management_interface=model_.management_interface(\n')
+            self.management_interface.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
     def build(self, node_):
@@ -1005,15 +1018,10 @@ class system(GeneratedsSuper):
             self.set_system_log(obj_)
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'agent_port':
-            if child_.firstChild:
-                sval_ = child_.firstChild.nodeValue
-                try:
-                    ival_ = int(sval_)
-                except ValueError, exp:
-                    raise ValueError('requires integer (agent_port): %s' % exp)
-                if ival_ <= 0:
-                    raise ValueError('requires positiveInteger -- %s' % child_.toxml())
-                self.agent_port = ival_
+            agent_port_ = ''
+            for text__content_ in child_.childNodes:
+                agent_port_ += text__content_.nodeValue
+            self.agent_port = agent_port_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'event_uuid':
             event_uuid_ = ''
@@ -1033,6 +1041,11 @@ class system(GeneratedsSuper):
             obj_ = networks.factory()
             obj_.build(child_)
             self.set_networks(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'management_interface':
+            obj_ = management_interface.factory()
+            obj_.build(child_)
+            self.set_management_interface(obj_)
 # end class system
 
 
@@ -1125,8 +1138,8 @@ class network(GeneratedsSuper):
         MemberSpec_('device_name', ['string8092', 'xsd:token'], 0),
         MemberSpec_('netmask', ['string8092', 'xsd:token'], 0),
         MemberSpec_('port_type', ['string8092', 'xsd:token'], 0),
-        MemberSpec_('active', 'xsd:boolean', 0),
-        MemberSpec_('required', 'xsd:boolean', 0),
+        MemberSpec_('active', 'xsd:string', 0),
+        MemberSpec_('required', 'xsd:string', 0),
         ]
     subclass = None
     superclass = None
@@ -1213,10 +1226,10 @@ class network(GeneratedsSuper):
             outfile.write('<%sport_type>%s</%sport_type>\n' % (namespace_, self.format_string(quote_xml(self.port_type).encode(ExternalEncoding), input_name='port_type'), namespace_))
         if self.active is not None:
             showIndent(outfile, level)
-            outfile.write('<%sactive>%s</%sactive>\n' % (namespace_, self.format_boolean(str_lower(str(self.active)), input_name='active'), namespace_))
+            outfile.write('<%sactive>%s</%sactive>\n' % (namespace_, self.format_string(quote_xml(self.active).encode(ExternalEncoding), input_name='active'), namespace_))
         if self.required is not None:
             showIndent(outfile, level)
-            outfile.write('<%srequired>%s</%srequired>\n' % (namespace_, self.format_boolean(str_lower(str(self.required)), input_name='required'), namespace_))
+            outfile.write('<%srequired>%s</%srequired>\n' % (namespace_, self.format_string(quote_xml(self.required).encode(ExternalEncoding), input_name='required'), namespace_))
     def hasContent_(self):
         if (
             self.ip_address is not None or
@@ -1259,10 +1272,10 @@ class network(GeneratedsSuper):
             outfile.write('port_type=%s,\n' % quote_python(self.port_type).encode(ExternalEncoding))
         if self.active is not None:
             showIndent(outfile, level)
-            outfile.write('active=%s,\n' % self.active)
+            outfile.write('active=%s,\n' % quote_python(self.active).encode(ExternalEncoding))
         if self.required is not None:
             showIndent(outfile, level)
-            outfile.write('required=%s,\n' % self.required)
+            outfile.write('required=%s,\n' % quote_python(self.required).encode(ExternalEncoding))
     def build(self, node_):
         attrs = node_.attributes
         self.buildAttributes(attrs)
@@ -1316,26 +1329,16 @@ class network(GeneratedsSuper):
             self.validate_port_type(self.port_type)    # validate type port_type
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'active':
-            if child_.firstChild:
-                sval_ = child_.firstChild.nodeValue
-                if sval_ in ('true', '1'):
-                    ival_ = True
-                elif sval_ in ('false', '0'):
-                    ival_ = False
-                else:
-                    raise ValueError('requires boolean -- %s' % child_.toxml())
-                self.active = ival_
+            active_ = ''
+            for text__content_ in child_.childNodes:
+                active_ += text__content_.nodeValue
+            self.active = active_
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'required':
-            if child_.firstChild:
-                sval_ = child_.firstChild.nodeValue
-                if sval_ in ('true', '1'):
-                    ival_ = True
-                elif sval_ in ('false', '0'):
-                    ival_ = False
-                else:
-                    raise ValueError('requires boolean -- %s' % child_.toxml())
-                self.required = ival_
+            required_ = ''
+            for text__content_ in child_.childNodes:
+                required_ += text__content_.nodeValue
+            self.required = required_
 # end class network
 
 
@@ -1433,10 +1436,104 @@ class current_state(GeneratedsSuper):
 # end class current_state
 
 
+class management_interface(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('name', ['management_interface_name', 'xsd:token'], 0),
+        MemberSpec_('description', ['string8092', 'xsd:token'], 0),
+        ]
+    subclass = None
+    superclass = None
+    def __init__(self, name=None, description=None):
+        self.name = name
+        self.description = description
+    def factory(*args_, **kwargs_):
+        if management_interface.subclass:
+            return management_interface.subclass(*args_, **kwargs_)
+        else:
+            return management_interface(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_name(self): return self.name
+    def set_name(self, name): self.name = name
+    def validate_name(self, value):
+        # validate type name
+        pass
+    def get_description(self): return self.description
+    def set_description(self, description): self.description = description
+    def validate_description(self, value):
+        # validate type description
+        pass
+    def export(self, outfile, level, namespace_='inv:', name_='management_interface', namespacedef_=''):
+        showIndent(outfile, level)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        self.exportAttributes(outfile, level, namespace_, name_='management_interface')
+        if self.hasContent_():
+            outfile.write('>\n')
+            self.exportChildren(outfile, level + 1, namespace_, name_)
+            showIndent(outfile, level)
+            outfile.write('</%s%s>\n' % (namespace_, name_))
+        else:
+            outfile.write('/>\n')
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='management_interface'):
+        pass
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='management_interface'):
+        if self.name is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sname>%s</%sname>\n' % (namespace_, self.format_string(quote_xml(self.name).encode(ExternalEncoding), input_name='name'), namespace_))
+        if self.description is not None:
+            showIndent(outfile, level)
+            outfile.write('<%sdescription>%s</%sdescription>\n' % (namespace_, self.format_string(quote_xml(self.description).encode(ExternalEncoding), input_name='description'), namespace_))
+    def hasContent_(self):
+        if (
+            self.name is not None or
+            self.description is not None
+            ):
+            return True
+        else:
+            return False
+    def exportLiteral(self, outfile, level, name_='management_interface'):
+        level += 1
+        self.exportLiteralAttributes(outfile, level, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, name_):
+        pass
+    def exportLiteralChildren(self, outfile, level, name_):
+        if self.name is not None:
+            showIndent(outfile, level)
+            outfile.write('name=%s,\n' % quote_python(self.name).encode(ExternalEncoding))
+        if self.description is not None:
+            showIndent(outfile, level)
+            outfile.write('description=%s,\n' % quote_python(self.description).encode(ExternalEncoding))
+    def build(self, node_):
+        attrs = node_.attributes
+        self.buildAttributes(attrs)
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildAttributes(self, attrs):
+        pass
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'name':
+            name_ = ''
+            for text__content_ in child_.childNodes:
+                name_ += text__content_.nodeValue
+            self.name = name_
+            self.validate_name(self.name)    # validate type name
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'description':
+            description_ = ''
+            for text__content_ in child_.childNodes:
+                description_ += text__content_.nodeValue
+            self.description = description_
+            self.validate_description(self.description)    # validate type description
+# end class management_interface
+
+
 class system_log_entry(GeneratedsSuper):
     member_data_items_ = [
         MemberSpec_('entry', ['string8092', 'xsd:token'], 0),
-        MemberSpec_('entry_date', 'xsd:positiveInteger', 0),
+        MemberSpec_('entry_date', 'xsd:string', 0),
         ]
     subclass = None
     superclass = None
@@ -1475,7 +1572,7 @@ class system_log_entry(GeneratedsSuper):
             outfile.write('<%sentry>%s</%sentry>\n' % (namespace_, self.format_string(quote_xml(self.entry).encode(ExternalEncoding), input_name='entry'), namespace_))
         if self.entry_date is not None:
             showIndent(outfile, level)
-            outfile.write('<%sentry_date>%s</%sentry_date>\n' % (namespace_, self.format_integer(self.entry_date, input_name='entry_date'), namespace_))
+            outfile.write('<%sentry_date>%s</%sentry_date>\n' % (namespace_, self.format_string(quote_xml(self.entry_date).encode(ExternalEncoding), input_name='entry_date'), namespace_))
     def hasContent_(self):
         if (
             self.entry is not None or
@@ -1497,7 +1594,7 @@ class system_log_entry(GeneratedsSuper):
             outfile.write('entry=%s,\n' % quote_python(self.entry).encode(ExternalEncoding))
         if self.entry_date is not None:
             showIndent(outfile, level)
-            outfile.write('entry_date=%d,\n' % self.entry_date)
+            outfile.write('entry_date=%s,\n' % quote_python(self.entry_date).encode(ExternalEncoding))
     def build(self, node_):
         attrs = node_.attributes
         self.buildAttributes(attrs)
@@ -1516,15 +1613,10 @@ class system_log_entry(GeneratedsSuper):
             self.validate_entry(self.entry)    # validate type entry
         elif child_.nodeType == Node.ELEMENT_NODE and \
             nodeName_ == 'entry_date':
-            if child_.firstChild:
-                sval_ = child_.firstChild.nodeValue
-                try:
-                    ival_ = int(sval_)
-                except ValueError, exp:
-                    raise ValueError('requires integer (entry_date): %s' % exp)
-                if ival_ <= 0:
-                    raise ValueError('requires positiveInteger -- %s' % child_.toxml())
-                self.entry_date = ival_
+            entry_date_ = ''
+            for text__content_ in child_.childNodes:
+                entry_date_ += text__content_.nodeValue
+            self.entry_date = entry_date_
 # end class system_log_entry
 
 

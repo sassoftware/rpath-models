@@ -85,6 +85,8 @@
             minOccurs="0" maxOccurs="1" />
         <xsd:element name="networks" type="inv:networks"
             minOccurs="1" maxOccurs="1" />
+        <xsd:element name="management_interface" type="inv:management_interface"
+            minOccurs="0" maxOccurs="1" />
       </xsd:all>
       <xsd:attribute name="id" type="inv:string8092"/>
     </xsd:complexType>
@@ -123,6 +125,20 @@
         <xsd:element name="description" type="inv:string8092" minOccurs="1" maxOccurs="1"/>
       </xsd:sequence>
     </xsd:complexType>
+
+    <xsd:complexType name="management_interface">
+      <xsd:sequence>
+        <xsd:element name="name" type="inv:management_interface_name" minOccurs="1" maxOccurs="1"/>
+        <xsd:element name="description" type="inv:string8092" minOccurs="1" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:simpleType name="management_interface_name">
+      <xsd:restriction base="xsd:token">
+          <xsd:enumeration value="cim"/>
+          <xsd:enumeration value="wmi"/>
+      </xsd:restriction>
+    </xsd:simpleType>
 
     <xsd:simpleType name="system_state_name">
       <xsd:restriction base="xsd:token">
