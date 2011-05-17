@@ -20,7 +20,7 @@ all: default-all
 install: all default-install $(DESTDIR)$(DATADIR)/rpath_models/
 	install $(SCHEMA_FILES) $(DESTDIR)$(DATADIR)/rpath_models/
 
-$(DESTDIR)$(DATADIR)/rpath_models:
+$(DESTDIR)$(DATADIR)/rpath_models/:
 	install -d -m755 $@
 
 validate-schema:
