@@ -539,10 +539,11 @@ class system(GeneratedsSuper):
         MemberSpec_('boot_uuid', ['string64', 'xsd:token'], 0),
         MemberSpec_('networks', 'networks', 0),
         MemberSpec_('management_interface', 'management_interface', 0),
+        MemberSpec_('survey', 'survey', 0),
         ]
     subclass = None
     superclass = None
-    def __init__(self, id=None, generated_uuid=None, local_uuid=None, registration_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, description=None, name=None, hostname=None, current_state=None, target=None, target_system_id=None, target_system_name=None, target_system_description=None, target_system_state=None, system_log=None, agent_port=None, event_uuid=None, boot_uuid=None, networks=None, management_interface=None):
+    def __init__(self, id=None, generated_uuid=None, local_uuid=None, registration_date=None, launch_date=None, ssl_client_certificate=None, ssl_client_key=None, ssl_server_certificate=None, launching_user=None, target_type=None, description=None, name=None, hostname=None, current_state=None, target=None, target_system_id=None, target_system_name=None, target_system_description=None, target_system_state=None, system_log=None, agent_port=None, event_uuid=None, boot_uuid=None, networks=None, management_interface=None, survey=None):
         self.id = _cast(None, id)
         self.generated_uuid = generated_uuid
         self.local_uuid = local_uuid
@@ -568,6 +569,7 @@ class system(GeneratedsSuper):
         self.boot_uuid = boot_uuid
         self.networks = networks
         self.management_interface = management_interface
+        self.survey = survey
     def factory(*args_, **kwargs_):
         if system.subclass:
             return system.subclass(*args_, **kwargs_)
@@ -670,6 +672,8 @@ class system(GeneratedsSuper):
     def set_networks(self, networks): self.networks = networks
     def get_management_interface(self): return self.management_interface
     def set_management_interface(self, management_interface): self.management_interface = management_interface
+    def get_survey(self): return self.survey
+    def set_survey(self, survey): self.survey = survey
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
     def export(self, outfile, level, namespace_='inv:', name_='system', namespacedef_=''):
@@ -754,6 +758,8 @@ class system(GeneratedsSuper):
             self.networks.export(outfile, level, namespace_, name_='networks', )
         if self.management_interface:
             self.management_interface.export(outfile, level, namespace_, name_='management_interface')
+        if self.survey:
+            self.survey.export(outfile, level, namespace_, name_='survey')
     def hasContent_(self):
         if (
             self.generated_uuid is not None or
@@ -779,7 +785,8 @@ class system(GeneratedsSuper):
             self.event_uuid is not None or
             self.boot_uuid is not None or
             self.networks is not None or
-            self.management_interface is not None
+            self.management_interface is not None or
+            self.survey is not None
             ):
             return True
         else:
@@ -879,6 +886,12 @@ class system(GeneratedsSuper):
             showIndent(outfile, level)
             outfile.write('management_interface=model_.management_interface(\n')
             self.management_interface.exportLiteral(outfile, level)
+            showIndent(outfile, level)
+            outfile.write('),\n')
+        if self.survey is not None:
+            showIndent(outfile, level)
+            outfile.write('survey=model_.survey(\n')
+            self.survey.exportLiteral(outfile, level)
             showIndent(outfile, level)
             outfile.write('),\n')
     def build(self, node_):
@@ -1051,6 +1064,11 @@ class system(GeneratedsSuper):
             obj_ = management_interface.factory()
             obj_.build(child_)
             self.set_management_interface(obj_)
+        elif child_.nodeType == Node.ELEMENT_NODE and \
+            nodeName_ == 'survey':
+            obj_ = survey.factory()
+            obj_.build(child_)
+            self.set_survey(obj_)
 # end class system
 
 
@@ -1719,6 +1737,85 @@ class system_log(GeneratedsSuper):
             obj_.build(child_)
             self.system_log_entry.append(obj_)
 # end class system_log
+
+
+class survey(GeneratedsSuper):
+    member_data_items_ = [
+        MemberSpec_('valueOf_', [], 0),
+        ]
+    subclass = None
+    superclass = None
+    def __init__(self, valueOf_=''):
+        self.valueOf_ = valueOf_
+        self.anyAttributes_ = {}
+    def factory(*args_, **kwargs_):
+        if survey.subclass:
+            return survey.subclass(*args_, **kwargs_)
+        else:
+            return survey(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def getValueOf_(self): return self.valueOf_
+    def setValueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def getAnyAttributes_(self): return self.anyAttributes_
+    def setAnyAttributes_(self, anyAttributes_): self.anyAttributes_ = anyAttributes_
+    def export(self, outfile, level, namespace_='inv:', name_='survey', namespacedef_=''):
+        showIndent(outfile, level)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        self.exportAttributes(outfile, level, namespace_, name_='survey')
+        if self.hasContent_():
+            outfile.write('>')
+            self.exportChildren(outfile, level + 1, namespace_, name_)
+            outfile.write('</%s%s>\n' % (namespace_, name_))
+        else:
+            outfile.write('/>\n')
+    def exportAttributes(self, outfile, level, namespace_='inv:', name_='survey'):
+        for name, value in self.anyAttributes_.items():
+            outfile.write(' %s=%s' % (name, quote_attrib(value), ))
+        pass
+    def exportChildren(self, outfile, level, namespace_='inv:', name_='survey'):
+        if self.valueOf_.find('![CDATA') > -1:
+            value=quote_xml('%s' % self.valueOf_)
+            value=value.replace('![CDATA','<![CDATA')
+            value=value.replace(']]',']]>')
+            outfile.write(value.encode(ExternalEncoding))
+        else:
+            outfile.write(quote_xml('%s' % self.valueOf_.encode(ExternalEncoding)))
+    def hasContent_(self):
+        if (
+            self.valueOf_
+            ):
+            return True
+        else:
+            return False
+    def exportLiteral(self, outfile, level, name_='survey'):
+        level += 1
+        self.exportLiteralAttributes(outfile, level, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, name_):
+        for name, value in self.anyAttributes_.items():
+            showIndent(outfile, level)
+            outfile.write('%s = "%s",\n' % (name, value,))
+    def exportLiteralChildren(self, outfile, level, name_):
+        showIndent(outfile, level)
+        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
+    def build(self, node_):
+        attrs = node_.attributes
+        self.buildAttributes(attrs)
+        self.valueOf_ = ''
+        for child_ in node_.childNodes:
+            nodeName_ = child_.nodeName.split(':')[-1]
+            self.buildChildren(child_, nodeName_)
+    def buildAttributes(self, attrs):
+        self.anyAttributes_ = {}
+        for name, value in attrs.items():
+            self.anyAttributes_[name] = value
+    def buildChildren(self, child_, nodeName_):
+        if child_.nodeType == Node.TEXT_NODE:
+            self.valueOf_ += child_.nodeValue
+        elif child_.nodeType == Node.CDATA_SECTION_NODE:
+            self.valueOf_ += '![CDATA['+child_.nodeValue+']]'
+# end class survey
 
 
 USAGE_TEXT = """

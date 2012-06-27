@@ -56,6 +56,19 @@ class SerializableObject(object):
 class System(generateds_system.system, SerializableObject):
     RootNode = "system"
 
+class Survey(SerializableObject):
+    """
+    Wrapper object that serializes a cElementTree object
+    """
+    def __init__(self, dom):
+        self.dom = dom
+
+    def export(self, stream, level, namespace_=None, name_=None, namespacedef_=None):
+        from xml.etree import ElementTree as etree
+        if etree.iselement(self.dom):
+            self.dom.tag = name_
+            etree.ElementTree(self.dom).write(stream)
+
 Inventory = generateds_system.inventory
 Network = generateds_system.network
 Networks = generateds_system.networks
