@@ -1,0 +1,24 @@
+# Copyright (c) 2008 rPath, Inc.
+# This file is distributed under the terms of the MIT License.
+# A copy is available at http://www.rpath.com/permanent/mit-license.html
+#
+
+loadSuperClass('rpathpackage')
+class rPathModels(RpathPackageRecipe):
+    name = 'rpath-models'
+    # hgtag = 'fdade4c59c92'
+    version = '1.0.3'
+
+    clearBuildRequires('unzip:rpm', 'xz:rpm')
+    buildRequires = [
+        'make:rpm',
+        'python-conary:devel',
+    ]
+
+    def setup(r):
+        r.rpathSetup()
+        if Arch.x86 or Arch.x86_64:
+            pass
+        r.addMercurialSnapshot('http://scc.eng.rpath.com/products/rbuilder/goad/rpath-models', tag='%(name)s-%(version)s')
+        r.Make('PYVER=%(pyver)s PYTHON=%(pybin)s PYDIR=%(sitepkgs)s')
+        r.MakeInstall('PYVER=%(pyver)s PYTHON=%(pybin)s PYDIR=%(sitepkgs)s')
