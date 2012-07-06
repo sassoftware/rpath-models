@@ -1,0 +1,20 @@
+#
+# Copyright (c) rPath, Inc.
+# This file is distributed under the terms of the MIT License.
+# A copy is available at http://www.rpath.com/permanent/mit-license.html
+#
+
+class rPathModels(PackageRecipe):
+    name = 'rpath-models'
+    version = ''
+
+    buildRequires = [
+        'make:runtime',
+        'python:devel',
+        'lxml:python',
+    ]
+
+    def setup(r):
+        r.addMercurialSnapshot()
+        r.Make()
+        r.MakeInstall()
