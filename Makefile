@@ -14,7 +14,6 @@
 # limitations under the License.
 #
 
-
 SUBDIRS = rpath_models\
           xsd
 
